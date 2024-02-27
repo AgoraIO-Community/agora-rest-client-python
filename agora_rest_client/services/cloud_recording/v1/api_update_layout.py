@@ -251,6 +251,8 @@ class ResponseApiUpdateLayout(object):
 
 def api_update_layout(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiUpdateLayout):
     """
+    Update layout of the recording
+
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiUpdateLayout
     :param request_body_obj: request object RequestBodyApiUpdateLayout

@@ -221,6 +221,8 @@ class ResponseApiUpdate(object):
 
 def api_update(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiUpdate):
     """
+    Update recording
+
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiUpdate
     :param request_body_obj: request object RequestBodyApiUpdate

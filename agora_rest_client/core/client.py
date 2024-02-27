@@ -10,6 +10,10 @@ from agora_rest_client.core import log
 from agora_rest_client.core import response
 
 class Client(object):
+    """
+    Base client
+    """
+
     def __init__(self):
         self._app_id = None
         self._basic_auth = None
@@ -23,6 +27,9 @@ class Client(object):
 
     @classmethod
     def _init_logger(cls):
+        """
+        Init logger
+        """
         logger_name = '%s-%s-%d' % (log.LOGGER_NAME, cls.__name__, time.time()*1000000)
         logger = logging.getLogger(logger_name)
         logger.propagate = False
@@ -30,6 +37,16 @@ class Client(object):
         return logger
 
     def build(self):
+        """
+        Build client
+        """
+        # Check region
+        if self._domain.get_region() is None:
+            raise exceptions.ClientBuildException('region is required')
+
+        if self._domain.get_region() not in domain.RegionArea._value2member_map_:
+            raise exceptions.ClientBuildException('region invalid, region:%s' % self._domain.get_region())
+
         if self._file_logger_handler is not None:
             self.add_file_logger(**self._file_logger_handler)
         if self._stream_logger_handler is not None:
@@ -40,6 +57,15 @@ class Client(object):
         return self
 
     def add_file_logger(self, path, log_level, max_bytes, backup_count, format_string):
+        """
+        Add file logger
+
+        :param path: log file path
+        :param log_level: log level
+        :param max_bytes: max bytes
+        :param backup_count: backup count
+        :param format_string: format string
+        """
         self._logger.setLevel(log_level)
         file_handler = RotatingFileHandler(path, maxBytes=max_bytes, backupCount=backup_count)
         file_handler.setLevel(log_level)
@@ -50,6 +76,13 @@ class Client(object):
             self._logger.addHandler(file_handler)
 
     def add_stream_logger(self, stream, log_level, format_string):
+        """
+        Add stream logger
+
+        :param stream: stream
+        :param log_level: log level
+        :param format_string: format string
+        """
         self._logger.setLevel(log_level)
         stream_handler = logging.StreamHandler(stream)
         stream_handler.setLevel(log_level)
@@ -65,11 +98,9 @@ class Client(object):
     
     def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, 
                  response_type=response.ResponseType.OBJECT.value, response_obj=None):
-        return self.do_http_request(method, url, params, post_data, post_json, headers, timeout_seconds, response_type, response_obj)
+        """
+        Call api
 
-    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, 
-                        response_type=response.ResponseType.OBJECT.value, response_obj=None):
-        """ Request http
         :param method: http method
         :param url: http url
         :param params: http params
@@ -81,10 +112,29 @@ class Client(object):
         :param response_obj: response object
         :return: response
         """
+        return self.do_http_request(method, url, params, post_data, post_json, headers, timeout_seconds, response_type, response_obj)
+
+    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, 
+                        response_type=response.ResponseType.OBJECT.value, response_obj=None):
+        """
+        Request http
+        
+        :param method: http method
+        :param url: http url
+        :param params: http params
+        :param post_data: http post data
+        :param post_json: http post json
+        :param headers: http headers
+        :param timeout_seconds: http timeout
+        :param response_type: response type, `agora_rest_client.core.response.ResponseType`
+        :param response_obj: response object
+        :return: response
+        """
         status_code = None
         error_code = None
         error_msg = None
 
+        # Retry domain list
         for item in self._domain.get_domain_list():
             for retry in range(self._retry_count):
                 retry_num = retry + 1
@@ -106,7 +156,7 @@ class Client(object):
                             return json.loads(resp.text, object_hook=response_obj)
                         elif response_type == response.ResponseType.TEXT.value:
                             return resp.text
-                        
+
                         return resp.text
 
                     resp_json = resp.json()

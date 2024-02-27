@@ -8,6 +8,10 @@ from agora_rest_client.services.cloud_recording.v1.api_update import api_update
 from agora_rest_client.services.cloud_recording.v1.api_update_layout import api_update_layout
 
 class CloudRecordingClient(Client):
+    """
+    Cloud recording client
+    """
+
     def __init__(self):
         super(CloudRecordingClient, self).__init__()
 

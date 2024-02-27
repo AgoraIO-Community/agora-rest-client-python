@@ -121,6 +121,8 @@ class ResponseApiAcquire(object):
 
 def api_acquire(client, request_body_obj, response_type, response_obj=ResponseApiAcquire):
     """
+    Acquire a resource id
+
     :param client: CloudRecordingClient object
     :param request_body_obj: request object RequestBodyApiAcquire
     :param response_type: response type, `agora_rest_client.core.response.ResponseType`

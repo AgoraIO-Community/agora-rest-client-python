@@ -7,6 +7,10 @@ from agora_rest_client.services.cloud_recording.v1.web_recording.api_stop import
 from agora_rest_client.services.cloud_recording.v1.web_recording.api_update import web_recording_update
 
 class WebRecordingClient(CloudRecordingClient):
+    """
+    Web recording client
+    """
+    
     def __init__(self):
         super(WebRecordingClient, self).__init__()
 

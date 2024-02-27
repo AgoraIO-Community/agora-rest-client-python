@@ -155,6 +155,8 @@ class ResponseApiStop(object):
 
 def api_stop(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiStop):
     """
+    Stop recording
+
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiStop
     :param request_body_obj: request object RequestBodyApiStop

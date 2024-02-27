@@ -158,6 +158,8 @@ class ResponseApiQuery(object):
 
 def api_query(client, request_path_params_obj, response_type, response_obj=ResponseApiQuery):
     """
+    Query the recording status
+    
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestApiQuery
     :param response_type: response type, `agora_rest_client.core.response.ResponseType`

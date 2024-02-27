@@ -880,6 +880,8 @@ class ResponseApiStart(object):
 
 def api_start(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiStart):
     """
+    Start recording
+
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiStart
     :param request_body_obj: request object RequestBodyApiStart
