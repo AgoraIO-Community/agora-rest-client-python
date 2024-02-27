@@ -10,6 +10,9 @@ from agora_rest_client.services.cloud_recording.v1.web_recording import api_upda
 from agora_rest_client.services.cloud_recording.v1.web_recording import web_recording_client
 
 if __name__ == '__main__':
+    # 配置认证信息
+    # 请勿将认证信息硬编码到代码中, 有安全风险
+    # 可通过环境变量等方式配置认证信息
     # Need to set environment variable AGORA_APP_ID
     app_id = os.environ.get('AGORA_APP_ID')
     # Need to set environment variable AGORA_BASIC_AUTH_USER_NAME
@@ -17,14 +20,18 @@ if __name__ == '__main__':
     # Need to set environment variable AGORA_BASIC_AUTH_PASSWORD
     basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
 
+    # 录制的频道名
     cname = os.environ.get('AGORA_CNAME')
+    # 字符串内容为云端录制服务在 RTC 频道内使用的 UID, 用于标识频道内的录制服务
     uid = os.environ.get('AGORA_UID')
+    # 第三方云存储配置
     storage_config_region = int(os.environ.get('AGORA_STORAGE_CONFIG_REGION'))
     storage_config_vendor = int(os.environ.get('AGORA_STORAGE_CONFIG_VENDOR'))
     storage_config_bucket = os.environ.get('AGORA_STORAGE_CONFIG_BUCKET')
     storage_config_access_key = os.environ.get('AGORA_STORAGE_CONFIG_ACCESS_KEY')
     storage_config_secret_key = os.environ.get('AGORA_STORAGE_CONFIG_SECRET_KEY')
 
+    # 创建服务客户端
     web_recording_client = web_recording_client.WebRecordingClient \
         .new_builder() \
         .with_app_id(app_id) \
@@ -34,6 +41,7 @@ if __name__ == '__main__':
         .with_file_log(path='test.log') \
         .build()
 
+    # 发送请求并获取响应
     # Acquire resource
     try:
         request_body_obj = api_acquire.RequestBodyApiAcquire({'cname': cname, 'uid': uid, 'clientRequest': {}})
@@ -112,3 +120,4 @@ if __name__ == '__main__':
         web_recording_client.logger.error('stop recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
         os._exit(1)
 
+    os._exit(1)

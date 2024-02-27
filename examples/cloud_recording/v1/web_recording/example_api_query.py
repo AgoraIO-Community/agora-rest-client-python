@@ -7,6 +7,9 @@ from agora_rest_client.services.cloud_recording.v1.web_recording.api_query impor
 from agora_rest_client.services.cloud_recording.v1.web_recording.web_recording_client import WebRecordingClient
 
 if __name__ == '__main__':
+    # 配置认证信息
+    # 请勿将认证信息硬编码到代码中, 有安全风险
+    # 可通过环境变量等方式配置认证信息
     # Need to set environment variable AGORA_APP_ID
     app_id = os.environ.get('AGORA_APP_ID')
     # Need to set environment variable AGORA_BASIC_AUTH_USER_NAME
@@ -14,10 +17,12 @@ if __name__ == '__main__':
     # Need to set environment variable AGORA_BASIC_AUTH_PASSWORD
     basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
 
-    mode = Mode.INDIVIDUAL.value
-    resource_id = 'resource_id'
-    sid = 'sid'
+    # 通过 acquire 请求获取到的 Resource ID
+    resource_id = 'resource_id_xxx'
+    # 通过 start 获取的录制 ID
+    sid = 'sid_xxx'
 
+    # 创建服务客户端
     web_recording_client = WebRecordingClient \
         .new_builder() \
         .with_app_id(app_id) \
@@ -27,8 +32,9 @@ if __name__ == '__main__':
         .with_file_log(path='test.log') \
         .build()
     
+    # 发送请求并获取响应
     try:
-        request_path_params_obj = RequestPathParamsApiQuery({'mode': mode, 'resource_id': resource_id, 'sid': sid})
+        request_path_params_obj = RequestPathParamsApiQuery({'resource_id': resource_id, 'sid': sid})
         response = web_recording_client.query(request_path_params_obj)
         print(response)
     except exceptions.ClientRequestException as e:
@@ -36,3 +42,4 @@ if __name__ == '__main__':
         print(e.error_code)
         print(e.error_msg)
 
+    os._exit(1)

@@ -29,14 +29,6 @@
 ### 获取云端录制资源
 > 在开始云端录制之前, 您需要调用 acquire 方法获取一个 Resource ID. 一个 Resource ID 只能用于一次云端录制服务. 
 
-需要设置的参数有: 
-- appId: 声网的项目 AppID
-- username: 声网的 Basic Auth 认证的用户名
-- password: 声网的 Basic Auth 认证的密码
-- cname: 频道名
-- uid: 用户 UID
-- 更多 clientRequest中的参数见[Acquire](https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-acquire)接口文档
-
 通过调用`cloud_recording_client.acquire`方法来实现获取云端录制资源
 ```python
 cloud_recording_client = CloudRecordingClient \
@@ -85,14 +77,6 @@ except exceptions.ClientRequestException as e:
 ### 开始云端录制
 > 通过 acquire 方法获取云端录制资源后, 调用 start 方法开始云端录制. 
 
-需要设置的参数有: 
-- cname: 频道名
-- uid: 用户 UID
-- token: 用户 UID 对应的token
-- resourceId: 云端录制资源ID
-- mode: 云端录制模式
-- 更多 clientRequest中的参数见[Start](https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-mode-mode-start)接口文档
-
 通过调用`cloud_recording_client.start`方法来实现开始云端录制
 ```python
 try:
@@ -124,14 +108,6 @@ except exceptions.ClientRequestException as e:
 
 ### 停止云端录制
 > 开始录制后, 您可以调用 stop 方法离开频道, 停止录制. 录制停止后如需再次录制, 必须再调用 acquire 方法请求一个新的 Resource ID. 
-
-需要设置的参数有: 
-- cname: 频道名
-- uid: 用户ID
-- resourceId: 云端录制资源ID
-- sid: 会话ID
-- mode: 云端录制模式
-- 更多 clientRequest中的参数见[Stop](https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-stop)接口文档
 
 通过调用`cloud_recording_client.stop`方法来实现停止云端录制
 ```python
@@ -165,14 +141,6 @@ except exceptions.ClientRequestException as e:
 ### 查询云端录制状态
 > 开始录制后, 您可以调用 query 方法查询录制状态. 
 
-需要设置的参数有: 
-- cname: 频道名
-- uid: 用户ID
-- resourceId: 云端录制资源ID
-- sid: 会话ID
-- mode: 云端录制模式
-- 更多 clientRequest中的参数见[Query](https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/get-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-query)接口文档
-
 通过调用`cloud_recording_client.query`方法来实现查询云端录制状态
 ```python
 try:
@@ -204,14 +172,6 @@ except exceptions.ClientRequestException as e:
 > 开始录制后, 您可以调用 update 方法更新如下录制配置: 
 > * 对单流录制和合流录制, 更新订阅名单. 
 > * 对页面录制, 设置暂停/恢复页面录制, 或更新页面录制转推到 CDN 的推流地址(URL). 
-
-需要设置的参数有: 
-- cname: 频道名
-- uid: 用户 UID
-- resourceId: 云端录制资源ID
-- sid: 会话ID
-- mode: 云端录制模式
-- 更多 clientRequest中的参数见[Update](https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-update)接口文档
 
 通过调用`cloud_recording_client.update`方法来实现更新云端录制设置
 ```python
@@ -245,14 +205,6 @@ except exceptions.ClientRequestException as e:
 ### 更新云端录制合流布局
 > 开始录制后, 您可以调用 updateLayout 方法更新合流布局. 
 > 每次调用该方法都会覆盖原来的布局设置. 例如, 在开始录制时设置了 backgroundColor 为 "#FF0000"(红色), 如果调用 updateLayout 方法更新合流布局时如果不再设置 backgroundColor 字段, 背景色就会变为黑色(默认值). 
-
-需要设置的参数有: 
-- cname: 频道名
-- uid: 用户 UID
-- resourceId: 云端录制资源ID
-- sid: 会话ID
-- mode: 云端录制模式
-- 更多 clientRequest中的参数见[UpdateLayout](https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-updateLayout)接口文档
 
 通过调用`cloud_recording_client.update_layout`方法来实现更新云端录制合流布局
 ```python

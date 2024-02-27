@@ -52,12 +52,18 @@ if __name__ == '__main__':
     # Need to set environment variable AGORA_BASIC_AUTH_PASSWORD
     basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
 
+    # 用于鉴权的动态密钥
     token = os.environ.get('AGORA_TOKEN')
 
+    # 录制模式
     mode = Mode.INDIVIDUAL.value
-    resource_id = 'resource_id'
-    cname = 'cname'
-    uid = '527841'
+    # 通过 acquire 请求获取到的 Resource ID
+    resource_id = 'resource_id_xxx'
+    # 录制的频道名
+    cname = 'cname_xxx'
+    # 字符串内容为云端录制服务在 RTC 频道内使用的 UID, 用于标识频道内的录制服务
+    uid = '123456'
+    # 请求对象
     clientRequest = {'token': token}
 
     # 创建服务客户端
