@@ -1,11 +1,7 @@
 import json
 import logging
-import operator
 import requests
-import schedule
-import socket
 import sys
-import threading
 import time
 from logging.handlers import RotatingFileHandler
 from agora_rest_client.core import domain
@@ -176,5 +172,3 @@ class Client(object):
         }
 
         return self
-
-
