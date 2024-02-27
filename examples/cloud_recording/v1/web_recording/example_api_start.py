@@ -2,7 +2,6 @@ import logging
 import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
-from agora_rest_client.services.cloud_recording.v1.api import Mode
 from agora_rest_client.services.cloud_recording.v1.web_recording.api_start import RequestBodyApiStart
 from agora_rest_client.services.cloud_recording.v1.web_recording.api_start import RequestPathParamsApiStart
 from agora_rest_client.services.cloud_recording.v1.web_recording.api_start import RequestPathParamsApiStart
@@ -18,6 +17,12 @@ if __name__ == '__main__':
     basic_auth_user_name = os.environ.get('AGORA_BASIC_AUTH_USER_NAME')
     # Need to set environment variable AGORA_BASIC_AUTH_PASSWORD
     basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
+    # 第三方云存储配置
+    storage_config_region = int(os.environ.get('AGORA_STORAGE_CONFIG_REGION'))
+    storage_config_vendor = int(os.environ.get('AGORA_STORAGE_CONFIG_VENDOR'))
+    storage_config_bucket = os.environ.get('AGORA_STORAGE_CONFIG_BUCKET')
+    storage_config_access_key = os.environ.get('AGORA_STORAGE_CONFIG_ACCESS_KEY')
+    storage_config_secret_key = os.environ.get('AGORA_STORAGE_CONFIG_SECRET_KEY')
 
     # 通过 acquire 请求获取到的 Resource ID
     resource_id = 'resource_id_xxx'
@@ -38,11 +43,39 @@ if __name__ == '__main__':
         .with_file_log(path='test.log') \
         .build()
     
+    # # 发送请求并获取响应
+    # try:
+    #     request_path_params_obj = RequestPathParamsApiStart({'resource_id': resource_id})
+    #     request_body_obj = RequestBodyApiStart({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
+    #     response = web_recording_client._start(request_path_params_obj, request_body_obj)
+    #     print(response)
+    # except exceptions.ClientRequestException as e:
+    #     print(e.status_code)
+    #     print(e.error_code)
+    #     print(e.error_msg)
+
     # 发送请求并获取响应
     try:
-        request_path_params_obj = RequestPathParamsApiStart({'resource_id': resource_id})
-        request_body_obj = RequestBodyApiStart({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-        response = web_recording_client.start(request_path_params_obj, request_body_obj)
+        response = web_recording_client.start(resource_id, cname, uid, storageConfig={
+                'region': storage_config_region,
+                'vendor': storage_config_vendor,
+                'bucket': storage_config_bucket,
+                'accessKey': storage_config_access_key,
+                'secretKey': storage_config_secret_key,
+            }, extensionServiceConfig={
+                'extensionServices': [
+                    {
+                        'serviceName': 'web_recorder_service',
+                        "serviceParam": {
+                            "url": "https://www.agora.io",
+                            "audioProfile": 2,
+                            "videoWidth": 1280,
+                            "videoHeight": 720,
+                            "maxRecordingHour": 1
+                        }
+                    }
+                ]
+            })
         print(response)
     except exceptions.ClientRequestException as e:
         print(e.status_code)
