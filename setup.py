@@ -31,7 +31,7 @@ setup(
     author=AUTHOR,
     license="Apache LICENSE 2.0",
     url=URL,
-    keywords=["agora", "rest", "client", "agora-rest-client"],
+    keywords=["agora", "rest", "client", "agora_rest_client", "agora-rest-client"],
     packages=find_packages(exclude=["tests*"]),
     install_requires=requirements,
     python_requires="!=3.0.*,!=3.1.*,!=3.2.*",
