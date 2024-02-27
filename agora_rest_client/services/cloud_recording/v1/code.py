@@ -11,11 +11,10 @@
     7：录制已经在进行中 ，请勿用同一个 Resource ID 重复 start 请求。
 
     8：HTTP 请求头部字段错误，有以下几种情况：
-
-    Content-type 错误，请确保 Content-type 为 application/json;charset=utf-8。
-    请求 URL 中缺少 cloud_recording 字段。
-    使用了错误的 HTTP 方法。
-    请求包体不是合法的 JSON 格式。
+        Content-type 错误，请确保 Content-type 为 application/json;charset=utf-8。
+        请求 URL 中缺少 cloud_recording 字段。
+        使用了错误的 HTTP 方法。
+        请求包体不是合法的 JSON 格式。
 
     49：使用同一个 Resource ID 和录制 ID (sid) 重复 stop 请求。
 
@@ -42,12 +41,11 @@
     1003：App ID 或者录制 ID（sid）与 Resource ID 不匹配。请确保在一个录制周期内 Resource ID、App ID 和录制 ID 一一对应。
 
     1013：频道名不合法。频道名必须为长度在 64 字节以内的字符串。以下为支持的字符集范围（共 89 个字符）：
-
-    26 个小写英文字母 a-z
-    26 个大写英文字母 A-Z
-    10 个数字 0-9
-    空格
-    "!"、"#"、"$"、"%"、"&"、"("、")"、"+"、"-"、":"、";"、"<"、"="、"."、">"、"?"、"@"、"["、"]"、"^"、"_"、"、"、"|"、"~"、","
+        26 个小写英文字母 a-z
+        26 个大写英文字母 A-Z
+        10 个数字 0-9
+        空格
+        "!"、"#"、"$"、"%"、"&"、"("、")"、"+"、"-"、":"、";"、"<"、"="、"."、">"、"?"、"@"、"["、"]"、"^"、"_"、"、"、"|"、"~"、","
 
     1028：updateLayout 方法的请求包体中参数错误。
 
@@ -56,33 +54,32 @@
     "no Route matched with those values"：该错误可能由 HTTP 方法填写错误导致，例如将 GET 方法填写为 POST；也可能由请求 URL 填写错误导致。
 
     "Invalid authentication credentials"：该错误可能由以下原因导致。如果你已经排除以下原因，但仍出现该错误，请联系联系技术支持。
-
-    客户 ID 或客户密钥填写错误。
-    App ID 没有开通云端录制服务。
-    HTTP 请求头的认证信息有误，如 Authorization 字段的值 Basic <Authorization> 缺少 Basic。
-    HTTP 请求头的格式不正确，如 Content-type 字段的值 application/json;charset=utf-8 大小写不正确或包含空格。
+        客户 ID 或客户密钥填写错误。
+        App ID 没有开通云端录制服务。
+        HTTP 请求头的认证信息有误，如 Authorization 字段的值 Basic <Authorization> 缺少 Basic。
+        HTTP 请求头的格式不正确，如 Content-type 字段的值 application/json;charset=utf-8 大小写不正确或包含空格。
 
 
 响应状态码
-    状态码	描述
-    200	请求成功。
-    201	录制已经在进行中 ，请勿用同一个 Resource ID 重复 start 请求。
-    206	整个录制过程中没有用户发流，或部分录制文件没有上传到第三方云存储，或录制进程还未结束。
-    400	请求的语法错误（如参数错误）。如果你填入的 App ID 没有开通云端录制服务，也会返回 400。
-    401	未经授权的（客户 ID/客户密钥匹配错误）。
-    404	服务器无法根据请求找到资源（网页）。
-    500	服务器内部错误，无法完成请求。
-    504	服务器内部错误。充当网关或代理的服务器未从远端服务器获取请求。
+    状态码                     描述
+    200                       请求成功。
+    201                       录制已经在进行中 ，请勿用同一个 Resource ID 重复 start 请求。
+    206                       整个录制过程中没有用户发流，或部分录制文件没有上传到第三方云存储，或录制进程还未结束。
+    400                       请求的语法错误（如参数错误）。如果你填入的 App ID 没有开通云端录制服务，也会返回 400。
+    401                       未经授权的（客户 ID/客户密钥匹配错误）。
+    404                       服务器无法根据请求找到资源（网页）。
+    500                       服务器内部错误，无法完成请求。
+    504                       服务器内部错误。充当网关或代理的服务器未从远端服务器获取请求。
 
-    
+
 服务状态
-    状态	描述
-    "serviceIdle"	子模块服务未开始。
-    "serviceStarted"	子模块服务已开始。
-    "serviceReady"	子模块服务已就绪。
-    "serviceInProgress"	子模块服务正在进行中。
-    "serviceCompleted"	订阅内容已全部上传至扩展服务。
-    "servicePartialCompleted"	订阅内容部分上传至扩展服务。
-    "serviceValidationFailed"	扩展服务验证失败。例如 extensionServiceConfig 中 apiData 填写错误。
-    "serviceAbnormal"	子模块状态异常。
+    状态                           描述
+    "serviceIdle"                 子模块服务未开始。
+    "serviceStarted"              子模块服务已开始。
+    "serviceReady"                子模块服务已就绪。
+    "serviceInProgress"           子模块服务正在进行中。
+    "serviceCompleted"            订阅内容已全部上传至扩展服务。
+    "servicePartialCompleted"     订阅内容部分上传至扩展服务。
+    "serviceValidationFailed"     扩展服务验证失败。例如 extensionServiceConfig 中 apiData 填写错误。
+    "serviceAbnormal"             子模块状态异常。
 """
