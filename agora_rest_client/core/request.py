@@ -1,4 +1,4 @@
-import json
+from agora_rest_client.core import exceptions
 
 class RequestObject(object):
     """
@@ -7,6 +7,9 @@ class RequestObject(object):
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
+            if not hasattr(self, k):
+                raise exceptions.AttributeException("{} has no attribute '{}'".format(type(self).__name__, k))
+
             setattr(self, k, v)
 
     def __str__(self):

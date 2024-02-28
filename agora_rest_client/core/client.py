@@ -7,7 +7,6 @@ from logging.handlers import RotatingFileHandler
 from agora_rest_client.core import domain
 from agora_rest_client.core import exceptions
 from agora_rest_client.core import log
-from agora_rest_client.core import response
 
 class Client(object):
     """
