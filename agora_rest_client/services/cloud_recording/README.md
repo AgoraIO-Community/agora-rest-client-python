@@ -59,24 +59,24 @@ except exceptions.ClientRequestException as e:
 ```python
 try:
     response = web_recording_client.start(resource_id, cname, uid, storage_config=api_start.StorageConfig(
-            region=storage_config_region,
-            vendor=storage_config_vendor,
-            bucket=storage_config_bucket,
-            accessKey=storage_config_access_key,
-            secretKey=storage_config_secret_key,
+        region=storage_config_region,
+        vendor=storage_config_vendor,
+        bucket=storage_config_bucket,
+        accessKey=storage_config_access_key,
+        secretKey=storage_config_secret_key
     ), extension_service_config=api_start.ExtensionServiceConfig(
-            extensionServices=[
-                api_start.ExtensionServices(
-                    serviceName='web_recorder_service',
-                    serviceParam=api_start.ServiceParam(
-                        url="https://www.agora.io",
-                        audioProfile=2,
-                        videoWidth=1280,
-                        videoHeight=720,
-                        maxRecordingHour=1
-                    )
+        extensionServices=[
+            api_start.ExtensionServices(
+                serviceName='web_recorder_service',
+                serviceParam=api_start.ServiceParam(
+                    url="https://www.agora.io",
+                    audioProfile=2,
+                    videoWidth=1280,
+                    videoHeight=720,
+                    maxRecordingHour=1
                 )
-            ]
+            )
+        ]
     ))
     print(response)
 except exceptions.ClientRequestException as e:

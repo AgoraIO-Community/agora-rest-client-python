@@ -10,9 +10,9 @@ class RequestBodyApiAcquire(api_acquire.RequestBodyApiAcquire):
 class ResponseApiAcquire(api_acquire.ResponseApiAcquire):
     pass
 
-def web_recording_acquire(client, cname, uid, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
+def individual_recording_acquire(client, cname, uid, enable_postpone_transcoding_mix=False, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
     """
-    Web recoding acquire
+    Individual recording acquire
 
     :type client: object
     :param client: WebRecordingClient object
@@ -23,6 +23,9 @@ def web_recording_acquire(client, cname, uid, resource_expired_hour=72, exclude_
     :type uid: str
     :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_acquire.RequestBodyApiAcquire.uid`
     
+    :type enable_postpone_transcoding_mix: boolean
+    :param enable_postpone_transcoding_mix: 开启延时转码或延时混音
+
     :type resource_expired_hour: int
     :param resource_expired_hour: resource expired hour, `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.resourceExpiredHour`
     
@@ -38,10 +41,10 @@ def web_recording_acquire(client, cname, uid, resource_expired_hour=72, exclude_
         cname=cname,
         uid=uid,
         clientRequest=ClientRequest(
-            scene=Scene.WEB.value,
+            scene=Scene.INDIVIDUAL_RECORDING_POSTPONE_TRANSCODING_MIX.value if enable_postpone_transcoding_mix else Scene.RTC.value,
             resourceExpiredHour=resource_expired_hour,
             excludeResourceIds=exclude_resource_ids,
             regionAffinity=region_affinity,
     ))
-    
+
     return api_acquire.api_acquire(client, request_body_obj=request_body_obj, response_obj=ResponseApiAcquire)

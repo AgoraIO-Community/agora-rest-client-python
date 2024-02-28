@@ -10,6 +10,7 @@ from agora_rest_client.services.cloud_recording.v1 import api_update_layout
 from agora_rest_client.services.cloud_recording.v1 import api_update
 from agora_rest_client.services.cloud_recording.v1 import cloud_recording_client
 from agora_rest_client.services.cloud_recording.v1.api import Mode
+from agora_rest_client.services.cloud_recording.v1.api import Scene
 
 if __name__ == '__main__':
     # 配置认证信息
@@ -49,7 +50,7 @@ if __name__ == '__main__':
     # Acquire resource
     try:
         response = cloud_recording_client.acquire(api_acquire.RequestBodyApiAcquire(cname=cname, uid=uid, 
-            clientRequest=api_acquire.ClientRequest(scene=1, resourceExpiredHour=1))
+            clientRequest=api_acquire.ClientRequest(scene=Scene.WEB.value, resourceExpiredHour=1))
         )
         cloud_recording_client.logger.info('acquire resource, cname:%s, uid:%s, response:%s', cname, uid, response)
     except exceptions.ClientRequestException as e:
@@ -68,7 +69,7 @@ if __name__ == '__main__':
                         vendor=storage_config_vendor,
                         bucket=storage_config_bucket,
                         accessKey=storage_config_access_key,
-                        secretKey=storage_config_secret_key,
+                        secretKey=storage_config_secret_key
                 ), extensionServiceConfig=api_start.ExtensionServiceConfig(
                         extensionServices=[
                             api_start.ExtensionServices(

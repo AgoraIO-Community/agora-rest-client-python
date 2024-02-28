@@ -2,22 +2,20 @@ from agora_rest_client.core import request
 from agora_rest_client.services.cloud_recording.v1 import api_update
 from agora_rest_client.services.cloud_recording.v1.api import Mode
 
-class WebRecordingConfig(api_update.WebRecordingConfig):
+class AudioUidList(api_update.AudioUidList):
     pass
 
-class RtmpPublishConfig(api_update.RtmpPublishConfig):
+class VideoUidList(api_update.VideoUidList):
+    pass
+
+class StreamSubscribe(api_update.StreamSubscribe):
     pass
 
 class ClientRequest(request.RequestObject):
     """
-    instance of `WebRecordingConfig`
+    instance of `StreamSubscribe`
     """
-    webRecordingConfig = None
-
-    """
-    instance of `RtmpPublishConfig`
-    """
-    rtmpPublishConfig = None
+    streamSubscribe = None
 
 class RequestPathParamsApiUpdate(api_update.RequestPathParamsApiUpdate):
     pass
@@ -28,9 +26,9 @@ class RequestBodyApiUpdate(api_update.RequestBodyApiUpdate):
 class ResponseApiUpdate(api_update.ResponseApiUpdate):
     pass
 
-def web_recording_update(client, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None):
+def individual_recording_update(client, resource_id, sid, cname, uid, stream_subscribe=None):
     """
-    Web recording update
+    Individual recording update
 
     :type client: object
     :param client: WebRecordingClient object
@@ -47,16 +45,13 @@ def web_recording_update(client, resource_id, sid, cname, uid, web_recording_con
     :type uid: str
     :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
     
-    :type web_recording_config: object
-    :param web_recording_config: web recording config, `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`
+    :type stream_subscribe: object
+    :param stream_subscribe: stream subscribe, `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
     
-    :type rtmp_publish_config: object
-    :param rtmp_publish_config: rtmp publish config, `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
-
     :return: response object ResponseApiUpdate
     """
     request_path_params_obj = RequestPathParamsApiUpdate(
-        mode=Mode.WEB.value,
+        mode=Mode.INDIVIDUAL.value,
         resource_id=resource_id,
         sid=sid
     )
@@ -67,10 +62,7 @@ def web_recording_update(client, resource_id, sid, cname, uid, web_recording_con
         clientRequest=ClientRequest()
     )
 
-    if web_recording_config is not None:
-        request_body_obj.clientRequest.webRecordingConfig = web_recording_config
-
-    if rtmp_publish_config is not None:
-        request_body_obj.clientRequest.rtmpPublishConfig = rtmp_publish_config
+    if stream_subscribe is not None:
+        request_body_obj.clientRequest.streamSubscribe = stream_subscribe
 
     return api_update.api_update(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj, response_obj=ResponseApiUpdate)

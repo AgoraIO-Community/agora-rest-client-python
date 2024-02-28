@@ -10,9 +10,9 @@ class RequestBodyApiStop(api_stop.RequestBodyApiStop):
 class ResponseApiStop(api_stop.ResponseApiStop):
     pass
 
-def web_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
+def individual_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     """
-    Web recording stop
+    Individual recording stop
 
     :type client: object
     :param client: WebRecordingClient object
@@ -35,7 +35,7 @@ def web_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     :return: response object ResponseApiStop
     """
     request_path_params_obj = RequestPathParamsApiStop(
-        mode=Mode.WEB.value,
+        mode=Mode.INDIVIDUAL.value,
         resource_id=resource_id,
         sid=sid
     )

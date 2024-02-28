@@ -7,9 +7,9 @@ class RequestPathParamsApiQuery(api_query.RequestPathParamsApiQuery):
 class ResponseApiQuery(api_query.ResponseApiQuery):
     pass
 
-def web_recording_query(client, resource_id, sid):
+def individual_recording_query(client, resource_id, sid):
     """
-    Web recording query
+    Individual recording query
 
     :type client: object
     :param client: WebRecordingClient object
@@ -19,11 +19,11 @@ def web_recording_query(client, resource_id, sid):
     
     :type sid: str
     :param sid: sid, `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.sid`
-    
+
     :return: response object ResponseApiQuery
     """
     request_path_params_obj = RequestPathParamsApiQuery(
-        mode=Mode.WEB.value,
+        mode=Mode.INDIVIDUAL.value,
         resource_id=resource_id,
         sid=sid
     )

@@ -46,12 +46,24 @@ def web_recording_start(client, resource_id, cname, uid, storage_config, extensi
     """
     Web recording start
 
+    :type client: object
     :param client: WebRecordingClient object
+    
+    :type resource_id: str
     :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
+    
+    :type cname: str
     :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
+    
+    :type uid: str
     :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
+    
+    :type storage_config: object
     :param storage_config: storage config, `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
+    
+    :type extension_service_config: object
     :param extension_service_config: extension service config, `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
+    
     :return: response object ResponseApiStart
     """
     request_path_params_obj = RequestPathParamsApiStart(

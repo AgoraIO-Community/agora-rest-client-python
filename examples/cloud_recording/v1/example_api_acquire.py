@@ -3,6 +3,7 @@ import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
 from agora_rest_client.services.cloud_recording.v1 import api_acquire
+from agora_rest_client.services.cloud_recording.v1.api import Scene
 from agora_rest_client.services.cloud_recording.v1.cloud_recording_client import CloudRecordingClient
 
 if __name__ == '__main__':
@@ -34,7 +35,7 @@ if __name__ == '__main__':
     # 发送请求并获取响应
     try:
         response = cloud_recording_client.acquire(api_acquire.RequestBodyApiAcquire(cname=cname, uid=uid, 
-            clientRequest=api_acquire.ClientRequest(scene=1, resourceExpiredHour=1))
+            clientRequest=api_acquire.ClientRequest(scene=Scene.WEB.value, resourceExpiredHour=1))
         )
         print(response)
     except exceptions.ClientRequestException as e:

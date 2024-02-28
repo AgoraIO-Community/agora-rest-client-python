@@ -52,7 +52,7 @@ if __name__ == '__main__':
                         vendor=storage_config_vendor,
                         bucket=storage_config_bucket,
                         accessKey=storage_config_access_key,
-                        secretKey=storage_config_secret_key,
+                        secretKey=storage_config_secret_key
                 ), extensionServiceConfig=api_start.ExtensionServiceConfig(
                         extensionServices=[
                             api_start.ExtensionServices(
