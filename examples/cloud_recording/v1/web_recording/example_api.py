@@ -44,27 +44,23 @@ if __name__ == '__main__':
     # 发送请求并获取响应
     # Acquire resource
     try:
-        request_body_obj = api_acquire.RequestBodyApiAcquire({'cname': cname, 'uid': uid, 'clientRequest': {}})
-        response = web_recording_client.acquire(request_body_obj)
-        web_recording_client.logger.info('acquire resource, request_body_obj:%s, response:%s', request_body_obj, response)
+        response = web_recording_client.acquire(cname, uid)
+        web_recording_client.logger.info('acquire resource, cname:%s, uid:%s, response:%s', cname, uid, response)
     except exceptions.ClientRequestException as e:
-        web_recording_client.logger.error('acquire resource, request_body_obj:%s, err:%s', request_body_obj, e)
+        web_recording_client.logger.error('acquire resource, , cname:%s, uid:%s, err:%s', cname, uid, e)
         os._exit(1)
 
     resource_id = response.resourceId
 
     # Start recording
     try:
-        request_path_params_obj = api_start.RequestPathParamsApiStart({'resource_id': resource_id})
-        request_body_obj = api_start.RequestBodyApiStart({'cname': cname, 'uid': uid, 'clientRequest': {
-            'storageConfig': {
+        response = web_recording_client.start(resource_id, cname, uid, storageConfig={
                 'region': storage_config_region,
                 'vendor': storage_config_vendor,
                 'bucket': storage_config_bucket,
                 'accessKey': storage_config_access_key,
                 'secretKey': storage_config_secret_key,
-            },
-            'extensionServiceConfig': {
+            }, extensionServiceConfig={
                 'extensionServices': [
                     {
                         'serviceName': 'web_recorder_service',
@@ -77,47 +73,36 @@ if __name__ == '__main__':
                         }
                     }
                 ]
-            }
-        }})
-        response = web_recording_client.start(request_path_params_obj, request_body_obj)
-        web_recording_client.logger.info('start recording, request_path_params_obj:%s, request_body_obj:%s, response:%s', request_path_params_obj, request_body_obj, response)
+            })
+        web_recording_client.logger.info('start recording, resource_id:%s, response:%s', resource_id, response)
     except exceptions.ClientRequestException as e:
-        web_recording_client.logger.error('start recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
+        web_recording_client.logger.error('start recording, resource_id:%s, err:%s', resource_id, e)
         os._exit(1)
 
     sid = response.sid
 
     # Query recording
     try:
-        request_path_params_obj = api_query.RequestPathParamsApiQuery({'resource_id': resource_id, 'sid': sid})
-        response = web_recording_client.query(request_path_params_obj)
-        web_recording_client.logger.info('query recording, request_path_params_obj:%s, response:%s', request_path_params_obj, response)
+        response = web_recording_client.query(resource_id, sid)
+        web_recording_client.logger.info('query recording, sid:%s, response:%s', sid, response)
     except exceptions.ClientRequestException as e:
-        web_recording_client.logger.error('query recording, request_path_params_obj:%s, err:%s', request_path_params_obj, e)
+        web_recording_client.logger.error('query recording, sid:%s, err:%s', sid, e)
         os._exit(1)
 
     # Update recording
     try:
-        request_path_params_obj = api_update.RequestPathParamsApiUpdate({'resource_id': resource_id, 'sid': sid})
-        request_body_obj = api_update.RequestBodyApiUpdate({'cname': cname, 'uid': uid, 'clientRequest': {
-            'webRecordingConfig': {
-                'onhold': True
-            }
-        }})
-        response = web_recording_client.update(request_path_params_obj, request_body_obj)
-        web_recording_client.logger.info('update recording, request_path_params_obj:%s, request_body_obj:%s, response:%s', request_path_params_obj, request_body_obj, response)
+        response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config={'onhold': True})
+        web_recording_client.logger.info('update recording, response:%s', response)
     except exceptions.ClientRequestException as e:
-        web_recording_client.logger.error('update recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
+        web_recording_client.logger.error('update recording, err:%s', e)
         os._exit(1)
 
     # Stop recording
     try:
-        request_path_params_obj = api_stop.RequestPathParamsApiStop({'resource_id': resource_id, 'sid': sid})
-        request_body_obj = api_stop.RequestBodyApiStop({'cname': cname, 'uid': uid, 'clientRequest': {}})
-        response = web_recording_client.stop(request_path_params_obj, request_body_obj)
-        web_recording_client.logger.info('stop recording, request_path_params_obj:%s, request_body_obj:%s, response:%s', request_path_params_obj, request_body_obj, response)
+        response = web_recording_client.stop(resource_id, sid, cname, uid)
+        web_recording_client.logger.info('stop recording, response:%s', response)
     except exceptions.ClientRequestException as e:
-        web_recording_client.logger.error('stop recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
+        web_recording_client.logger.error('stop recording, err:%s', resource_id, sid, cname, uid, e)
         os._exit(1)
 
     os._exit(1)

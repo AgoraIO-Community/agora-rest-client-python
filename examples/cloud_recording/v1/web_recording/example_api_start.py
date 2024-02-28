@@ -43,17 +43,6 @@ if __name__ == '__main__':
         .with_file_log(path='test.log') \
         .build()
     
-    # # 发送请求并获取响应
-    # try:
-    #     request_path_params_obj = RequestPathParamsApiStart({'resource_id': resource_id})
-    #     request_body_obj = RequestBodyApiStart({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    #     response = web_recording_client._start(request_path_params_obj, request_body_obj)
-    #     print(response)
-    # except exceptions.ClientRequestException as e:
-    #     print(e.status_code)
-    #     print(e.error_code)
-    #     print(e.error_msg)
-
     # 发送请求并获取响应
     try:
         response = web_recording_client.start(resource_id, cname, uid, storageConfig={

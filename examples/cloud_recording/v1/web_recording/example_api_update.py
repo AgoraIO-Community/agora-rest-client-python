@@ -25,12 +25,6 @@ if __name__ == '__main__':
     cname = 'cname_xxx'
     # 字符串内容为云端录制服务在 RTC 频道内使用的 UID, 用于标识频道内的录制服务
     uid = '123456'
-    # 请求对象
-    clientRequest = {
-        'webRecordingConfig': {
-            'onhold': True
-        }
-    }
 
     # 创建服务客户端
     web_recording_client = WebRecordingClient \
@@ -44,9 +38,7 @@ if __name__ == '__main__':
     
     # 发送请求并获取响应
     try:
-        request_path_params_obj = RequestPathParamsApiUpdate({'resource_id': resource_id, 'sid': sid})
-        request_body_obj = RequestBodyApiUpdate({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-        response = web_recording_client.update(request_path_params_obj, request_body_obj)
+        response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config={'onhold': True})
         print(response)
     except exceptions.ClientRequestException as e:
         print(e.status_code)

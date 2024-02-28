@@ -33,8 +33,7 @@ if __name__ == '__main__':
     
     # 发送请求并获取响应
     try:
-        request_path_params_obj = RequestPathParamsApiQuery({'resource_id': resource_id, 'sid': sid})
-        response = web_recording_client.query(request_path_params_obj)
+        response = web_recording_client.query(resource_id, sid)
         print(response)
     except exceptions.ClientRequestException as e:
         print(e.status_code)

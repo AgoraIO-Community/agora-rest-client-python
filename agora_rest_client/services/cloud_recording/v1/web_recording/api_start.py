@@ -20,9 +20,9 @@ def web_recording_start(client, resource_id, cname, uid, storageConfig, extensio
     Web recording start
 
     :param client: WebRecordingClient object
-    :param resource_id: resource id
-    :param cname: cname
-    :param uid: uid
+    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
+    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
+    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
     :param storageConfig: storage config, `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
     :param extensionServiceConfig: extension service config, `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
     :param response_type: response type, `agora_rest_client.core.response.ResponseType`
@@ -46,16 +46,6 @@ def web_recording_start(client, resource_id, cname, uid, storageConfig, extensio
         }
     })
 
-    request_body_obj.clientRequest = dict(request_body_obj.clientRequest, **{
-        'recordingFileConfig': {
-            'avFileType': ['hls', 'mp4']
-        }
-    })
-
-    return api_start.api_start(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj, response_type=response_type, response_obj=response_obj)
-
-def _web_recording_start(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiStart):
-    request_path_params_obj.mode = Mode.WEB.value
     request_body_obj.clientRequest = dict(request_body_obj.clientRequest, **{
         'recordingFileConfig': {
             'avFileType': ['hls', 'mp4']
