@@ -2,8 +2,8 @@ import logging
 import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
+from agora_rest_client.services.cloud_recording.v1 import api_query
 from agora_rest_client.services.cloud_recording.v1.api import Mode
-from agora_rest_client.services.cloud_recording.v1.api_query import RequestPathParamsApiQuery
 from agora_rest_client.services.cloud_recording.v1.cloud_recording_client import CloudRecordingClient
 
 if __name__ == '__main__':
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
 
     # 录制模式
-    mode = Mode.INDIVIDUAL.value
+    mode = Mode.WEB.value
     # 通过 acquire 请求获取到的 Resource ID
     resource_id = 'resource_id_xxx'
     # 通过 start 获取的录制 ID
@@ -36,8 +36,7 @@ if __name__ == '__main__':
     
     # 发送请求并获取响应
     try:
-        request_path_params_obj = RequestPathParamsApiQuery({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-        response = cloud_recording_client.query(request_path_params_obj)
+        response = cloud_recording_client.query(api_query.RequestPathParamsApiQuery(mode=mode, resource_id=resource_id, sid=sid))
         print(response)
     except exceptions.ClientRequestException as e:
         print(e.status_code)

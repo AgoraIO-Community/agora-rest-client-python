@@ -1,4 +1,5 @@
-from agora_rest_client.core import utils
+from agora_rest_client.core import request
+from agora_rest_client.core import response
 
 """
 官方文档: https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-stop
@@ -8,7 +9,7 @@ stop 请求仅在会话内有效. 如果录制启动错误, 或录制已结束, 
 非页面录制模式下, 当频道空闲(无用户)超过预设时间(默认为 30 秒) 后, 云端录制也会自动退出频道, 停止录制. 
 """
 
-class ClientRequest(object):
+class ClientRequest(request.RequestObject):
     """
     type: boolean
 
@@ -20,7 +21,7 @@ class ClientRequest(object):
     """
     async_stop = None
 
-class Payload(object):
+class Payload(response.ResponseObject):
     """
     type: string
 
@@ -31,13 +32,15 @@ class Payload(object):
     """
     uploadingStatus = None
     
-class ExtensionServiceState(object):
+class ExtensionServiceState(response.ResponseObject):
     """
     type: object
 
     页面录制模式下, 上传服务返回的字段
+
+    instance of `Payload`
     """
-    payload = Payload()
+    payload = None
 
     """
     type: string
@@ -48,13 +51,15 @@ class ExtensionServiceState(object):
     """
     serviceName = None
 
-class ServerResponse(object):
+class ServerResponse(response.ResponseObject):
     """
     type: array[object]
-    """
-    extensionServiceState = [ExtensionServiceState()]
 
-class RequestPathParamsApiStop(object):
+    instance of `ExtensionServiceState`
+    """
+    extensionServiceState = None
+
+class RequestPathParamsApiStop(request.RequestObject):
     """
     type: required string
 
@@ -79,13 +84,7 @@ class RequestPathParamsApiStop(object):
     """
     sid = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class RequestBodyApiStop(object):
+class RequestBodyApiStop(request.RequestObject):
     """
     type: required string
 
@@ -102,16 +101,12 @@ class RequestBodyApiStop(object):
 
     """
     type: request object
+
+    instance of `ClientRequest`
     """
-    clientRequest = ClientRequest()
+    clientRequest = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class ResponseApiStop(object):
+class ResponseApiStop(response.ResponseObject):
     """
     type: string
 
@@ -130,8 +125,10 @@ class ResponseApiStop(object):
     type: object
 
     页面录制场景下会返回的字段
+
+    instance of `ServerResponse`
     """
-    serverResponse = ServerResponse()
+    serverResponse = None
     
     """
     type: string
@@ -147,24 +144,17 @@ class ResponseApiStop(object):
     """
     uid = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-def api_stop(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiStop):
+def api_stop(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiStop):
     """
     Stop recording
 
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiStop
     :param request_body_obj: request object RequestBodyApiStop
-    :param response_type: response type, `agora_rest_client.core.response.ResponseType`
-    :param response_obj: response object
+    :param response_obj: request object ResponseApiStop
     :return: response object ResponseApiStop
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/stop'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=utils.to_json(request_body_obj), response_type=response_type, response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)

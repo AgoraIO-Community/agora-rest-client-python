@@ -96,8 +96,7 @@ class Client(object):
     def app_id(self):
         return self._app_id
     
-    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, 
-                 response_type=response.ResponseType.OBJECT.value, response_obj=None):
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
         """
         Call api
 
@@ -108,14 +107,12 @@ class Client(object):
         :param post_json: http post json
         :param headers: http headers
         :param timeout_seconds: http timeout
-        :param response_type: response type
         :param response_obj: response object
         :return: response
         """
-        return self.do_http_request(method, url, params, post_data, post_json, headers, timeout_seconds, response_type, response_obj)
+        return self.do_http_request(method, url, params, post_data, post_json, headers, timeout_seconds, response_obj)
 
-    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, 
-                        response_type=response.ResponseType.OBJECT.value, response_obj=None):
+    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
         """
         Request http
         
@@ -126,7 +123,6 @@ class Client(object):
         :param post_json: http post json
         :param headers: http headers
         :param timeout_seconds: http timeout
-        :param response_type: response type, `agora_rest_client.core.response.ResponseType`
         :param response_obj: response object
         :return: response
         """
@@ -150,14 +146,7 @@ class Client(object):
 
                     # Request success
                     if status_code == 200:
-                        if response_type == response.ResponseType.JSON.value:
-                            return resp.json()
-                        elif response_type == response.ResponseType.OBJECT.value:
-                            return json.loads(resp.text, object_hook=response_obj)
-                        elif response_type == response.ResponseType.TEXT.value:
-                            return resp.text
-
-                        return resp.text
+                        return response_obj(**json.loads(resp.text))
 
                     resp_json = resp.json()
                     error_code = resp_json.get(self._error_code_key)

@@ -1,4 +1,5 @@
-from agora_rest_client.core import utils
+from agora_rest_client.core import request
+from agora_rest_client.core import response
 
 """
 官方文档: https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-acquire
@@ -8,7 +9,7 @@ from agora_rest_client.core import utils
 对于每个声网账号，每秒钟的请求数限制为 10 次。如需提高此限制，请联系技术支持
 """
 
-class ClientRequest(object):
+class ClientRequest(request.RequestObject):
     """
     type: number
     
@@ -42,7 +43,7 @@ class ClientRequest(object):
     
     另一路或几路录制任务的 resourceId. 该字段用于排除指定的录制资源, 以便新发起的录制任务可以使用新区域的资源, 实现跨区域多路录制
     """
-    excludeResourceIds = []
+    excludeResourceIds = None
     
     """
     type: number
@@ -59,7 +60,7 @@ class ClientRequest(object):
     """
     regionAffinity = None
 
-class RequestBodyApiAcquire(object):
+class RequestBodyApiAcquire(request.RequestObject):
     """
     type: required string
     
@@ -82,16 +83,12 @@ class RequestBodyApiAcquire(object):
     
     """
     type: object
+
+    instance of `ClientRequest`
     """
-    clientRequest = ClientRequest()
+    clientRequest = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class ResponseApiAcquire(object):
+class ResponseApiAcquire(response.ResponseObject):
     """
     type: string
     
@@ -113,23 +110,16 @@ class ResponseApiAcquire(object):
     """
     resourceId = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-def api_acquire(client, request_body_obj, response_type, response_obj=ResponseApiAcquire):
+def api_acquire(client, request_body_obj, response_obj=ResponseApiAcquire):
     """
     Acquire a resource id
 
     :param client: CloudRecordingClient object
     :param request_body_obj: request object RequestBodyApiAcquire
-    :param response_type: response type, `agora_rest_client.core.response.ResponseType`
-    :param response_obj: response object
+    :param response_obj: request object ResponseApiAcquire
     :return: response object ResponseApiAcquire
     """
     url = '/v1/apps/{}/cloud_recording/acquire'.format(client.app_id)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=utils.to_json(request_body_obj), response_type=response_type, response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)

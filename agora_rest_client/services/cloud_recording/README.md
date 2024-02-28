@@ -29,28 +29,6 @@
 ### 获取云端录制资源
 > 在开始云端录制之前, 您需要调用 acquire 方法获取一个 Resource ID. 一个 Resource ID 只能用于一次云端录制服务. 
 
-通过调用`cloud_recording_client.acquire`方法来实现获取云端录制资源
-```python
-cloud_recording_client = CloudRecordingClient \
-    .new_builder() \
-    .with_app_id(app_id) \
-    .with_basic_auth(basic_auth_user_name, basic_auth_password) \
-    .with_region(RegionArea.CN.value) \
-    .with_stream_log(log_level=logging.DEBUG) \
-    .with_file_log(path='test.log') \
-    .build()
-
-try:
-    request_body_obj = RequestBodyApiAcquire({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = cloud_recording_client.acquire(request_body_obj)
-    print(response)
-except exceptions.ClientRequestException as e:
-    print(e.status_code)
-    print(e.error_code)
-    print(e.error_msg)
-```
-具体可参考 Example [example_api_acquire.py](../../../examples/cloud_recording/v1/example_api_acquire.py) 文件
-
 #### 网页录制
 通过调用`web_recording_client.acquire`方法来实现获取网页录制资源
 ```python
@@ -64,8 +42,7 @@ web_recording_client = WebRecordingClient \
     .build()
 
 try:
-    request_body_obj = RequestBodyApiAcquire({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = web_recording_client.acquire(request_body_obj)
+    response = web_recording_client.acquire(cname, uid)
     print(response)
 except exceptions.ClientRequestException as e:
     print(e.status_code)
@@ -77,27 +54,30 @@ except exceptions.ClientRequestException as e:
 ### 开始云端录制
 > 通过 acquire 方法获取云端录制资源后, 调用 start 方法开始云端录制. 
 
-通过调用`cloud_recording_client.start`方法来实现开始云端录制
-```python
-try:
-    request_path_params_obj = RequestPathParamsApiStart({'mode': mode, 'resource_id': resource_id})
-    request_body_obj = RequestBodyApiStart({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = cloud_recording_client.start(request_path_params_obj, request_body_obj)
-    print(response)
-except exceptions.ClientRequestException as e:
-    print(e.status_code)
-    print(e.error_code)
-    print(e.error_msg)
-```
-具体可参考 Example [example_api_start.py](../../../examples/cloud_recording/v1/example_api_start.py) 文件
-
 #### 网页录制
 通过调用`web_recording_client.start`方法来实现开始网页录制
 ```python
 try:
-    request_path_params_obj = RequestPathParamsApiStart({'resource_id': resource_id})
-    request_body_obj = RequestBodyApiStart({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = web_recording_client.start(request_path_params_obj, request_body_obj)
+    response = web_recording_client.start(resource_id, cname, uid, storageConfig=api_start.StorageConfig(
+            region=storage_config_region,
+            vendor=storage_config_vendor,
+            bucket=storage_config_bucket,
+            accessKey=storage_config_access_key,
+            secretKey=storage_config_secret_key,
+    ), extensionServiceConfig=api_start.ExtensionServiceConfig(
+            extensionServices=[
+                api_start.ExtensionServices(
+                    serviceName='web_recorder_service',
+                    serviceParam=api_start.ServiceParam(
+                        url="https://www.agora.io",
+                        audioProfile=2,
+                        videoWidth=1280,
+                        videoHeight=720,
+                        maxRecordingHour=1
+                    )
+                )
+            ]
+    ))
     print(response)
 except exceptions.ClientRequestException as e:
     print(e.status_code)
@@ -109,27 +89,11 @@ except exceptions.ClientRequestException as e:
 ### 停止云端录制
 > 开始录制后, 您可以调用 stop 方法离开频道, 停止录制. 录制停止后如需再次录制, 必须再调用 acquire 方法请求一个新的 Resource ID. 
 
-通过调用`cloud_recording_client.stop`方法来实现停止云端录制
-```python
-try:
-    request_path_params_obj = RequestPathParamsApiStop({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-    request_body_obj = RequestBodyApiStop({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = cloud_recording_client.stop(request_path_params_obj, request_body_obj)
-    print(response)
-except exceptions.ClientRequestException as e:
-    print(e.status_code)
-    print(e.error_code)
-    print(e.error_msg)
-```
-具体可参考 Example [example_api_stop.py](../../../examples/cloud_recording/v1/example_api_stop.py) 文件
-
 #### 网页录制
 通过调用`web_recording_client.stop`方法来实现停止网页录制
 ```python
 try:
-    request_path_params_obj = RequestPathParamsApiStop({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-    request_body_obj = RequestBodyApiStop({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = web_recording_client.stop(request_path_params_obj, request_body_obj)
+    response = web_recording_client.stop(resource_id, sid, cname, uid)
     print(response)
 except exceptions.ClientRequestException as e:
     print(e.status_code)
@@ -141,25 +105,11 @@ except exceptions.ClientRequestException as e:
 ### 查询云端录制状态
 > 开始录制后, 您可以调用 query 方法查询录制状态. 
 
-通过调用`cloud_recording_client.query`方法来实现查询云端录制状态
-```python
-try:
-    request_path_params_obj = RequestPathParamsApiQuery({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-    response = cloud_recording_client.query(request_path_params_obj)
-    print(response)
-except exceptions.ClientRequestException as e:
-    print(e.status_code)
-    print(e.error_code)
-    print(e.error_msg)
-```
-具体可参考 Example [example_api_query.py](../../../examples/cloud_recording/v1/example_api_query.py) 文件
-
 #### 网页录制
 通过调用`web_recording_client.query`方法来实现查询网页录制状态
 ```python
 try:
-    request_path_params_obj = RequestPathParamsApiQuery({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-    response = web_recording_client.query(request_path_params_obj)
+    response = web_recording_client.query(resource_id, sid)
     print(response)
 except exceptions.ClientRequestException as e:
     print(e.status_code)
@@ -173,27 +123,11 @@ except exceptions.ClientRequestException as e:
 > * 对单流录制和合流录制, 更新订阅名单. 
 > * 对页面录制, 设置暂停/恢复页面录制, 或更新页面录制转推到 CDN 的推流地址(URL). 
 
-通过调用`cloud_recording_client.update`方法来实现更新云端录制设置
-```python
-try:
-    request_path_params_obj = RequestPathParamsApiUpdate({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-    request_body_obj = RequestBodyApiUpdate({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = cloud_recording_client.update(request_path_params_obj, request_body_obj)
-    print(response)
-except exceptions.ClientRequestException as e:
-    print(e.status_code)
-    print(e.error_code)
-    print(e.error_msg)
-```
-具体可参考 Example [example_api_update.py](../../../examples/cloud_recording/v1/example_api_update.py) 文件
-
 #### 网页录制
 通过调用`web_recording_client.update`方法来实现更新网页录制设置
 ```python
 try:
-    request_path_params_obj = RequestPathParamsApiUpdate({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-    request_body_obj = RequestBodyApiUpdate({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = web_recording_client.update(request_path_params_obj, request_body_obj)
+    response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config=api_update.WebRecordingConfig(onhold=True))
     print(response)
 except exceptions.ClientRequestException as e:
     print(e.status_code)
@@ -205,20 +139,6 @@ except exceptions.ClientRequestException as e:
 ### 更新云端录制合流布局
 > 开始录制后, 您可以调用 updateLayout 方法更新合流布局. 
 > 每次调用该方法都会覆盖原来的布局设置. 例如, 在开始录制时设置了 backgroundColor 为 "#FF0000"(红色), 如果调用 updateLayout 方法更新合流布局时如果不再设置 backgroundColor 字段, 背景色就会变为黑色(默认值). 
-
-通过调用`cloud_recording_client.update_layout`方法来实现更新云端录制合流布局
-```python
-try:
-    request_path_params_obj = RequestPathParamsApiUpdateLayout({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-    request_body_obj = RequestBodyApiUpdateLayout({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-    response = cloud_recording_client.update_layout(request_path_params_obj, request_body_obj)
-    print(response)
-except exceptions.ClientRequestException as e:
-    print(e.status_code)
-    print(e.error_code)
-    print(e.error_msg)
-```
-具体可参考 Example [example_api_update_layout.py](../../../examples/cloud_recording/v1/example_api_update_layout.py) 文件
 
 ### Example 示例
 - 通用 Example [example_api.py](../../../examples/cloud_recording/v1/example_api.py) 文件

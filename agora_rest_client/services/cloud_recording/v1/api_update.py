@@ -1,4 +1,5 @@
-from agora_rest_client.core import utils
+from agora_rest_client.core import request
+from agora_rest_client.core import response
 
 """
 官方文档: https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-update
@@ -11,7 +12,7 @@ update 请求仅在会话内有效. 如果录制启动错误, 或录制已结束
 如果需要连续调用 update 方法更新录制设置, 请在收到上一次 update 响应后再进行调用, 否则可能导致请求结果与预期不一致. 
 """
 
-class AudioUidList(object):
+class AudioUidList(request.RequestObject):
     """
     type: array[string]
 
@@ -22,16 +23,16 @@ class AudioUidList(object):
     如果你设置了音频的订阅名单, 但没有设置视频的订阅名单, 云端录制服务不会订阅任何视频流. 反之亦然. 
     设为 ["#allstream#"]` 可订阅频道内所有 UID 的音频流. 
     """
-    subscribeAudioUids = []
+    subscribeAudioUids = None
 
     """
     type: array[string]
 
     指定不订阅哪几个 UID 的音频流. 云端录制会订阅频道内除指定 UID 外所有 UID 的音频流. 数组长度不得超过 32, 不推荐使用空数组. 该字段和 subscribeAudioUids 只能设一个. 详见设置订阅名单. 
     """
-    unsubscribeAudioUids = []
+    unsubscribeAudioUids = None
 
-class VideoUidList(object):
+class VideoUidList(request.RequestObject):
     """
     type: array[string]
 
@@ -42,33 +43,37 @@ class VideoUidList(object):
     如果你设置了视频的订阅名单, 但没有设置音频的订阅名单, 云端录制服务不会订阅任何音频流. 反之亦然. 
     设为 ["#allstream#"] 可订阅频道内所有 UID 的视频流. 
     """
-    subscribeVideoUids = []
+    subscribeVideoUids = None
 
     """
     type: array[string]
 
     指定不订阅哪几个 UID 的视频流. 云端录制会订阅频道内除指定 UID 外所有 UID 的视频流. 数组长度不得超过 32, 不推荐使用空数组. 该字段和 subscribeVideoUids 只能设一个. 详见设置订阅名单. 
     """
-    unsunscribeVideoUids = []
+    unsunscribeVideoUids = None
 
-class StreamSubscribe(object):
+class StreamSubscribe(request.RequestObject):
     """
     type: object
 
     音频订阅名单. 
     注意: 该字段仅适用于 streamTypes 设为音频, 或音频和视频的情况. 
+
+    instance `AudioUidList`
     """
-    audioUidList = AudioUidList()
+    audioUidList = None
 
     """
     type: object
 
     视频订阅名单. 
-    注意: 该字段仅适用于 streamTypes 设为视频, 或音频和视频的情况. 
-    """
-    videoUidList = VideoUidList()
+    注意: 该字段仅适用于 streamTypes 设为视频, 或音频和视频的情况.
 
-class WebRecordingConfig(object):
+    instance `VideoUidList`
+    """
+    videoUidList = None
+
+class WebRecordingConfig(request.RequestObject):
     """
     type: boolean
 
@@ -84,7 +89,7 @@ class WebRecordingConfig(object):
     """
     onhold = None
 
-class Outputs(object):
+class Outputs(request.RequestObject):
     """
     type: string
 
@@ -96,38 +101,46 @@ class Outputs(object):
     """
     rtmpUrl = None
 
-class RtmpPublishConfig(object):
+class RtmpPublishConfig(request.RequestObject):
     """
     type: array[object]
-    """
-    outputs = [Outputs()]
 
-class ClientRequest(object):
+    instance `Outputs`
+    """
+    outputs = None
+
+class ClientRequest(request.RequestObject):
     """
     type: object
 
     更新订阅名单. 
-    注意: 仅需在单流录制和合流录制模式下设置. 
+    注意: 仅需在单流录制和合流录制模式下设置.
+
+    instance of `StreamSubscribe`
     """
-    streamSubscribe = StreamSubscribe()
+    streamSubscribe = None
 
     """
     type: object
 
     用于更新页面录制配置项. 
-    注意: 仅需在页面录制模式下设置. 
+    注意: 仅需在页面录制模式下设置.
+
+    instance `WebRecordingConfig`
     """
-    webRecordingConfig = WebRecordingConfig()
+    webRecordingConfig = None
 
     """
     type: object
 
     用于更新转推页面录制到 CDN 的配置项. 
-    注意: 仅需在页面录制模式下, 且转推页面录制到 CDN 时设置. 
-    """
-    rtmpPublishConfig = RtmpPublishConfig()
+    注意: 仅需在页面录制模式下, 且转推页面录制到 CDN 时设置.
 
-class RequestPathParamsApiUpdate(object):
+    instance `RtmpPublishConfig`
+    """
+    rtmpPublishConfig = None
+
+class RequestPathParamsApiUpdate(request.RequestObject):
     """
     type: required string
 
@@ -152,13 +165,7 @@ class RequestPathParamsApiUpdate(object):
     """
     sid = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class RequestBodyApiUpdate(object):
+class RequestBodyApiUpdate(request.RequestObject):
     """
     type: required string
 
@@ -175,16 +182,12 @@ class RequestBodyApiUpdate(object):
 
     """
     type: required object
+    
+    instance `ClientRequest`
     """
-    clientRequest = ClientRequest()
+    clientRequest = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class ResponseApiUpdate(object):
+class ResponseApiUpdate(response.ResponseObject):
     """
     type: string
 
@@ -212,25 +215,18 @@ class ResponseApiUpdate(object):
     录制 ID. 标识每次录制周期. 
     """
     sid = None
-    
-    def __init__(self, d):
-        self.__dict__.update(d)
 
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-def api_update(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiUpdate):
+def api_update(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiUpdate):
     """
     Update recording
 
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiUpdate
     :param request_body_obj: request object RequestBodyApiUpdate
-    :param response_type: response type, `agora_rest_client.core.response.ResponseType`
-    :param response_obj: response object
+    :param response_obj: request object ResponseApiUpdate
     :return: response object ResponseApiUpdate
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/update'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=utils.to_json(request_body_obj), response_type=response_type, response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)

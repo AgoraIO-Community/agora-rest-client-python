@@ -2,9 +2,7 @@ import logging
 import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
-from agora_rest_client.services.cloud_recording.v1.web_recording.api_start import RequestBodyApiStart
-from agora_rest_client.services.cloud_recording.v1.web_recording.api_start import RequestPathParamsApiStart
-from agora_rest_client.services.cloud_recording.v1.web_recording.api_start import RequestPathParamsApiStart
+from agora_rest_client.services.cloud_recording.v1.web_recording import api_start
 from agora_rest_client.services.cloud_recording.v1.web_recording.web_recording_client import WebRecordingClient
 
 if __name__ == '__main__':
@@ -45,26 +43,26 @@ if __name__ == '__main__':
     
     # 发送请求并获取响应
     try:
-        response = web_recording_client.start(resource_id, cname, uid, storageConfig={
-                'region': storage_config_region,
-                'vendor': storage_config_vendor,
-                'bucket': storage_config_bucket,
-                'accessKey': storage_config_access_key,
-                'secretKey': storage_config_secret_key,
-            }, extensionServiceConfig={
-                'extensionServices': [
-                    {
-                        'serviceName': 'web_recorder_service',
-                        "serviceParam": {
-                            "url": "https://www.agora.io",
-                            "audioProfile": 2,
-                            "videoWidth": 1280,
-                            "videoHeight": 720,
-                            "maxRecordingHour": 1
-                        }
-                    }
+        response = web_recording_client.start(resource_id, cname, uid, storageConfig=api_start.StorageConfig(
+                region=storage_config_region,
+                vendor=storage_config_vendor,
+                bucket=storage_config_bucket,
+                accessKey=storage_config_access_key,
+                secretKey=storage_config_secret_key,
+        ), extensionServiceConfig=api_start.ExtensionServiceConfig(
+                extensionServices=[
+                    api_start.ExtensionServices(
+                        serviceName='web_recorder_service',
+                        serviceParam=api_start.ServiceParam(
+                            url="https://www.agora.io",
+                            audioProfile=2,
+                            videoWidth=1280,
+                            videoHeight=720,
+                            maxRecordingHour=1
+                        )
+                    )
                 ]
-            })
+        ))
         print(response)
     except exceptions.ClientRequestException as e:
         print(e.status_code)

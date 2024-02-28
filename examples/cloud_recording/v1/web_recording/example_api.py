@@ -2,10 +2,7 @@ import logging
 import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
-from agora_rest_client.services.cloud_recording.v1.web_recording import api_acquire
-from agora_rest_client.services.cloud_recording.v1.web_recording import api_query
 from agora_rest_client.services.cloud_recording.v1.web_recording import api_start
-from agora_rest_client.services.cloud_recording.v1.web_recording import api_stop
 from agora_rest_client.services.cloud_recording.v1.web_recording import api_update
 from agora_rest_client.services.cloud_recording.v1.web_recording import web_recording_client
 
@@ -54,26 +51,26 @@ if __name__ == '__main__':
 
     # Start recording
     try:
-        response = web_recording_client.start(resource_id, cname, uid, storageConfig={
-                'region': storage_config_region,
-                'vendor': storage_config_vendor,
-                'bucket': storage_config_bucket,
-                'accessKey': storage_config_access_key,
-                'secretKey': storage_config_secret_key,
-            }, extensionServiceConfig={
-                'extensionServices': [
-                    {
-                        'serviceName': 'web_recorder_service',
-                        "serviceParam": {
-                            "url": "https://www.agora.io",
-                            "audioProfile": 2,
-                            "videoWidth": 1280,
-                            "videoHeight": 720,
-                            "maxRecordingHour": 1
-                        }
-                    }
+        response = web_recording_client.start(resource_id, cname, uid, storageConfig=api_start.StorageConfig(
+                region=storage_config_region,
+                vendor=storage_config_vendor,
+                bucket=storage_config_bucket,
+                accessKey=storage_config_access_key,
+                secretKey=storage_config_secret_key,
+        ), extensionServiceConfig=api_start.ExtensionServiceConfig(
+                extensionServices=[
+                    api_start.ExtensionServices(
+                        serviceName='web_recorder_service',
+                        serviceParam=api_start.ServiceParam(
+                            url="https://www.agora.io",
+                            audioProfile=2,
+                            videoWidth=1280,
+                            videoHeight=720,
+                            maxRecordingHour=1
+                        )
+                    )
                 ]
-            })
+        ))
         web_recording_client.logger.info('start recording, resource_id:%s, response:%s', resource_id, response)
     except exceptions.ClientRequestException as e:
         web_recording_client.logger.error('start recording, resource_id:%s, err:%s', resource_id, e)
@@ -91,7 +88,7 @@ if __name__ == '__main__':
 
     # Update recording
     try:
-        response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config={'onhold': True})
+        response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config=api_update.WebRecordingConfig(onhold=True))
         web_recording_client.logger.info('update recording, response:%s', response)
     except exceptions.ClientRequestException as e:
         web_recording_client.logger.error('update recording, err:%s', e)
@@ -101,6 +98,7 @@ if __name__ == '__main__':
     try:
         response = web_recording_client.stop(resource_id, sid, cname, uid)
         web_recording_client.logger.info('stop recording, response:%s', response)
+        print(response)
     except exceptions.ClientRequestException as e:
         web_recording_client.logger.error('stop recording, err:%s', resource_id, sid, cname, uid, e)
         os._exit(1)

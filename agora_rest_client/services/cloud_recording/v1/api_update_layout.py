@@ -1,4 +1,5 @@
-from agora_rest_client.core import utils
+from agora_rest_client.core import request
+from agora_rest_client.core import response
 
 """
 官方文档: https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-updateLayout
@@ -10,7 +11,7 @@ updateLayout 请求仅在会话内有效. 如果录制启动错误, 或录制已
 如果需要连续调用 updateLayout 方法更新合流布局, 请在收到上一次 updateLayout 响应后再进行调用, 否则可能导致请求结果与预期不一致. 
 """
 
-class LayoutConfig(object):
+class LayoutConfig(request.RequestObject):
     """
     type: string
 
@@ -72,7 +73,7 @@ class LayoutConfig(object):
     """
     render_mode = None
 
-class BackgroundConfig(object):
+class BackgroundConfig(request.RequestObject):
     """
     type: required string
 
@@ -99,7 +100,7 @@ class BackgroundConfig(object):
     """
     render_mode = None
 
-class ClientRequest(object):
+class ClientRequest(request.RequestObject):
     """
     type: string
 
@@ -149,18 +150,22 @@ class ClientRequest(object):
     type: array[object]
 
     用户的合流画面布局. 由每个用户对应的布局画面设置组成的数组, 支持最多 17 个用户. 
-    注意: 仅需在自定义布局下设置. 
+    注意: 仅需在自定义布局下设置.
+
+    instance of `LayoutConfig`
     """
-    layoutConfig = [LayoutConfig()]
+    layoutConfig = None
 
     """
     type: array[object]
 
-    用户的背景图设置. 
-    """
-    backgroundConfig = [BackgroundConfig()]
+    用户的背景图设置.
 
-class RequestPathParamsApiUpdateLayout(object):
+    instance of `BackgroundConfig`
+    """
+    backgroundConfig = None
+
+class RequestPathParamsApiUpdateLayout(request.RequestObject):
     """
     type: required string
 
@@ -182,13 +187,7 @@ class RequestPathParamsApiUpdateLayout(object):
     """
     sid = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class RequestBodyApiUpdateLayout(object):
+class RequestBodyApiUpdateLayout(request.RequestObject):
     """
     type: required string
 
@@ -205,16 +204,12 @@ class RequestBodyApiUpdateLayout(object):
 
     """
     type: required object
+
+    instance of `ClientRequest`
     """
-    clientRequest = ClientRequest()
+    clientRequest = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class ResponseApiUpdateLayout(object):
+class ResponseApiUpdateLayout(response.ResponseObject):
     """
     type: string
 
@@ -242,25 +237,18 @@ class ResponseApiUpdateLayout(object):
     录制 ID. 标识一次录制周期. 
     """
     sid = None
-    
-    def __init__(self, d):
-        self.__dict__.update(d)
 
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-def api_update_layout(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiUpdateLayout):
+def api_update_layout(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiUpdateLayout):
     """
     Update layout of the recording
 
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiUpdateLayout
     :param request_body_obj: request object RequestBodyApiUpdateLayout
-    :param response_type: response type, `agora_rest_client.core.response.ResponseType`
-    :param response_obj: response object
+    :param response_obj: request object ResponseApiUpdateLayout
     :return: response object ResponseApiUpdateLayout
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/updateLayout'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=utils.to_json(request_body_obj), response_type=response_type, response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)

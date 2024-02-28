@@ -9,6 +9,7 @@ from agora_rest_client.services.cloud_recording.v1 import api_stop
 from agora_rest_client.services.cloud_recording.v1 import api_update_layout
 from agora_rest_client.services.cloud_recording.v1 import api_update
 from agora_rest_client.services.cloud_recording.v1 import cloud_recording_client
+from agora_rest_client.services.cloud_recording.v1.api import Mode
 
 if __name__ == '__main__':
     # 配置认证信息
@@ -20,21 +21,19 @@ if __name__ == '__main__':
     basic_auth_user_name = os.environ.get('AGORA_BASIC_AUTH_USER_NAME')
     # Need to set environment variable AGORA_BASIC_AUTH_PASSWORD
     basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
-
-    # 录制的频道名
-    cname = os.environ.get('AGORA_CNAME')
-    # 字符串内容为云端录制服务在 RTC 频道内使用的 UID, 用于标识频道内的录制服务
-    uid = os.environ.get('AGORA_UID')
-    # 录制模式
-    mode = os.environ.get('AGORA_MODE')
-    # 用于鉴权的动态密钥
-    token = os.environ.get('AGORA_TOKEN')
     # 第三方云存储配置
     storage_config_region = int(os.environ.get('AGORA_STORAGE_CONFIG_REGION'))
     storage_config_vendor = int(os.environ.get('AGORA_STORAGE_CONFIG_VENDOR'))
     storage_config_bucket = os.environ.get('AGORA_STORAGE_CONFIG_BUCKET')
     storage_config_access_key = os.environ.get('AGORA_STORAGE_CONFIG_ACCESS_KEY')
     storage_config_secret_key = os.environ.get('AGORA_STORAGE_CONFIG_SECRET_KEY')
+
+    # 录制模式
+    mode = Mode.WEB.value
+    # 录制的频道名
+    cname = os.environ.get('AGORA_CNAME')
+    # 字符串内容为云端录制服务在 RTC 频道内使用的 UID, 用于标识频道内的录制服务
+    uid = '123456'
 
     # 创建服务客户端
     cloud_recording_client = cloud_recording_client.CloudRecordingClient \
@@ -49,81 +48,78 @@ if __name__ == '__main__':
     # 发送请求并获取响应
     # Acquire resource
     try:
-        request_body_obj = api_acquire.RequestBodyApiAcquire({'cname': cname, 'uid': uid, 'clientRequest': {}})
-        response = cloud_recording_client.acquire(request_body_obj)
-        cloud_recording_client.logger.info('acquire resource, request_body_obj:%s, response:%s', request_body_obj, response)
+        response = cloud_recording_client.acquire(api_acquire.RequestBodyApiAcquire(cname=cname, uid=uid, 
+            clientRequest=api_acquire.ClientRequest(scene=1, resourceExpiredHour=1))
+        )
+        cloud_recording_client.logger.info('acquire resource, cname:%s, uid:%s, response:%s', cname, uid, response)
     except exceptions.ClientRequestException as e:
-        cloud_recording_client.logger.error('acquire resource, request_body_obj:%s, err:%s', request_body_obj, e)
+        cloud_recording_client.logger.error('acquire resource, cname:%s, uid:%s, err:%s', cname, uid, e)
         os._exit(1)
 
     resource_id = response.resourceId
 
     # Start recording
     try:
-        request_path_params_obj = api_start.RequestPathParamsApiStart({'mode': mode, 'resource_id': resource_id})
-        request_body_obj = api_start.RequestBodyApiStart({'cname': cname, 'uid': uid, 'clientRequest': {
-            'token': token,
-            'storageConfig': {
-                'region': storage_config_region,
-                'vendor': storage_config_vendor,
-                'bucket': storage_config_bucket,
-                'accessKey': storage_config_access_key,
-                'secretKey': storage_config_secret_key,
-            }
-        }})
-        response = cloud_recording_client.start(request_path_params_obj, request_body_obj)
-        cloud_recording_client.logger.info('start recording, request_path_params_obj:%s, request_body_obj:%s, response:%s', request_path_params_obj, request_body_obj, response)
+        response = cloud_recording_client.start(api_start.RequestPathParamsApiStart(mode=mode, resource_id=resource_id),
+            api_start.RequestBodyApiStart(cname=cname, uid=uid, 
+                clientRequest=api_start.ClientRequest(
+                    storageConfig=api_start.StorageConfig(
+                        region=storage_config_region,
+                        vendor=storage_config_vendor,
+                        bucket=storage_config_bucket,
+                        accessKey=storage_config_access_key,
+                        secretKey=storage_config_secret_key,
+                ), extensionServiceConfig=api_start.ExtensionServiceConfig(
+                        extensionServices=[
+                            api_start.ExtensionServices(
+                                serviceName='web_recorder_service',
+                                serviceParam=api_start.ServiceParam(
+                                    url="https://www.agora.io",
+                                    audioProfile=2,
+                                    videoWidth=1280,
+                                    videoHeight=720,
+                                    maxRecordingHour=1
+                                )
+                            )
+                        ]
+                ))
+            )
+        )
+        cloud_recording_client.logger.info('start recording, resource_id:%s, response:%s', resource_id, response)
     except exceptions.ClientRequestException as e:
-        cloud_recording_client.logger.error('start recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
+        cloud_recording_client.logger.error('start recording, resource_id:%s, err:%s', resource_id, e)
         os._exit(1)
 
     sid = response.sid
 
     # Query recording
     try:
-        request_path_params_obj = api_query.RequestPathParamsApiQuery({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-        response = cloud_recording_client.query(request_path_params_obj)
-        cloud_recording_client.logger.info('query recording, request_path_params_obj:%s, response:%s', request_path_params_obj, response)
+        response = cloud_recording_client.query(api_query.RequestPathParamsApiQuery(mode=mode, resource_id=resource_id, sid=sid))
+        cloud_recording_client.logger.info('query recording, sid:%s, response:%s', sid, response)
     except exceptions.ClientRequestException as e:
-        cloud_recording_client.logger.error('query recording, request_path_params_obj:%s, err:%s', request_path_params_obj, e)
+        cloud_recording_client.logger.error('query recording, sid:%s, err:%s', sid, e)
         os._exit(1)
 
     # Update recording
     try:
-        request_path_params_obj = api_update.RequestPathParamsApiUpdate({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-        request_body_obj = api_update.RequestBodyApiUpdate({'cname': cname, 'uid': uid, 'clientRequest': {
-            'streamSubscribe': {
-                'videoUidList': {
-                    'subscribeVideoUids': [uid]
-                }
-            }
-        }})
-        response = cloud_recording_client.update(request_path_params_obj, request_body_obj)
-        cloud_recording_client.logger.info('update recording, request_path_params_obj:%s, request_body_obj:%s, response:%s', request_path_params_obj, request_body_obj, response)
+        response = cloud_recording_client.update(api_update.RequestPathParamsApiUpdate(mode=mode, resource_id=resource_id, sid=sid),
+            api_update.RequestBodyApiUpdate(cname=cname, uid=uid, clientRequest=api_update.ClientRequest(
+                webRecordingConfig=api_update.WebRecordingConfig(onhold=True)
+            ))
+        )
+        cloud_recording_client.logger.info('update recording, response:%s', response)
     except exceptions.ClientRequestException as e:
-        cloud_recording_client.logger.error('update recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
-        os._exit(1)
-
-    # Update layout recording
-    try:
-        request_path_params_obj = api_update_layout.RequestPathParamsApiUpdateLayout({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-        request_body_obj = api_update_layout.RequestBodyApiUpdateLayout({'cname': cname, 'uid': uid, 'clientRequest': {
-            'mixedVideoLayout': 1
-        }})
-        response = cloud_recording_client.update_layout(request_path_params_obj, request_body_obj)
-        cloud_recording_client.logger.info('update layout recording, request_path_params_obj:%s, request_body_obj:%s, response:%s', request_path_params_obj, request_body_obj, response)
-    except exceptions.ClientRequestException as e:
-        cloud_recording_client.logger.error('update layout recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
+        cloud_recording_client.logger.error('update recording, err:%s', e)
         os._exit(1)
 
     # Stop recording
     try:
-        request_path_params_obj = api_stop.RequestPathParamsApiStop({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-        request_body_obj = api_stop.RequestBodyApiStop({'cname': cname, 'uid': uid, 'clientRequest': {}})
-        response = cloud_recording_client.stop(request_path_params_obj, request_body_obj)
-        cloud_recording_client.logger.info('stop recording, request_path_params_obj:%s, request_body_obj:%s, response:%s', request_path_params_obj, request_body_obj, response)
+        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid), 
+            api_stop.RequestBodyApiStop(cname=cname, uid=uid, clientRequest=api_stop.ClientRequest(async_stop=False))
+        )
+        cloud_recording_client.logger.info('stop recording, response:%s', response)
     except exceptions.ClientRequestException as e:
-        cloud_recording_client.logger.error('stop recording, request_path_params_obj:%s, request_body_obj:%s, err:%s', request_path_params_obj, request_body_obj, e)
+        cloud_recording_client.logger.error('stop recording, err:%s', e)
         os._exit(1)
 
     os._exit(1)

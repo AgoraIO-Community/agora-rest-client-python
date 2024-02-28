@@ -1,4 +1,5 @@
-from agora_rest_client.core import utils
+from agora_rest_client.core import request
+from agora_rest_client.core import response
 
 """
 官方文档: https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/post-v1-apps-appid-cloud_recording-resourceid-resourceid-mode-mode-start
@@ -7,7 +8,7 @@ from agora_rest_client.core import utils
 对于每个声网账号, 每秒钟的请求数限制为 10 次. 如需提高此限制, 请联系技术支持
 """
 
-class ExtensionParams(object):
+class ExtensionParams(request.RequestObject):
     """
     type: required string
     
@@ -24,7 +25,7 @@ class ExtensionParams(object):
     """
     tag = None
 
-class StorageConfig(object):
+class StorageConfig(request.RequestObject):
     """
     type: required number
     
@@ -76,16 +77,18 @@ class StorageConfig(object):
     26 个大写英文字母 A~Z
     10 个数字 0-9
     """
-    fileNamePrefix = []
+    fileNamePrefix = None
 
     """
     type: object
     
-    第三方云存储服务会按照该字段设置对已上传的录制文件进行加密和打标签. 
-    """
-    extensionParams = ExtensionParams()
+    第三方云存储服务会按照该字段设置对已上传的录制文件进行加密和打标签.
 
-class LayoutConfig(object):
+    instance of `ExtensionParams`
+    """
+    extensionParams = None
+
+class LayoutConfig(request.RequestObject):
     """
     type: string
     
@@ -147,7 +150,7 @@ class LayoutConfig(object):
     """
     render_mode = None
 
-class BackgroundConfig(object):
+class BackgroundConfig(request.RequestObject):
     """
     type: required string
     
@@ -174,7 +177,7 @@ class BackgroundConfig(object):
     """
     render_mode = None
 
-class TranscodingConfig(object):
+class TranscodingConfig(request.RequestObject):
     """
     type: required number
     
@@ -262,18 +265,22 @@ class TranscodingConfig(object):
     type: array[object]
     
     用户的合流画面布局. 由每个用户对应的布局画面设置组成的数组, 支持最多 17 个用户. 
-    注意: 仅需在自定义布局下设置. 
+    注意: 仅需在自定义布局下设置.
+
+    instance of `LayoutConfig`
     """
-    layoutConfig = [LayoutConfig()]
+    layoutConfig = None
 
     """
     type: array[object]
     
-    用户的背景图设置. 
-    """
-    backgroundConfig = [BackgroundConfig()]
+    用户的背景图设置.
 
-class RecordingConfig(object):
+    instance of `BackgroundConfig`
+    """
+    backgroundConfig = None
+
+class RecordingConfig(request.RequestObject):
     """
     type: required number
     
@@ -359,16 +366,16 @@ class RecordingConfig(object):
     注意: 
     该字段仅适用于 streamTypes 设为音频, 或音频和视频的情况. 
     如果你设置了音频的订阅名单, 但没有设置视频的订阅名单, 云端录制服务不会订阅任何视频流. 反之亦然. 
-    设为 ["#allstream#"]` 可订阅频道内所有 UID 的音频流. 
+    设为 ["#allstream#"]` 可订阅频道内所有 UID 的音频流.
     """
-    subscribeAudioUids = []
+    subscribeAudioUids = None
 
     """
     type: array[string]
     
     指定不订阅哪几个 UID 的音频流. 云端录制会订阅频道内除指定 UID 外所有 UID 的音频流. 数组长度不得超过 32, 不推荐使用空数组. 该字段和 subscribeAudioUids 只能设一个. 详见设置订阅名单. 
     """
-    unsubscribeAudioUids = []
+    unsubscribeAudioUids = None
 
     """
     type: array[string]
@@ -379,14 +386,14 @@ class RecordingConfig(object):
     如果你设置了视频的订阅名单, 但没有设置音频的订阅名单, 云端录制服务不会订阅任何音频流. 反之亦然. 
     设为 ["#allstream#"] 可订阅频道内所有 UID 的视频流. 
     """
-    subscribeVideoUids = []
+    subscribeVideoUids = None
 
     """
     type: array[string]
     
     指定不订阅哪几个 UID 的视频流. 云端录制会订阅频道内除指定 UID 外所有 UID 的视频流. 数组长度不得超过 32, 不推荐使用空数组. 该字段和 subscribeVideoUids 只能设一个. 详见设置订阅名单. 
     """
-    unsubscribeVideoUids = []
+    unsubscribeVideoUids = None
 
     """
     type: number
@@ -438,11 +445,13 @@ class RecordingConfig(object):
     
     转码输出的视频配置项. 取值可参考设置录制输出视频的分辨率. 
     
-    注意: 仅需在单流录制和合流录制模式下设置. 
-    """
-    transcodingConfig = TranscodingConfig()
+    注意: 仅需在单流录制和合流录制模式下设置.
 
-class RecordingFileConfig(object):
+    instance of `TranscodingConfig`
+    """
+    transcodingConfig = None
+
+class RecordingFileConfig(request.RequestObject):
     """
     type: array[string]
     
@@ -456,9 +465,9 @@ class RecordingFileConfig(object):
         合流录制模式: 录制服务会在当前 MP4 文件时长超过约 2 小时或文件大小超过约 2 GB 左右时, 创建一个新的 MP4 文件. 
         页面录制模式: 录制服务会在当前 MP4 文件时长超过 maxVideoDuration 时, 创建一个新的 MP4 文件. 
     """
-    avFileType = []
+    avFileType = None
 
-class SnapshotConfig(object):
+class SnapshotConfig(request.RequestObject):
     """
     type: number
     
@@ -474,9 +483,9 @@ class SnapshotConfig(object):
     
     截图的文件格式. 目前只支持 ["jpg"], 即生成 JPG 格式的截图文件. 
     """
-    fileType = []
+    fileType = None
 
-class ServiceParam(object):
+class ServiceParam(request.RequestObject):
     """
     type: required string
     
@@ -586,7 +595,7 @@ class ServiceParam(object):
     """
     readyTimeout = None
 
-class ExtensionServices(object):
+class ExtensionServices(request.RequestObject):
     """
     type: required string
     
@@ -612,10 +621,12 @@ class ExtensionServices(object):
     type: required object
     
     页面录制时需设置如下字段
-    """
-    serviceParam = ServiceParam()
 
-class ExtensionServiceConfig(object):
+    instance of `ServiceParam`
+    """
+    serviceParam = None
+
+class ExtensionServiceConfig(request.RequestObject):
     """
     type: string
     
@@ -627,10 +638,12 @@ class ExtensionServiceConfig(object):
 
     """
     type: required array[object]
-    """
-    extensionServices = [ExtensionServices()]
 
-class AppsCollection(object):
+    instance of `ExtensionServices`
+    """
+    extensionServices = None
+
+class AppsCollection(request.RequestObject):
     """
     type: string
 
@@ -642,7 +655,7 @@ class AppsCollection(object):
     """
     combinationPolicy = None
 
-class TransConfig(object):
+class TransConfig(request.RequestObject):
     """
     type: required string
 
@@ -652,7 +665,7 @@ class TransConfig(object):
     """
     transMode = None
 
-class Container(object):
+class Container(request.RequestObject):
     """
     type: string
 
@@ -666,7 +679,7 @@ class Container(object):
     """
     format = None
 
-class Audio(object):
+class Audio(request.RequestObject):
     """
     type: string
 
@@ -699,27 +712,33 @@ class Audio(object):
     """
     channels = None
 
-class TranscodeOptions(object):
+class TranscodeOptions(request.RequestObject):
     """
     type: required object
+
+    instance of `TransConfig`
     """
-    transConfig = TransConfig()
+    transConfig = None
 
     """
     type: object
+
+    instance of `Container`
     """
-    container = Container()
+    container = None
 
     """
     type: object
 
     文件的音频属性. 
 
-    注意: 仅需在单流录制模式下, 且开启延时混音时设置. 
+    注意: 仅需在单流录制模式下, 且开启延时混音时设置.
+
+    instance of `Audio`
     """
     audio = Audio()
 
-class ClientRequest(object):
+class ClientRequest(request.RequestObject):
     """
     type: string
     
@@ -733,17 +752,21 @@ class ClientRequest(object):
     """
     type: required object
     
-    第三方云存储的配置项. 
+    第三方云存储的配置项.
+
+    instance of `StorageConfig`
     """
-    storageConfig = StorageConfig()
+    storageConfig = None
 
     """
     type: object
     
     录制的音视频流配置项. 
-    注意: 仅需在单流录制和合流录制模式下设置. 
+    注意: 仅需在单流录制和合流录制模式下设置.
+
+    instance of `RecordingConfig`
     """
-    recordingConfig = RecordingConfig()
+    recordingConfig = None
 
     """
     type: object
@@ -752,9 +775,11 @@ class ClientRequest(object):
     注意: 仅截图时不可设置该字段, 其他情况都需要设置该字段. 其他情况包含如下: 
     单流录制模式下, 不转码录制, 转码录制, 或同时录制和截图. 
     合流录制. 
-    页面录制模式下, 仅页面录制, 或同时页面录制和转推到 CDN. 
+    页面录制模式下, 仅页面录制, 或同时页面录制和转推到 CDN.
+
+    instance of `RecordingFileConfig`
     """
-    recordingFileConfig = RecordingFileConfig()
+    recordingFileConfig = None
 
     """
     type: object
@@ -765,35 +790,43 @@ class ClientRequest(object):
     截图功能仅适用于单流录制模式(individual). 
     你可以在一个单流录制进程中仅截图, 或同时录制和截图, 详见视频截图. 同时录制和截图的情况需要设置 recordingFileConfig 字段. 
     如果录制服务或录制上传服务异常, 则截图失败. 截图异常时, 录制不受影响. 
-    使用截图时, streamTypes 必须设置为 1 或 2. 如果设置了 subscribeAudioUid, 则必须同时设置 subscribeVideoUids. 
+    使用截图时, streamTypes 必须设置为 1 或 2. 如果设置了 subscribeAudioUid, 则必须同时设置 subscribeVideoUids.
+
+    instance of `SnapshotConfig`
     """
-    snapshotConfig = SnapshotConfig()
+    snapshotConfig = None
 
     """
     type: object
     
     扩展服务配置项. 
-    注意: 仅需在页面录制模式下设置. 
+    注意: 仅需在页面录制模式下设置.
+
+    instance of `ExtensionServiceConfig`
     """
-    extensionServiceConfig = ExtensionServiceConfig()
+    extensionServiceConfig = None
 
     """
     type: object
 
     应用配置项. 
-    注意: 仅需在单流录制模式下, 且开启延时转码或延时混音时设置. 
+    注意: 仅需在单流录制模式下, 且开启延时转码或延时混音时设置.
+
+    instance of `AppsCollection`
     """
-    appsCollection = AppsCollection()
+    appsCollection = None
 
     """
     type: object
 
     延时转码或延时混音下, 生成的录制文件的配置项. 
-    注意: 仅需在单流录制模式下, 且开启延时转码或延时混音时设置. 
-    """
-    transcodeOptions = TranscodeOptions()
+    注意: 仅需在单流录制模式下, 且开启延时转码或延时混音时设置.
 
-class RequestPathParamsApiStart(object):
+    instance of `TranscodeOptions`
+    """
+    transcodeOptions = None
+
+class RequestPathParamsApiStart(request.RequestObject):
     """
     type: required string
     
@@ -811,13 +844,7 @@ class RequestPathParamsApiStart(object):
     """
     resource_id = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class RequestBodyApiStart(object):
+class RequestBodyApiStart(request.RequestObject):
     """
     type: required string
     
@@ -834,16 +861,12 @@ class RequestBodyApiStart(object):
 
     """
     type: required object
+
+    instance of `ClientRequest`
     """
-    clientRequest = ClientRequest()
+    clientRequest = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class ResponseApiStart(object):
+class ResponseApiStart(response.RequestObject):
     """
     type: string
 
@@ -871,25 +894,18 @@ class ResponseApiStart(object):
     录制 ID. 成功开始云端录制后, 你会得到一个 Sid (录制 ID). 该 ID 是一次录制周期的唯一标识. 
     """
     sid = None
-    
-    def __init__(self, d):
-        self.__dict__.update(d)
 
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-def api_start(client, request_path_params_obj, request_body_obj, response_type, response_obj=ResponseApiStart):
+def api_start(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiStart):
     """
     Start recording
 
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestPathParamsApiStart
     :param request_body_obj: request object RequestBodyApiStart
-    :param response_type: response type, `agora_rest_client.core.response.ResponseType`
-    :param response_obj: response object
+    :param response_obj: request object ResponseApiStart
     :return: response object ResponseApiStart
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/mode/{}/start'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=utils.to_json(request_body_obj), response_type=response_type, response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)

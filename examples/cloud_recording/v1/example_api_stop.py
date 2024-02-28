@@ -2,9 +2,8 @@ import logging
 import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
+from agora_rest_client.services.cloud_recording.v1 import api_stop
 from agora_rest_client.services.cloud_recording.v1.api import Mode
-from agora_rest_client.services.cloud_recording.v1.api_stop import RequestBodyApiStop
-from agora_rest_client.services.cloud_recording.v1.api_stop import RequestPathParamsApiStop
 from agora_rest_client.services.cloud_recording.v1.cloud_recording_client import CloudRecordingClient
 
 if __name__ == '__main__':
@@ -19,7 +18,7 @@ if __name__ == '__main__':
     basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
 
     # 录制模式
-    mode = Mode.INDIVIDUAL.value
+    mode = Mode.WEB.value
     # 通过 acquire 请求获取到的 Resource ID
     resource_id = 'resource_id_xxx'
     # 通过 start 获取的录制 ID
@@ -28,8 +27,6 @@ if __name__ == '__main__':
     cname = 'cname_xxx'
     # 字符串内容为云端录制服务在 RTC 频道内使用的 UID, 用于标识频道内的录制服务
     uid = '123456'
-    # 请求对象
-    clientRequest = {'async_stop': False}
 
     # 创建服务客户端
     cloud_recording_client = CloudRecordingClient \
@@ -43,9 +40,9 @@ if __name__ == '__main__':
     
     # 发送请求并获取响应
     try:
-        request_path_params_obj = RequestPathParamsApiStop({'mode': mode, 'resource_id': resource_id, 'sid': sid})
-        request_body_obj = RequestBodyApiStop({'cname': cname, 'uid': uid, 'clientRequest': clientRequest})
-        response = cloud_recording_client.stop(request_path_params_obj, request_body_obj)
+        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid), 
+            api_stop.RequestBodyApiStop(cname=cname, uid=uid, clientRequest=api_stop.ClientRequest(async_stop=False))
+        )
         print(response)
     except exceptions.ClientRequestException as e:
         print(e.status_code)

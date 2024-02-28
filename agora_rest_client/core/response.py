@@ -1,7 +1,8 @@
-from enum import Enum
+from agora_rest_client.core.request import RequestObject
 
-# Response type
-class ResponseType(Enum):
-    JSON = 'json'
-    OBJECT = 'object'
-    TEXT = 'text'
+class ResponseObject(RequestObject):
+    """
+    Response object
+    """
+
+    pass

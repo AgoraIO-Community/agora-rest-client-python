@@ -2,8 +2,7 @@ import logging
 import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
-from agora_rest_client.services.cloud_recording.v1.web_recording.api_update import RequestBodyApiUpdate
-from agora_rest_client.services.cloud_recording.v1.web_recording.api_update import RequestPathParamsApiUpdate
+from agora_rest_client.services.cloud_recording.v1.web_recording import api_update
 from agora_rest_client.services.cloud_recording.v1.web_recording.web_recording_client import WebRecordingClient
 
 if __name__ == '__main__':
@@ -38,7 +37,7 @@ if __name__ == '__main__':
     
     # 发送请求并获取响应
     try:
-        response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config={'onhold': True})
+        response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config=api_update.WebRecordingConfig(onhold=True))
         print(response)
     except exceptions.ClientRequestException as e:
         print(e.status_code)

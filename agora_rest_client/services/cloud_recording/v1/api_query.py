@@ -1,3 +1,6 @@
+from agora_rest_client.core import request
+from agora_rest_client.core import response
+
 """
 官方文档: https://doc.shengwang.cn/api-ref/cloud-recording/restful/cloud-recording/operations/get-v1-apps-appid-cloud_recording-resourceid-resourceid-sid-sid-mode-mode-query
 开始录制后, 你可以调用 query 方法查询录制状态. 
@@ -5,7 +8,7 @@
 query 请求仅在会话内有效. 如果录制启动错误, 或录制已结束, 调用 query 将返回 404. 
 """
 
-class FileList(object):
+class FileList(response.ResponseObject):
     """
     type: string
     
@@ -19,12 +22,14 @@ class FileList(object):
     该文件的录制开始时间, Unix 时间戳, 单位为毫秒. 
     """
     sliceStartTime = None
-    
-class Payload(object):
+
+class Payload(response.ResponseObject):
     """
     type: array[object]
+
+    instance of `FileList`
     """
-    fileList = [FileList()]
+    fileList = None
 
     """
     type: boolean
@@ -43,13 +48,15 @@ class Payload(object):
     """
     state = None
     
-class ExtensionServiceState(object):
+class ExtensionServiceState(response.ResponseObject):
     """
     type: object
     
     页面录制时会返回如下字段
+
+    instance of `Payload`
     """
-    payload = Payload()
+    payload = None
 
     """
     type: string
@@ -60,7 +67,7 @@ class ExtensionServiceState(object):
     """
     serviceName = None
 
-class ServerResponse(object):
+class ServerResponse(response.ResponseObject):
     """
     type: number
     
@@ -80,10 +87,12 @@ class ServerResponse(object):
 
     """
     type: array[object]
-    """
-    extensionServiceState = [ExtensionServiceState()]
 
-class RequestPathParamsApiQuery(object):
+    instance of `ExtensionServiceState`
+    """
+    extensionServiceState = None
+
+class RequestPathParamsApiQuery(request.RequestObject):
     """
     type: required string
     
@@ -108,13 +117,7 @@ class RequestPathParamsApiQuery(object):
     """
     sid = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-class ResponseApiQuery(object):
+class ResponseApiQuery(response.ResponseObject):
     """
     type: string
     
@@ -132,9 +135,11 @@ class ResponseApiQuery(object):
     """
     type: object
     
-    页面录制模式下会返回的字段. 
+    页面录制模式下会返回的字段.
+
+    instance of `ServerResponse`
     """
-    serverResponse = ServerResponse()
+    serverResponse = None
 
     """
     type: string
@@ -150,23 +155,16 @@ class ResponseApiQuery(object):
     """
     uid = None
 
-    def __init__(self, d):
-        self.__dict__.update(d)
-
-    def __str__(self):
-        return ",".join(["{}={}".format(k, v) for k, v in self.__dict__.items()])
-
-def api_query(client, request_path_params_obj, response_type, response_obj=ResponseApiQuery):
+def api_query(client, request_path_params_obj, response_obj=ResponseApiQuery):
     """
     Query the recording status
     
     :param client: CloudRecordingClient object
     :param request_path_params_obj: request object RequestApiQuery
-    :param response_type: response type, `agora_rest_client.core.response.ResponseType`
-    :param response_obj: response object
+    :param response_obj: request object ResponseApiQuery
     :return: response object ResponseApiQuery
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/query'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('GET', url, response_type=response_type, response_obj=response_obj)
+    return client.call_api('GET', url, response_obj=response_obj)

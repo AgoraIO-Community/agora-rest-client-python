@@ -21,20 +21,20 @@ class CloudRecordingClient(Client):
     def new_builder():
         return CloudRecordingClient()
 
-    def acquire(self, request_body_obj, response_type=response.ResponseType.OBJECT.value):
-        return api_acquire(self, request_body_obj, response_type=response_type)
+    def acquire(self, request_body_obj):
+        return api_acquire(self, request_body_obj)
 
-    def query(self, request_path_params_obj, response_type=response.ResponseType.OBJECT.value):
-        return api_query(self, request_path_params_obj, response_type=response_type)
+    def query(self, request_path_params_obj):
+        return api_query(self, request_path_params_obj)
 
-    def start(self, request_path_params_obj, request_body_obj, response_type=response.ResponseType.OBJECT.value):
-        return api_start(self, request_path_params_obj, request_body_obj, response_type=response_type)
+    def start(self, request_path_params_obj, request_body_obj):
+        return api_start(self, request_path_params_obj, request_body_obj)
 
-    def stop(self, request_path_params_obj, request_body_obj, response_type=response.ResponseType.OBJECT.value):
-        return api_stop(self, request_path_params_obj, request_body_obj, response_type=response_type)
+    def stop(self, request_path_params_obj, request_body_obj):
+        return api_stop(self, request_path_params_obj, request_body_obj)
 
-    def update(self, request_path_params_obj, request_body_obj, response_type=response.ResponseType.OBJECT.value):
-        return api_update(self, request_path_params_obj, request_body_obj, response_type=response_type)
+    def update(self, request_path_params_obj, request_body_obj):
+        return api_update(self, request_path_params_obj, request_body_obj)
 
-    def update_layout(self, request_path_params_obj, request_body_obj, response_type=response.ResponseType.OBJECT.value):
-        return api_update_layout(self, request_path_params_obj, request_body_obj, response_type=response_type)
+    def update_layout(self, request_path_params_obj, request_body_obj):
+        return api_update_layout(self, request_path_params_obj, request_body_obj)

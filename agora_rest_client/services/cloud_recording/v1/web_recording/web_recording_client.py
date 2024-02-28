@@ -17,17 +17,17 @@ class WebRecordingClient(CloudRecordingClient):
     def new_builder():
         return WebRecordingClient()
 
-    def acquire(self, cname, uid, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0, response_type=response.ResponseType.OBJECT.value):
-        return web_recording_acquire(self, cname, uid, resource_expired_hour=resource_expired_hour, exclude_resource_ids=exclude_resource_ids, region_affinity=region_affinity, response_type=response_type)
+    def acquire(self, cname, uid, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
+        return web_recording_acquire(self, cname, uid, resource_expired_hour=resource_expired_hour, exclude_resource_ids=exclude_resource_ids, region_affinity=region_affinity)
 
-    def query(self, resource_id, sid, response_type=response.ResponseType.OBJECT.value):
-        return web_recording_query(self, resource_id, sid, response_type=response_type)
+    def query(self, resource_id, sid):
+        return web_recording_query(self, resource_id, sid)
 
-    def start(self, resource_id, cname, uid, storageConfig, extensionServiceConfig, response_type=response.ResponseType.OBJECT.value):
-        return web_recording_start(self, resource_id, cname, uid, storageConfig, extensionServiceConfig, response_type=response_type)
+    def start(self, resource_id, cname, uid, storageConfig, extensionServiceConfig):
+        return web_recording_start(self, resource_id, cname, uid, storageConfig, extensionServiceConfig)
 
-    def stop(self, resource_id, sid, cname, uid, async_stop=False, response_type=response.ResponseType.OBJECT.value):
-        return web_recording_stop(self, resource_id, sid, cname, uid, async_stop=async_stop, response_type=response_type)
+    def stop(self, resource_id, sid, cname, uid, async_stop=False):
+        return web_recording_stop(self, resource_id, sid, cname, uid, async_stop=async_stop)
 
-    def update(self, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None, response_type=response.ResponseType.OBJECT.value):
-        return web_recording_update(self, resource_id, sid, cname, uid, web_recording_config=web_recording_config, rtmp_publish_config=rtmp_publish_config, response_type=response_type)
+    def update(self, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None):
+        return web_recording_update(self, resource_id, sid, cname, uid, web_recording_config=web_recording_config, rtmp_publish_config=rtmp_publish_config)
