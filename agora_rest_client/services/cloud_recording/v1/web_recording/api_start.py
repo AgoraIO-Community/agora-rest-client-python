@@ -42,7 +42,7 @@ class RequestBodyApiStart(api_start.RequestBodyApiStart):
 class ResponseApiStart(api_start.ResponseApiStart):
     pass
 
-def web_recording_start(client, resource_id, cname, uid, storageConfig, extensionServiceConfig):
+def web_recording_start(client, resource_id, cname, uid, storage_config, extension_service_config):
     """
     Web recording start
 
@@ -50,8 +50,8 @@ def web_recording_start(client, resource_id, cname, uid, storageConfig, extensio
     :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
     :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
     :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
-    :param storageConfig: storage config, `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
-    :param extensionServiceConfig: extension service config, `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
+    :param storage_config: storage config, `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
+    :param extension_service_config: extension service config, `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
     :return: response object ResponseApiStart
     """
     request_path_params_obj = RequestPathParamsApiStart(
@@ -63,11 +63,11 @@ def web_recording_start(client, resource_id, cname, uid, storageConfig, extensio
         cname=cname,
         uid=uid,
         clientRequest=ClientRequest(
-            storageConfig=storageConfig,
+            storageConfig=storage_config,
             recordingFileConfig=RecordingFileConfig(
                 avFileType=['hls', 'mp4']
             ),
-            extensionServiceConfig=extensionServiceConfig
+            extensionServiceConfig=extension_service_config
         )
     )
 

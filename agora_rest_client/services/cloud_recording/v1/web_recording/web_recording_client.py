@@ -23,8 +23,8 @@ class WebRecordingClient(CloudRecordingClient):
     def query(self, resource_id, sid):
         return web_recording_query(self, resource_id, sid)
 
-    def start(self, resource_id, cname, uid, storageConfig, extensionServiceConfig):
-        return web_recording_start(self, resource_id, cname, uid, storageConfig, extensionServiceConfig)
+    def start(self, resource_id, cname, uid, storage_config, extension_service_config):
+        return web_recording_start(self, resource_id, cname, uid, storage_config, extension_service_config)
 
     def stop(self, resource_id, sid, cname, uid, async_stop=False):
         return web_recording_stop(self, resource_id, sid, cname, uid, async_stop=async_stop)
