@@ -78,7 +78,7 @@ class IndividualRecordingClient(CloudRecordingClient):
         """
         Individual recording start
         开始云端录制
-
+        
         :type client: object
         :param client: IndividualRecordingClientgClient object
         
@@ -109,19 +109,23 @@ class IndividualRecordingClient(CloudRecordingClient):
         :type snapshot_type: int
         :param snapshot_type: 视频截图类型
         :refer: `agora_rest_client.services.cloud_recording.v1.api.SnapshotType`
-        
+        :value: enum of `agora_rest_client.services.cloud_recording.v1.api.SnapshotType`
+
         :type snapshot_config: object
         :param snapshot_config: snapshot config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.SnapshotConfig`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.SnapshotConfig`
+
         :type apps_collection: object
         :param apps_collection: apps collection
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.AppsCollection`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.AppsCollection`
+
         :type transcode_options: object
         :param transcode_options: transcode options
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.TranscodeOptions`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.TranscodeOptions`
+
         :return: response object ResponseApiStart
         """
         return individual_recording_start(self, resource_id, cname, uid, token, storage_config, recording_config=recording_config, 
@@ -186,7 +190,8 @@ class IndividualRecordingClient(CloudRecordingClient):
         :type stream_subscribe: object
         :param stream_subscribe: stream subscribe
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_update.StreamSubscribe`
+
         :return: response object ResponseApiUpdate
         """
         return individual_recording_update(self, resource_id, sid, cname, uid, stream_subscribe=stream_subscribe)

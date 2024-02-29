@@ -247,13 +247,16 @@ def api_update_layout(client, request_path_params_obj, request_body_obj, respons
     :param client: CloudRecordingClient object
 
     :type request_path_params_obj: object
-    :param request_path_params_obj: request object RequestPathParamsApiUpdateLayout
+    :param request_path_params_obj: request path params object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdateLayout`
 
     :type request_body_obj: object
-    :param request_body_obj: request object RequestBodyApiUpdateLayout
+    :param request_body_obj: request body object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdateLayout`
 
     :type response_obj: object
-    :param response_obj: request object ResponseApiUpdateLayout
+    :param response_obj: response object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.ResponseApiUpdateLayout`
 
     :return: response object ResponseApiUpdateLayout
     """

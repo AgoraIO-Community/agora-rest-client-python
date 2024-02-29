@@ -1,5 +1,6 @@
 from agora_rest_client.core import request
 from agora_rest_client.services.cloud_recording.v1 import api_start
+from agora_rest_client.services.cloud_recording.v1.api import AvFileType
 from agora_rest_client.services.cloud_recording.v1.api import Mode
 from agora_rest_client.services.cloud_recording.v1.api import SnapshotType
 
@@ -29,37 +30,37 @@ class ClientRequest(request.RequestObject):
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.storageConfig`
-    :value: instance of `StorageConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.StorageConfig`
     """
     storageConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingConfig`
-    :value: instance of `RecordingConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.RecordingConfig`
     """
     recordingConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingFileConfig`
-    :value: instance of `RecordingFileConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.RecordingFileConfig`
     """
     recordingFileConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.snapshotConfig`
-    :value: instance of `SnapshotConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.SnapshotConfig`
     """
     snapshotConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.appsCollection`
-    :value: instance of `AppsCollection`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.AppsCollection`
     """
     appsCollection = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.transcodeOptions`
-    :value: instance of `TranscodeOptions`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.TranscodeOptions`
     """
     transcodeOptions = None
 
@@ -108,19 +109,23 @@ def individual_recording_start(client, resource_id, cname, uid, token, storage_c
     :type snapshot_type: int
     :param snapshot_type: 视频截图类型
     :refer: `agora_rest_client.services.cloud_recording.v1.api.SnapshotType`
-    
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.SnapshotType`
+
     :type snapshot_config: object
     :param snapshot_config: snapshot config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.SnapshotConfig`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.SnapshotConfig`
+
     :type apps_collection: object
     :param apps_collection: apps collection
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.AppsCollection`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.AppsCollection`
+
     :type transcode_options: object
     :param transcode_options: transcode options
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.TranscodeOptions`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.TranscodeOptions`
+
     :return: response object ResponseApiStart
     """
     request_path_params_obj = RequestPathParamsApiStart(
@@ -142,7 +147,7 @@ def individual_recording_start(client, resource_id, cname, uid, token, storage_c
 
     if snapshot_type is SnapshotType.SNAPSHOT_AND_RECORDING.value:
         request_body_obj.clientRequest.recordingFileConfig = RecordingFileConfig(
-            avFileType=['hls']
+            avFileType=[AvFileType.HLS.value]
         )
 
     if snapshot_config is not None:

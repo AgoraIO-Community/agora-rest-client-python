@@ -36,13 +36,13 @@ class ClientRequest(request.RequestObject):
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.layoutConfig`
-    :value: instance of `LayoutConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.LayoutConfig`
     """
     layoutConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundConfig`
-    :value: instance of `BackgroundConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.BackgroundConfig`
     """
     backgroundConfig = None
 
@@ -103,11 +103,13 @@ def mix_recording_update_layout(client, resource_id, sid, cname, uid, max_resolu
     :type layout_config: object
     :param layout_config: layout config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.LayoutConfig`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.LayoutConfig`
+
     :type background_config: object
     :param background_config: background config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.BackgroundConfig`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.BackgroundConfig`
+
     :return: response object ResponseApiUpdate
     """
     request_path_params_obj = RequestPathParamsApiUpdateLayout(

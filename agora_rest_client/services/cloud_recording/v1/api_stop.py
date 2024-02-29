@@ -153,13 +153,16 @@ def api_stop(client, request_path_params_obj, request_body_obj, response_obj=Res
     :param client: CloudRecordingClient object
 
     :type request_path_params_obj: object
-    :param request_path_params_obj: request object RequestPathParamsApiStop
+    :param request_path_params_obj: request path params object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop`
 
     :type request_body_obj: object
-    :param request_body_obj: request object RequestBodyApiStop
+    :param request_body_obj: request body object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop`
 
     :type response_obj: object
-    :param response_obj: request object ResponseApiStop
+    :param response_obj: response object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.ResponseApiStop`
 
     :return: response object ResponseApiStop
     """

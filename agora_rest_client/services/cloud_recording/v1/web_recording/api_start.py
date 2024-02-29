@@ -1,5 +1,6 @@
 from agora_rest_client.core import request
 from agora_rest_client.services.cloud_recording.v1 import api_start
+from agora_rest_client.services.cloud_recording.v1.api import AvFileType
 from agora_rest_client.services.cloud_recording.v1.api import Mode
 
 class StorageConfig(api_start.StorageConfig):
@@ -20,19 +21,19 @@ class ServiceParam(api_start.ServiceParam):
 class ClientRequest(request.RequestObject):
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.storageConfig`
-    :value: instance of `StorageConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_start.StorageConfig`
     """
     storageConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingFileConfig`
-    :value: instance of `RecordingFileConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_start.RecordingFileConfig`
     """
     recordingFileConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.extensionServiceConfig`
-    :value: instance of `ExtensionServiceConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_start.ExtensionServiceConfig`
     """
     extensionServiceConfig = None
 
@@ -68,11 +69,13 @@ def web_recording_start(client, resource_id, cname, uid, storage_config, extensi
     :type storage_config: object
     :param storage_config: storage config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_start.StorageConfig`
+
     :type extension_service_config: object
     :param extension_service_config: extension service config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_start.ExtensionServiceConfig`
+
     :return: response object ResponseApiStart
     """
     request_path_params_obj = RequestPathParamsApiStart(
@@ -86,7 +89,7 @@ def web_recording_start(client, resource_id, cname, uid, storage_config, extensi
         clientRequest=ClientRequest(
             storageConfig=storage_config,
             recordingFileConfig=RecordingFileConfig(
-                avFileType=['hls', 'mp4']
+                avFileType=[AvFileType.HLS.value, AvFileType.MP4.value]
             ),
             extensionServiceConfig=extension_service_config
         )

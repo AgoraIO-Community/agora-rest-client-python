@@ -121,11 +121,13 @@ def api_acquire(client, request_body_obj, response_obj=ResponseApiAcquire):
     :param client: CloudRecordingClient object
 
     :type request_body_obj: object
-    :param request_body_obj: request object RequestBodyApiAcquire
+    :param request_body_obj: request body object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_acquire.RequestBodyApiAcquire`
 
     :type response_obj: object
-    :param response_obj: request object ResponseApiAcquire
-    
+    :param response_obj: response object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_acquire.ResponseApiAcquire`
+
     :return: response object ResponseApiAcquire
     """
     url = '/v1/apps/{}/cloud_recording/acquire'.format(client.app_id)

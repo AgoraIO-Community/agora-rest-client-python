@@ -14,7 +14,7 @@ class StreamSubscribe(api_update.StreamSubscribe):
 class ClientRequest(request.RequestObject):
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.ClientRequest.streamSubscribe`
-    :value: instance of `StreamSubscribe`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update.StreamSubscribe`
     """
     streamSubscribe = None
 
@@ -54,7 +54,8 @@ def mix_recording_update(client, resource_id, sid, cname, uid, stream_subscribe=
     :type stream_subscribe: object
     :param stream_subscribe: stream subscribe
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update.StreamSubscribe`
+
     :return: response object ResponseApiUpdate
     """
     request_path_params_obj = RequestPathParamsApiUpdate(

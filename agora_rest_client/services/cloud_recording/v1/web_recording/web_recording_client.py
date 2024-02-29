@@ -91,11 +91,13 @@ class WebRecordingClient(CloudRecordingClient):
         :type storage_config: object
         :param storage_config: storage config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_start.StorageConfig`
+
         :type extension_service_config: object
         :param extension_service_config: extension service config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_start.ExtensionServiceConfig`
+
         :return: response object ResponseApiStart
         """
         return web_recording_start(self, resource_id, cname, uid, storage_config, extension_service_config)
@@ -159,10 +161,12 @@ class WebRecordingClient(CloudRecordingClient):
         :type web_recording_config: object
         :param web_recording_config: web recording config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_update.WebRecordingConfig`
+
         :type rtmp_publish_config: object
         :param rtmp_publish_config: rtmp publish config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_update.RtmpPublishConfig`
 
         :return: response object ResponseApiUpdate
         """

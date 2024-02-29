@@ -904,13 +904,16 @@ def api_start(client, request_path_params_obj, request_body_obj, response_obj=Re
     :param client: CloudRecordingClient object
 
     :type request_path_params_obj: object
-    :param request_path_params_obj: request object RequestPathParamsApiStart
+    :param request_path_params_obj: request path params object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart`
 
     :type request_body_obj: object
-    :param request_body_obj: request object RequestBodyApiStart
+    :param request_body_obj: request body object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart`
 
     :type response_obj: object
-    :param response_obj: request object ResponseApiStart
+    :param response_obj: response object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ResponseApiStart`
 
     :return: response object ResponseApiStart
     """

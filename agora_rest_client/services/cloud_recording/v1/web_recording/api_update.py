@@ -11,13 +11,13 @@ class RtmpPublishConfig(api_update.RtmpPublishConfig):
 class ClientRequest(request.RequestObject):
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.ClientRequest.webRecordingConfig`
-    :value: instance of `WebRecordingConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_update.WebRecordingConfig`
     """
     webRecordingConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.ClientRequest.rtmpPublishConfig`
-    :value: instance of `RtmpPublishConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_update.RtmpPublishConfig`
     """
     rtmpPublishConfig = None
 
@@ -57,10 +57,12 @@ def web_recording_update(client, resource_id, sid, cname, uid, web_recording_con
     :type web_recording_config: object
     :param web_recording_config: web recording config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_update.WebRecordingConfig`
+
     :type rtmp_publish_config: object
     :param rtmp_publish_config: rtmp publish config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_update.RtmpPublishConfig`
 
     :return: response object ResponseApiUpdate
     """

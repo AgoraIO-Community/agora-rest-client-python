@@ -30,11 +30,13 @@ class CloudRecordingClient(Client):
         :param client: CloudRecordingClient object
 
         :type request_body_obj: object
-        :param request_body_obj: request object RequestBodyApiAcquire
+        :param request_body_obj: request body object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_acquire.RequestBodyApiAcquire`
 
         :type response_obj: object
-        :param response_obj: request object ResponseApiAcquire
-        
+        :param response_obj: response object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_acquire.ResponseApiAcquire`
+
         :return: response object ResponseApiAcquire
         """
         return api_acquire(self, request_body_obj)
@@ -43,16 +45,18 @@ class CloudRecordingClient(Client):
         """
         Query the recording status
         查询云端录制状态
-
+        
         :type client: object
         :param client: CloudRecordingClient object
 
         :type request_path_params_obj: object
-        :param request_path_params_obj: request object RequestApiQuery
+        :param request_path_params_obj: request path params object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery`
 
         :type response_obj: object
-        :param response_obj: request object ResponseApiQuery
-        
+        :param response_obj: response object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.ResponseApiQuery`
+
         :return: response object ResponseApiQuery
         """
         return api_query(self, request_path_params_obj)
@@ -61,18 +65,21 @@ class CloudRecordingClient(Client):
         """
         Start recording
         开始云端录制
-
+        
         :type client: object
         :param client: CloudRecordingClient object
 
         :type request_path_params_obj: object
-        :param request_path_params_obj: request object RequestPathParamsApiStart
+        :param request_path_params_obj: request path params object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart`
 
         :type request_body_obj: object
-        :param request_body_obj: request object RequestBodyApiStart
+        :param request_body_obj: request body object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart`
 
         :type response_obj: object
-        :param response_obj: request object ResponseApiStart
+        :param response_obj: response object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ResponseApiStart`
 
         :return: response object ResponseApiStart
         """
@@ -82,19 +89,22 @@ class CloudRecordingClient(Client):
         """
         Stop recording
         停止云端录制
-
+        
         :type client: object
         :param client: CloudRecordingClient object
 
         :type request_path_params_obj: object
-        :param request_path_params_obj: request object RequestPathParamsApiStop
+        :param request_path_params_obj: request path params object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop`
 
         :type request_body_obj: object
-        :param request_body_obj: request object RequestBodyApiStop
+        :param request_body_obj: request body object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop`
 
         :type response_obj: object
-        :param response_obj: request object ResponseApiStop
-        
+        :param response_obj: response object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.ResponseApiStop`
+
         :return: response object ResponseApiStop
         """
         return api_stop(self, request_path_params_obj, request_body_obj)
@@ -103,19 +113,22 @@ class CloudRecordingClient(Client):
         """
         Update recording
         更新云端录制设置
-
+        
         :type client: object
         :param client: CloudRecordingClient object
 
         :type request_path_params_obj: object
-        :param request_path_params_obj: request object RequestPathParamsApiUpdate
+        :param request_path_params_obj: request path params object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate`
 
         :type request_body_obj: object
-        :param request_body_obj: request object RequestBodyApiUpdate
+        :param request_body_obj: request body object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate`
 
         :type response_obj: object
-        :param response_obj: request object ResponseApiUpdate
-        
+        :param response_obj: response object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.ResponseApiUpdate`
+
         :return: response object ResponseApiUpdate
         """
         return api_update(self, request_path_params_obj, request_body_obj)
@@ -129,13 +142,16 @@ class CloudRecordingClient(Client):
         :param client: CloudRecordingClient object
 
         :type request_path_params_obj: object
-        :param request_path_params_obj: request object RequestPathParamsApiUpdateLayout
+        :param request_path_params_obj: request path params object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdateLayout`
 
         :type request_body_obj: object
-        :param request_body_obj: request object RequestBodyApiUpdateLayout
+        :param request_body_obj: request body object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdateLayout`
 
         :type response_obj: object
-        :param response_obj: request object ResponseApiUpdateLayout
+        :param response_obj: response object
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.ResponseApiUpdateLayout`
 
         :return: response object ResponseApiUpdateLayout
         """

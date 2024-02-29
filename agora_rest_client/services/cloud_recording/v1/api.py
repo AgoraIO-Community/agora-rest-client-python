@@ -1,5 +1,10 @@
 from enum import Enum
 
+# 视频文件类型
+class AvFileType():
+    HLS = 'hls'
+    MP4 = 'mp4'
+
 # 录制模式
 class Mode(Enum):
     # 单流录制模式

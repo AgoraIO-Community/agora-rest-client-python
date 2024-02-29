@@ -164,11 +164,13 @@ def api_query(client, request_path_params_obj, response_obj=ResponseApiQuery):
     :param client: CloudRecordingClient object
 
     :type request_path_params_obj: object
-    :param request_path_params_obj: request object RequestApiQuery
+    :param request_path_params_obj: request path params object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery`
 
     :type response_obj: object
-    :param response_obj: request object ResponseApiQuery
-    
+    :param response_obj: response object
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.ResponseApiQuery`
+
     :return: response object ResponseApiQuery
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/query'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)

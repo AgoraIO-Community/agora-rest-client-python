@@ -1,7 +1,7 @@
 from agora_rest_client.core import request
 from agora_rest_client.services.cloud_recording.v1 import api_start
+from agora_rest_client.services.cloud_recording.v1.api import AvFileType
 from agora_rest_client.services.cloud_recording.v1.api import Mode
-from agora_rest_client.services.cloud_recording.v1.api import SnapshotType
 
 class StorageConfig(api_start.StorageConfig):
     pass
@@ -20,19 +20,19 @@ class ClientRequest(request.RequestObject):
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.storageConfig`
-    :value: instance of `StorageConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.StorageConfig`
     """
     storageConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingConfig`
-    :value: instance of `RecordingConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.RecordingConfig`
     """
     recordingConfig = None
 
     """
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingConfig`
-    :value: instance of `RecordingFileConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.RecordingFileConfig`
     """
     recordingFileConfig = None
 
@@ -72,10 +72,12 @@ def mix_recording_start(client, resource_id, cname, uid, token, storage_config, 
     :type storage_config: object
     :param storage_config: storage config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
-    
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.StorageConfig`
+
     :type recording_config: object
     :param recording_config: recording config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.RecordingConfig`
     
     :return: response object ResponseApiStart
     """
@@ -91,7 +93,7 @@ def mix_recording_start(client, resource_id, cname, uid, token, storage_config, 
             token=token,
             storageConfig=storage_config,
             recordingFileConfig=RecordingFileConfig(
-                avFileType=['hls', 'mp4']
+                avFileType=[AvFileType.HLS.value, AvFileType.MP4.value]
             )
         )
     )

@@ -73,7 +73,7 @@ class MixRecordingClient(CloudRecordingClient):
         """
         Mix recording start
         开始云端录制
-
+        
         :type client: object
         :param client: MixRecordingClient object
         
@@ -96,10 +96,12 @@ class MixRecordingClient(CloudRecordingClient):
         :type storage_config: object
         :param storage_config: storage config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.StorageConfig`
+
         :type recording_config: object
         :param recording_config: recording config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.RecordingConfig`
         
         :return: response object ResponseApiStart
         """
@@ -141,7 +143,7 @@ class MixRecordingClient(CloudRecordingClient):
         """
         Mix recording update
         更新云端录制设置
-
+        
         :type client: object
         :param client: MixRecordingClient object
         
@@ -164,7 +166,8 @@ class MixRecordingClient(CloudRecordingClient):
         :type stream_subscribe: object
         :param stream_subscribe: stream subscribe
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update.StreamSubscribe`
+
         :return: response object ResponseApiUpdate
         """
         return mix_recording_update(self, resource_id, sid, cname, uid, stream_subscribe=stream_subscribe)
@@ -217,11 +220,13 @@ class MixRecordingClient(CloudRecordingClient):
         :type layout_config: object
         :param layout_config: layout config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.LayoutConfig`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.LayoutConfig`
+
         :type background_config: object
         :param background_config: background config
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.BackgroundConfig`
-        
+        :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.BackgroundConfig`
+
         :return: response object ResponseApiUpdate
         """
         return mix_recording_update_layout(self, resource_id, sid, cname, uid, max_resolution_uid=max_resolution_uid, mixed_video_layout=mixed_video_layout,
