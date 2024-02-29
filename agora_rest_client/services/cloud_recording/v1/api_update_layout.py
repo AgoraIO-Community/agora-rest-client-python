@@ -70,6 +70,8 @@ class LayoutConfig(request.RequestObject):
     1: 缩放模式. 优先保证视频内容全部显示. 视频尺寸等比缩放, 直至视频窗口的一边与画面边框对齐. 如果视频尺寸与画面尺寸不一致, 在保持长宽比的前提下, 将视频进行缩放后填满画面, 缩放后的视频四周会有一圈黑边. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RenderMode`
     """
     render_mode = None
 
@@ -97,6 +99,8 @@ class BackgroundConfig(request.RequestObject):
     1: 缩放模式. 优先保证视频内容全部显示. 视频尺寸等比缩放, 直至视频窗口的一边与画面边框对齐. 如果视频尺寸与画面尺寸不一致, 在保持长宽比的前提下, 将视频进行缩放后填满画面, 缩放后的视频四周会有一圈黑边. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RenderMode`
     """
     render_mode = None
 
@@ -118,6 +122,8 @@ class ClientRequest(request.RequestObject):
     3: 自定义布局. 由你在 layoutConfig 字段中自定义合流布局. 
 
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.MixedVideoLayout`
     """
     mixedVideoLayout = None
 
@@ -152,7 +158,7 @@ class ClientRequest(request.RequestObject):
     用户的合流画面布局. 由每个用户对应的布局画面设置组成的数组, 支持最多 17 个用户. 
     注意: 仅需在自定义布局下设置.
 
-    instance of `LayoutConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.LayoutConfig`
     """
     layoutConfig = None
 
@@ -161,7 +167,7 @@ class ClientRequest(request.RequestObject):
 
     用户的背景图设置.
 
-    instance of `BackgroundConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.BackgroundConfig`
     """
     backgroundConfig = None
 
@@ -170,6 +176,8 @@ class RequestPathParamsApiUpdateLayout(request.RequestObject):
     type: required string
 
     录制模式. 只支持 mix, 代表合流录制模式. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.Mode`
     """
     mode = None
 
@@ -205,7 +213,7 @@ class RequestBodyApiUpdateLayout(request.RequestObject):
     """
     type: required object
 
-    instance of `ClientRequest`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest`
     """
     clientRequest = None
 

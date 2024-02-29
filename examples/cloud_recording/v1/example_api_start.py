@@ -3,6 +3,7 @@ import os
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
 from agora_rest_client.services.cloud_recording.v1 import api_start
+from agora_rest_client.services.cloud_recording.v1.api import ExtensionServiceName
 from agora_rest_client.services.cloud_recording.v1.api import Mode
 from agora_rest_client.services.cloud_recording.v1.cloud_recording_client import CloudRecordingClient
 
@@ -56,7 +57,7 @@ if __name__ == '__main__':
                 ), extensionServiceConfig=api_start.ExtensionServiceConfig(
                         extensionServices=[
                             api_start.ExtensionServices(
-                                serviceName='web_recorder_service',
+                                serviceName=ExtensionServiceName.WEB_RECORDER_SERVICE.value,
                                 serviceParam=api_start.ServiceParam(
                                     url="https://www.agora.io",
                                     audioProfile=2,

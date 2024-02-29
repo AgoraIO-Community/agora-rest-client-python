@@ -27,7 +27,7 @@ class Payload(response.ResponseObject):
     """
     type: array[object]
 
-    instance of `FileList`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.FileList`
     """
     fileList = None
 
@@ -44,17 +44,19 @@ class Payload(response.ResponseObject):
     将订阅内容上传至扩展服务的状态: 
     "init": 服务正在初始化. 
     "inProgress": 服务启动完成, 正在进行中. 
-    "exit": 服务退出. 
+    "exit": 服务退出.
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ExtensionServiceState`
     """
     state = None
-    
+
 class ExtensionServiceState(response.ResponseObject):
     """
     type: object
     
     页面录制时会返回如下字段
 
-    instance of `Payload`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.Payload`
     """
     payload = None
 
@@ -63,7 +65,9 @@ class ExtensionServiceState(response.ResponseObject):
     
     扩展服务的名称: 
     web_recorder_service: 代表扩展服务为页面录制. 
-    rtmp_publish_service: 代表扩展服务为转推页面录制到 CDN. 
+    rtmp_publish_service: 代表扩展服务为转推页面录制到 CDN.
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ExtensionServiceName`
     """
     serviceName = None
 
@@ -82,13 +86,15 @@ class ServerResponse(response.ResponseObject):
     7: 云服务所有组件均停止. 
     8: 云服务已退出. 
     20: 云服务异常退出. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ServiceStatus`
     """
     status = None
 
     """
     type: array[object]
 
-    instance of `ExtensionServiceState`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.ExtensionServiceState`
     """
     extensionServiceState = None
 
@@ -100,6 +106,8 @@ class RequestPathParamsApiQuery(request.RequestObject):
     individual: 单流录制模式. 
     mix: 合流录制模式. 
     web: 页面录制模式. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.Mode`
     """
     mode = None
 
@@ -137,7 +145,7 @@ class ResponseApiQuery(response.ResponseObject):
     
     页面录制模式下会返回的字段.
 
-    instance of `ServerResponse`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.ServerResponse`
     """
     serverResponse = None
 

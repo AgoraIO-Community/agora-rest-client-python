@@ -15,6 +15,8 @@ class ExtensionParams(request.RequestObject):
     加密模式. 设置该字段后, 第三方云存储服务会按照该加密模式将已上传的录制文件进行加密. 该字段仅适用于 Amazon S3
     kms: KMS 加密. 
     aes256: AES256 加密. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.AmazonS3Sse`
     """
     sse = None
 
@@ -45,6 +47,8 @@ class StorageConfig(request.RequestObject):
     6: 谷歌云
     7: 华为云
     8: 百度智能云
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.StorageVendor`
     """
     vendor = None
 
@@ -84,7 +88,7 @@ class StorageConfig(request.RequestObject):
     
     第三方云存储服务会按照该字段设置对已上传的录制文件进行加密和打标签.
 
-    instance of `ExtensionParams`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionParams`
     """
     extensionParams = None
 
@@ -147,6 +151,8 @@ class LayoutConfig(request.RequestObject):
     1: 缩放模式. 优先保证视频内容全部显示. 视频尺寸等比缩放, 直至视频窗口的一边与画面边框对齐. 如果视频尺寸与画面尺寸不一致, 在保持长宽比的前提下, 将视频进行缩放后填满画面, 缩放后的视频四周会有一圈黑边. 
     
     default: 0
+    
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RenderMode`
     """
     render_mode = None
 
@@ -174,6 +180,8 @@ class BackgroundConfig(request.RequestObject):
     1: 缩放模式. 优先保证视频内容全部显示. 视频尺寸等比缩放, 直至视频窗口的一边与画面边框对齐. 如果视频尺寸与画面尺寸不一致, 在保持长宽比的前提下, 将视频进行缩放后填满画面, 缩放后的视频四周会有一圈黑边. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RenderMode`
     """
     render_mode = None
 
@@ -233,6 +241,8 @@ class TranscodingConfig(request.RequestObject):
     3: 自定义布局. 由你在 layoutConfig 字段中自定义合流布局. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.MixedVideoLayout`
     """
     mixedVideoLayout = None
 
@@ -267,7 +277,7 @@ class TranscodingConfig(request.RequestObject):
     用户的合流画面布局. 由每个用户对应的布局画面设置组成的数组, 支持最多 17 个用户. 
     注意: 仅需在自定义布局下设置.
 
-    instance of `LayoutConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.LayoutConfig`
     """
     layoutConfig = None
 
@@ -276,7 +286,7 @@ class TranscodingConfig(request.RequestObject):
     
     用户的背景图设置.
 
-    instance of `BackgroundConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.BackgroundConfig`
     """
     backgroundConfig = None
 
@@ -290,6 +300,8 @@ class RecordingConfig(request.RequestObject):
     频道场景必须与声网 RTC SDK 的设置一致, 否则可能导致问题. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ChannelType`
     """
     channelType = None
 
@@ -308,6 +320,8 @@ class RecordingConfig(request.RequestObject):
     8: AES_256_GCM2 加密模式. 256 位 AES 加密, GCM 模式. 相比于 AES_256_GCM 加密模式, AES_256_GCM2 加密模式安全性更高且需要设置密钥和盐. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.DecryptionMode`
     """
     decryptionMode = None
 
@@ -345,6 +359,8 @@ class RecordingConfig(request.RequestObject):
     2: 订阅音频和视频. 
     
     default: 2
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.StreamTypes`
     """
     streamTypes = None
 
@@ -356,6 +372,8 @@ class RecordingConfig(request.RequestObject):
     1: 视频小流, 即低分辨率低码率的视频流
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.VideoStreamType`
     """
     videoStreamType = None
 
@@ -409,6 +427,8 @@ class RecordingConfig(request.RequestObject):
     注意: 
     仅需在单流录制模式下设置, 且单流录制模式下必填. 
     举例来说, 如果 subscribeVideoUids 为 ["100","101","102"], subscribeAudioUids 为 ["101","102","103"], 则订阅人数为 4 人. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.SubscribeUidGroup`
     """
     subscribeUidGroup = None
 
@@ -423,6 +443,8 @@ class RecordingConfig(request.RequestObject):
     注意: 仅需在单流录制模式下设置. 
     
     default: default
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.StreamMode`
     """
     streamMode = None
 
@@ -437,6 +459,8 @@ class RecordingConfig(request.RequestObject):
     注意: 仅需在合流录制模式下设置. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.AudioProfile`
     """
     audioProfile = None
 
@@ -447,7 +471,7 @@ class RecordingConfig(request.RequestObject):
     
     注意: 仅需在单流录制和合流录制模式下设置.
 
-    instance of `TranscodingConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.TranscodingConfig`
     """
     transcodingConfig = None
 
@@ -464,6 +488,8 @@ class RecordingFileConfig(request.RequestObject):
     合流录制和页面录制模式下, 你需设为 ["hls","mp4"]. 仅设为 ["mp4"] 会收到报错. 设置后, 录制文件行为如下: 
         合流录制模式: 录制服务会在当前 MP4 文件时长超过约 2 小时或文件大小超过约 2 GB 左右时, 创建一个新的 MP4 文件. 
         页面录制模式: 录制服务会在当前 MP4 文件时长超过 maxVideoDuration 时, 创建一个新的 MP4 文件. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.AvFileType`
     """
     avFileType = None
 
@@ -481,7 +507,9 @@ class SnapshotConfig(request.RequestObject):
     """
     type: required array[string]
     
-    截图的文件格式. 目前只支持 ["jpg"], 即生成 JPG 格式的截图文件. 
+    截图的文件格式. 目前只支持 ["jpg"], 即生成 JPG 格式的截图文件.
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.SnapshotFileType`
     """
     fileType = None
 
@@ -500,6 +528,8 @@ class ServiceParam(request.RequestObject):
     0: 48 kHz 采样率, 音乐编码, 单声道, 编码码率约 48 Kbps. 
     1: 48 kHz 采样率, 音乐编码, 单声道, 编码码率约 128 Kbps. 
     2: 48 kHz 采样率, 音乐编码, 双声道, 编码码率约 192 Kbps. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.AudioProfile`
     """
     audioProfile = None
 
@@ -602,6 +632,8 @@ class ExtensionServices(request.RequestObject):
     扩展服务的名称: 
     web_recorder_service: 代表扩展服务为页面录制. 
     rtmp_publish_service: 代表扩展服务为转推页面录制到 CDN. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ExtensionServiceName`
     """
     serviceName = None
 
@@ -614,6 +646,8 @@ class ExtensionServices(request.RequestObject):
     
     如果页面录制服务或录制上传服务异常, 那么推流到 CDN 失败, 因此页面录制服务出错会影响转推页面录制到 CDN 服务. 
     转推到 CDN 的过程发生异常时, 页面录制不受影响. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ExtensionErrorHandlePolicy`
     """
     errorHandlePolicy = None
 
@@ -622,7 +656,7 @@ class ExtensionServices(request.RequestObject):
     
     页面录制时需设置如下字段
 
-    instance of `ServiceParam`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ServiceParam`
     """
     serviceParam = None
 
@@ -633,13 +667,15 @@ class ExtensionServiceConfig(request.RequestObject):
     错误处理策略. 默认且仅可设为 "error_abort", 表示当扩展服务发生错误后, 订阅和云端录制的其他非扩展服务都停止. 
     
     default: error_abort
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ExtensionErrorHandlePolicy`
     """
     errorHandlePolicy = None
 
     """
     type: required array[object]
 
-    instance of `ExtensionServices`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServices`
     """
     extensionServices = None
 
@@ -652,6 +688,8 @@ class AppsCollection(request.RequestObject):
     default: 除延时转码和延时混音外, 均选用此种方式. 
 
     default: default
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.CombinationPolicy`
     """
     combinationPolicy = None
 
@@ -662,6 +700,8 @@ class TransConfig(request.RequestObject):
     模式: 
     "postponeTranscoding": 延时转码. 
     "audioMix": 延时混音. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.PostponeTranscodeMode`
     """
     transMode = None
 
@@ -676,6 +716,8 @@ class Container(request.RequestObject):
     "aac": AAC 格式. 
     
     注意: 延时转码暂时只能设为 MP4 格式. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ContainerFormat`
     """
     format = None
 
@@ -689,6 +731,8 @@ class Audio(request.RequestObject):
     "16000": 16 kHz. 
 
     default: 48000
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.AudioSampleRate`
     """
     sampleRate = None
 
@@ -709,6 +753,8 @@ class Audio(request.RequestObject):
     "2": 双声道. 
 
     default: 2
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.AudioChannels`
     """
     channels = None
 
@@ -716,14 +762,14 @@ class TranscodeOptions(request.RequestObject):
     """
     type: required object
 
-    instance of `TransConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.TransConfig`
     """
     transConfig = None
 
     """
     type: object
 
-    instance of `Container`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.Container`
     """
     container = None
 
@@ -734,7 +780,7 @@ class TranscodeOptions(request.RequestObject):
 
     注意: 仅需在单流录制模式下, 且开启延时混音时设置.
 
-    instance of `Audio`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.Audio`
     """
     audio = Audio()
 
@@ -754,7 +800,7 @@ class ClientRequest(request.RequestObject):
     
     第三方云存储的配置项.
 
-    instance of `StorageConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
     """
     storageConfig = None
 
@@ -764,7 +810,7 @@ class ClientRequest(request.RequestObject):
     录制的音视频流配置项. 
     注意: 仅需在单流录制和合流录制模式下设置.
 
-    instance of `RecordingConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
     """
     recordingConfig = None
 
@@ -777,7 +823,7 @@ class ClientRequest(request.RequestObject):
     合流录制. 
     页面录制模式下, 仅页面录制, 或同时页面录制和转推到 CDN.
 
-    instance of `RecordingFileConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.RecordingFileConfig`
     """
     recordingFileConfig = None
 
@@ -792,7 +838,7 @@ class ClientRequest(request.RequestObject):
     如果录制服务或录制上传服务异常, 则截图失败. 截图异常时, 录制不受影响. 
     使用截图时, streamTypes 必须设置为 1 或 2. 如果设置了 subscribeAudioUid, 则必须同时设置 subscribeVideoUids.
 
-    instance of `SnapshotConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.SnapshotConfig`
     """
     snapshotConfig = None
 
@@ -802,7 +848,7 @@ class ClientRequest(request.RequestObject):
     扩展服务配置项. 
     注意: 仅需在页面录制模式下设置.
 
-    instance of `ExtensionServiceConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
     """
     extensionServiceConfig = None
 
@@ -812,7 +858,7 @@ class ClientRequest(request.RequestObject):
     应用配置项. 
     注意: 仅需在单流录制模式下, 且开启延时转码或延时混音时设置.
 
-    instance of `AppsCollection`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.AppsCollection`
     """
     appsCollection = None
 
@@ -822,7 +868,7 @@ class ClientRequest(request.RequestObject):
     延时转码或延时混音下, 生成的录制文件的配置项. 
     注意: 仅需在单流录制模式下, 且开启延时转码或延时混音时设置.
 
-    instance of `TranscodeOptions`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.TranscodeOptions`
     """
     transcodeOptions = None
 
@@ -834,6 +880,8 @@ class RequestPathParamsApiStart(request.RequestObject):
     individual: 单流录制模式. 
     mix: 合流录制模式. 
     web: 页面录制模式. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.Mode`
     """
     mode = None
 
@@ -862,7 +910,7 @@ class RequestBodyApiStart(request.RequestObject):
     """
     type: required object
 
-    instance of `ClientRequest`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest`
     """
     clientRequest = None
 

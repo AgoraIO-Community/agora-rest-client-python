@@ -59,7 +59,7 @@ class StreamSubscribe(request.RequestObject):
     音频订阅名单. 
     注意: 该字段仅适用于 streamTypes 设为音频, 或音频和视频的情况. 
 
-    instance `AudioUidList`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.AudioUidList`
     """
     audioUidList = None
 
@@ -69,7 +69,7 @@ class StreamSubscribe(request.RequestObject):
     视频订阅名单. 
     注意: 该字段仅适用于 streamTypes 设为视频, 或音频和视频的情况.
 
-    instance `VideoUidList`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.VideoUidList`
     """
     videoUidList = None
 
@@ -105,7 +105,7 @@ class RtmpPublishConfig(request.RequestObject):
     """
     type: array[object]
 
-    instance `Outputs`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.Outputs`
     """
     outputs = None
 
@@ -116,7 +116,7 @@ class ClientRequest(request.RequestObject):
     更新订阅名单. 
     注意: 仅需在单流录制和合流录制模式下设置.
 
-    instance of `StreamSubscribe`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
     """
     streamSubscribe = None
 
@@ -126,7 +126,7 @@ class ClientRequest(request.RequestObject):
     用于更新页面录制配置项. 
     注意: 仅需在页面录制模式下设置.
 
-    instance `WebRecordingConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`
     """
     webRecordingConfig = None
 
@@ -136,7 +136,7 @@ class ClientRequest(request.RequestObject):
     用于更新转推页面录制到 CDN 的配置项. 
     注意: 仅需在页面录制模式下, 且转推页面录制到 CDN 时设置.
 
-    instance `RtmpPublishConfig`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
     """
     rtmpPublishConfig = None
 
@@ -148,6 +148,8 @@ class RequestPathParamsApiUpdate(request.RequestObject):
     individual: 单流录制模式. 
     mix: 合流录制模式. 
     web: 页面录制模式. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.Mode`
     """
     mode = None
 
@@ -183,7 +185,7 @@ class RequestBodyApiUpdate(request.RequestObject):
     """
     type: required object
     
-    instance `ClientRequest`
+    :value: instance `agora_rest_client.services.cloud_recording.v1.api_update.ClientRequest`
     """
     clientRequest = None
 

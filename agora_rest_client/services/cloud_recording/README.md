@@ -155,7 +155,7 @@ try:
         extension_service_config=api_start.ExtensionServiceConfig(
             extensionServices=[
                 api_start.ExtensionServices(
-                    serviceName='web_recorder_service',
+                    serviceName=ExtensionServiceName.WEB_RECORDER_SERVICE.value,
                     serviceParam=api_start.ServiceParam(
                         url="https://www.agora.io",
                         audioProfile=2,

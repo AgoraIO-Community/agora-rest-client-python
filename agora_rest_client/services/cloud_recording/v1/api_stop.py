@@ -28,17 +28,19 @@ class Payload(response.ResponseObject):
     当前录制上传的状态: 
     "uploaded": 本次录制的文件已经全部上传至指定的第三方云存储. 
     "backuped": 本次录制的文件已经全部上传完成, 但是至少有一个 TS 文件上传到了声网备份云. 声网服务器会自动将这部分文件继续上传至指定的第三方云存储. 
-    "unknow": 未知状态. 
+    "unknown": 未知状态. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.UploadingStatus`
     """
     uploadingStatus = None
-    
+
 class ExtensionServiceState(response.ResponseObject):
     """
     type: object
 
     页面录制模式下, 上传服务返回的字段
 
-    instance of `Payload`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.Payload`
     """
     payload = None
 
@@ -48,6 +50,8 @@ class ExtensionServiceState(response.ResponseObject):
     服务类型: 
     "upload_service": 上传服务. 
     "web_recorder_service": 页面录制服务. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.ExtensionServiceStateName`
     """
     serviceName = None
 
@@ -55,7 +59,7 @@ class ServerResponse(response.ResponseObject):
     """
     type: array[object]
 
-    instance of `ExtensionServiceState`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.ExtensionServiceState`
     """
     extensionServiceState = None
 
@@ -67,6 +71,8 @@ class RequestPathParamsApiStop(request.RequestObject):
     individual: 单流录制模式. 
     mix: 合流录制模式. 
     web: 页面录制模式. 
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.Mode`
     """
     mode = None
 
@@ -102,7 +108,7 @@ class RequestBodyApiStop(request.RequestObject):
     """
     type: request object
 
-    instance of `ClientRequest`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.ClientRequest`
     """
     clientRequest = None
 
@@ -126,7 +132,7 @@ class ResponseApiStop(response.ResponseObject):
 
     页面录制场景下会返回的字段
 
-    instance of `ServerResponse`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.ServerResponse`
     """
     serverResponse = None
     

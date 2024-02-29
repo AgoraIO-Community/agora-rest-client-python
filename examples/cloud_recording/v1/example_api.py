@@ -6,9 +6,9 @@ from agora_rest_client.services.cloud_recording.v1 import api_acquire
 from agora_rest_client.services.cloud_recording.v1 import api_query
 from agora_rest_client.services.cloud_recording.v1 import api_start
 from agora_rest_client.services.cloud_recording.v1 import api_stop
-from agora_rest_client.services.cloud_recording.v1 import api_update_layout
 from agora_rest_client.services.cloud_recording.v1 import api_update
 from agora_rest_client.services.cloud_recording.v1 import cloud_recording_client
+from agora_rest_client.services.cloud_recording.v1.api import ExtensionServiceName
 from agora_rest_client.services.cloud_recording.v1.api import Mode
 from agora_rest_client.services.cloud_recording.v1.api import Scene
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
                 ), extensionServiceConfig=api_start.ExtensionServiceConfig(
                         extensionServices=[
                             api_start.ExtensionServices(
-                                serviceName='web_recorder_service',
+                                serviceName=ExtensionServiceName.WEB_RECORDER_SERVICE.value,
                                 serviceParam=api_start.ServiceParam(
                                     url="https://www.agora.io",
                                     audioProfile=2,

@@ -88,7 +88,7 @@ class RequestBodyApiAcquire(request.RequestObject):
     """
     type: object
 
-    instance of `ClientRequest`
+    :value: instance of `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest`
     """
     clientRequest = None
 
