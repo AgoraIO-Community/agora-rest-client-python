@@ -32,7 +32,7 @@ class Client(object):
         logger_name = '%s-%s-%d' % (log.LOGGER_NAME, cls.__name__, time.time()*1000000)
         logger = logging.getLogger(logger_name)
         logger.propagate = False
-        
+
         return logger
 
     def build(self):
@@ -108,7 +108,7 @@ class Client(object):
     @property
     def app_id(self):
         return self._app_id
-    
+
     def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
         """
         Call api
@@ -168,7 +168,7 @@ class Client(object):
 
         :type response_obj: object
         :param response_obj: response object
-        
+
         :return: response
         """
         status_code = None
@@ -183,7 +183,7 @@ class Client(object):
                 self._logger.debug('do http request, host_url:%s, retry:%d', host_url, retry_num)
 
                 try:
-                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers, 
+                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
                                                 timeout=timeout_seconds, auth=self._basic_auth)
                     status_code = resp.status_code
 
@@ -215,9 +215,9 @@ class Client(object):
                     break
                 except requests.exceptions.RequestException as e:
                     self._logger.error('do http request, request failed, err:%s, host_url:%s, retry:%d', e, host_url, retry_num)
-        
+
         raise exceptions.ClientRequestException(status_code, error_code, error_msg)
-    
+
     @property
     def logger(self):
         return self._logger
@@ -226,12 +226,12 @@ class Client(object):
         self._app_id = app_id
 
         return self
-    
+
     def with_basic_auth(self, user_name, password):
         self._basic_auth = (user_name, password)
 
         return self
-    
+
     def with_file_log(self, path, log_level=logging.INFO, max_bytes=10 * 1024 * 1024, backup_count=2, format_string=None):
         self._file_logger_handler = {
             "backup_count": backup_count,
@@ -247,7 +247,7 @@ class Client(object):
         self._domain.set_region(region)
 
         return self
-    
+
     def with_stream_log(self, stream=sys.stdout, log_level=logging.INFO, format_string=None):
         self._stream_logger_handler = {
             "format_string": format_string,

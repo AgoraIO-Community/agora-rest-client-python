@@ -11,18 +11,18 @@ def web_recording_query(client, resource_id, sid):
     """
     Web recording query
     查询云端录制状态
-    
+
     :type client: object
     :param client: WebRecordingClient object
-    
+
     :type resource_id: str
     :param resource_id: resource id
     :refer: `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.resource_id`
-    
+
     :type sid: str
     :param sid: sid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.sid`
-    
+
     :return: response object ResponseApiQuery
     """
     request_path_params_obj = RequestPathParamsApiQuery(

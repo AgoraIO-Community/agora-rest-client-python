@@ -37,10 +37,10 @@ if __name__ == '__main__':
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()
-    
+
     # 发送请求并获取响应
     try:
-        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid), 
+        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid),
             api_stop.RequestBodyApiStop(cname=cname, uid=uid, clientRequest=api_stop.ClientRequest(async_stop=False))
         )
         print(response)
@@ -48,5 +48,5 @@ if __name__ == '__main__':
         print(e.status_code)
         print(e.error_code)
         print(e.error_msg)
-    
+
     os._exit(1)

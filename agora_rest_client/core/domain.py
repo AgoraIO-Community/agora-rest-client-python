@@ -74,7 +74,7 @@ class Domain(object):
         self._domain_list_running = []
         self._logger = None
         self._region = None
-        
+
     def get_domain_list(self):
         return self._domain_list
 
@@ -115,14 +115,14 @@ class Domain(object):
     def run(self, logger):
         """
         Run
-        
+
         :type logger: object
         :param logger: logger
         """
         # Avoid duplicate run
         if self._logger is not None:
             return
-        
+
         self._logger = logger
         self.select_best_domain()
 

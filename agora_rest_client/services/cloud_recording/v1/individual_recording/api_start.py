@@ -73,39 +73,39 @@ class RequestBodyApiStart(api_start.RequestBodyApiStart):
 class ResponseApiStart(api_start.ResponseApiStart):
     pass
 
-def individual_recording_start(client, resource_id, cname, uid, token, storage_config, recording_config=None, 
+def individual_recording_start(client, resource_id, cname, uid, token, storage_config, recording_config=None,
                                snapshot_type=SnapshotType.SNAPSHOT_AND_RECORDING.value, snapshot_config=None, apps_collection=None, transcode_options=None):
     """
     Individual recording start
     开始云端录制
-    
+
     :type client: object
     :param client: IndividualRecordingClientgClient object
-    
+
     :type resource_id: str
     :param resource_id: resource id
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
-    
+
     :type cname: str
     :param cname: cname
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
-    
+
     :type uid: str
     :param uid: uid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
-    
+
     :type token: str
     :param token: token
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
-    
+
     :type storage_config: object
     :param storage_config: storage config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
-    
+
     :type recording_config: object
     :param recording_config: recording config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
-    
+
     :type snapshot_type: int
     :param snapshot_type: 视频截图类型
     :refer: `agora_rest_client.services.cloud_recording.v1.api.SnapshotType`

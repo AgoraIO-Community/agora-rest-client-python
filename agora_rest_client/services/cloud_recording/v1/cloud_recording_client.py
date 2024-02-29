@@ -45,7 +45,7 @@ class CloudRecordingClient(Client):
         """
         Query the recording status
         查询云端录制状态
-        
+
         :type client: object
         :param client: CloudRecordingClient object
 
@@ -65,7 +65,7 @@ class CloudRecordingClient(Client):
         """
         Start recording
         开始云端录制
-        
+
         :type client: object
         :param client: CloudRecordingClient object
 
@@ -89,7 +89,7 @@ class CloudRecordingClient(Client):
         """
         Stop recording
         停止云端录制
-        
+
         :type client: object
         :param client: CloudRecordingClient object
 
@@ -113,7 +113,7 @@ class CloudRecordingClient(Client):
         """
         Update recording
         更新云端录制设置
-        
+
         :type client: object
         :param client: CloudRecordingClient object
 
@@ -137,7 +137,7 @@ class CloudRecordingClient(Client):
         """
         Update layout of the recording
         更新云端录制合流布局
-        
+
         :type client: object
         :param client: CloudRecordingClient object
 

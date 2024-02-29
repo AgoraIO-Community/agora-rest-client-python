@@ -24,7 +24,7 @@ class RequestObject(object):
         attrs = [attr for attr in dir(self) if not callable(getattr(self, attr)) and not attr.startswith("__")]
         for attr in attrs:
             value = getattr(self, attr)
-            
+
             if value is None:
                 continue
 

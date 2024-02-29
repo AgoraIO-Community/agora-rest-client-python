@@ -60,46 +60,46 @@ def mix_recording_update_layout(client, resource_id, sid, cname, uid, max_resolu
     """
     Mix recording update layout
     更新云端录制合流布局
-    
+
     :type client: object
     :param client: MixRecordingClient object
-    
+
     :type resource_id: str
     :param resource_id: resource id
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdate.resource_id`
-    
+
     :type sid: str
     :param sid: sid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdate.sid`
-    
+
     :type cname: str
     :param cname: cname
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdate.cname`
-    
+
     :type uid: str
     :param uid: uid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdate.uid`
-    
+
     :type max_resolution_uid: str
     :param max_resolution_uid: max resolution uid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.maxResolutionUid`
-    
+
     :type mixed_video_layout: int
     :param mixed_video_layout: mixed video layout
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.mixedVideoLayout`
-    
+
     :type background_color: str
     :param background_color: background color
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundColor`
-    
+
     :type background_image: str
     :param background_image: background image
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundImage`
-    
+
     :type default_user_background_image: str
     :param default_user_background_image: default user background image
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.defaultUserBackgroundImage`
-    
+
     :type layout_config: object
     :param layout_config: layout config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.LayoutConfig`

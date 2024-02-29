@@ -49,26 +49,26 @@ def mix_recording_start(client, resource_id, cname, uid, token, storage_config, 
     """
     Mix recording start
     开始云端录制
-    
+
     :type client: object
     :param client: MixRecordingClient object
-    
+
     :type resource_id: str
     :param resource_id: resource id
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
-    
+
     :type cname: str
     :param cname: cname
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
-    
+
     :type uid: str
     :param uid: uid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
-    
+
     :type token: str
     :param token: token
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
-    
+
     :type storage_config: object
     :param storage_config: storage config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
@@ -78,7 +78,7 @@ def mix_recording_start(client, resource_id, cname, uid, token, storage_config, 
     :param recording_config: recording config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
     :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.RecordingConfig`
-    
+
     :return: response object ResponseApiStart
     """
     request_path_params_obj = RequestPathParamsApiStart(

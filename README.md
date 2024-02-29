@@ -17,7 +17,7 @@
 
 ## 安装
 您可以使用 pip 安装 SDK 依赖包, 也可以使用源码安装 SDK 依赖包.
- 
+
 - 使用 pip 安装
 ```shell
 pip install agora_rest_client
@@ -30,7 +30,7 @@ python setup.py install
 ```
 
 ## 使用示例
-以调用云录制服务网页录制模式为例: 
+以调用云录制服务网页录制模式为例:
 ```python
 import logging
 import os
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()
-    
+
     # 发送请求并获取响应
     try:
         response = web_recording_client.start(resource_id, cname, uid, storage_config=api_start.StorageConfig(
@@ -117,18 +117,18 @@ if __name__ == '__main__':
 ---
 
 ## 贡献
-本项目欢迎并接受贡献. 如果您在使用中遇到问题或有改进建议, 请提出issue或向我们提交Pull Request. 
+本项目欢迎并接受贡献. 如果您在使用中遇到问题或有改进建议, 请提出issue或向我们提交Pull Request.
 
 # SemVer 版本规范
-本项目使用语义化版本号规范 (SemVer) 来管理版本. 格式为 MAJOR.MINOR.PATCH. 
+本项目使用语义化版本号规范 (SemVer) 来管理版本. 格式为 MAJOR.MINOR.PATCH.
 
-* MAJOR 版本号表示不向后兼容的重大更改. 
-* MINOR 版本号表示向后兼容的新功能或增强. 
-* PATCH 版本号表示向后兼容的错误修复和维护. 
-有关详细信息, 请参阅 [语义化版本](https://semver.org/lang/zh-CN/) 规范. 
+* MAJOR 版本号表示不向后兼容的重大更改.
+* MINOR 版本号表示向后兼容的新功能或增强.
+* PATCH 版本号表示向后兼容的错误修复和维护.
+有关详细信息, 请参阅 [语义化版本](https://semver.org/lang/zh-CN/) 规范.
 
 ## 参考
 * [Agora API 文档](https://doc.shengwang.cn/)
 
 ## 许可证
-该项目使用MIT许可证, 详细信息请参阅LICENSE文件. 
+该项目使用MIT许可证, 详细信息请参阅LICENSE文件.

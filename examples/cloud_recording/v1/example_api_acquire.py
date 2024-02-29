@@ -31,10 +31,10 @@ if __name__ == '__main__':
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()
-    
+
     # 发送请求并获取响应
     try:
-        response = cloud_recording_client.acquire(api_acquire.RequestBodyApiAcquire(cname=cname, uid=uid, 
+        response = cloud_recording_client.acquire(api_acquire.RequestBodyApiAcquire(cname=cname, uid=uid,
             clientRequest=api_acquire.ClientRequest(scene=Scene.WEB.value, resourceExpiredHour=1))
         )
         print(response)

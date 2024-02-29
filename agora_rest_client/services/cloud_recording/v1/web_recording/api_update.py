@@ -34,26 +34,26 @@ def web_recording_update(client, resource_id, sid, cname, uid, web_recording_con
     """
     Web recording update
     更新云端录制设置
-    
+
     :type client: object
     :param client: WebRecordingClient object
-    
+
     :type resource_id: str
     :param resource_id: resource id
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
-    
+
     :type sid: str
     :param sid: sid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
-    
+
     :type cname: str
     :param cname: cname
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
-    
+
     :type uid: str
     :param uid: uid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
-    
+
     :type web_recording_config: object
     :param web_recording_config: web recording config
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`

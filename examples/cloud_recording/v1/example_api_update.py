@@ -37,7 +37,7 @@ if __name__ == '__main__':
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()
-    
+
     # 发送请求并获取响应
     try:
         response = cloud_recording_client.update(api_update.RequestPathParamsApiUpdate(mode=mode, resource_id=resource_id, sid=sid),
@@ -50,5 +50,5 @@ if __name__ == '__main__':
         print(e.status_code)
         print(e.error_code)
         print(e.error_msg)
-    
+
     os._exit(1)

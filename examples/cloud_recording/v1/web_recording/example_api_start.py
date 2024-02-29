@@ -41,7 +41,7 @@ if __name__ == '__main__':
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()
-    
+
     # 发送请求并获取响应
     try:
         response = web_recording_client.start(resource_id, cname, uid, storage_config=api_start.StorageConfig(

@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     # Start recording
     try:
-        response = mix_recording_client.start(resource_id, cname, uid, token, 
+        response = mix_recording_client.start(resource_id, cname, uid, token,
             storage_config=api_start.StorageConfig(
                 region=storage_config_region,
                 vendor=storage_config_vendor,
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     # Update recording
     try:
-        response = mix_recording_client.update(resource_id, sid, cname, uid, 
+        response = mix_recording_client.update(resource_id, sid, cname, uid,
             stream_subscribe=api_update.StreamSubscribe(
                 videoUidList=api_update.VideoUidList(
                     subscribeVideoUids=["#allstream#"]

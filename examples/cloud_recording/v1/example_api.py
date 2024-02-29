@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # 发送请求并获取响应
     # Acquire resource
     try:
-        response = cloud_recording_client.acquire(api_acquire.RequestBodyApiAcquire(cname=cname, uid=uid, 
+        response = cloud_recording_client.acquire(api_acquire.RequestBodyApiAcquire(cname=cname, uid=uid,
             clientRequest=api_acquire.ClientRequest(scene=Scene.WEB.value, resourceExpiredHour=1))
         )
         cloud_recording_client.logger.info('acquire resource, cname:%s, uid:%s, response:%s', cname, uid, response)
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     # Start recording
     try:
         response = cloud_recording_client.start(api_start.RequestPathParamsApiStart(mode=mode, resource_id=resource_id),
-            api_start.RequestBodyApiStart(cname=cname, uid=uid, 
+            api_start.RequestBodyApiStart(cname=cname, uid=uid,
                 clientRequest=api_start.ClientRequest(
                     storageConfig=api_start.StorageConfig(
                         region=storage_config_region,
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     # Stop recording
     try:
-        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid), 
+        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid),
             api_stop.RequestBodyApiStop(cname=cname, uid=uid, clientRequest=api_stop.ClientRequest(async_stop=False))
         )
         cloud_recording_client.logger.info('stop recording, response:%s', response)

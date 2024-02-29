@@ -52,14 +52,14 @@ if __name__ == '__main__':
 
     # Start recording
     try:
-        response = web_recording_client.start(resource_id, cname, uid, 
+        response = web_recording_client.start(resource_id, cname, uid,
             storage_config=api_start.StorageConfig(
                 region=storage_config_region,
                 vendor=storage_config_vendor,
                 bucket=storage_config_bucket,
                 accessKey=storage_config_access_key,
                 secretKey=storage_config_secret_key
-            ), 
+            ),
             extension_service_config=api_start.ExtensionServiceConfig(
                 extensionServices=[
                     api_start.ExtensionServices(

@@ -14,34 +14,34 @@ def individual_recording_acquire(client, cname, uid, enable_postpone_transcoding
     """
     Individual recording acquire
     获取云端录制资源
-    
+
     :type client: object
     :param client: IndividualRecordingClient object
-    
+
     :type cname: str
     :param cname: cname
     :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.RequestBodyApiAcquire.cname`
-    
+
     :type uid: str
     :param uid: uid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.RequestBodyApiAcquire.uid`
-    
+
     :type enable_postpone_transcoding_mix: bool
     :param enable_postpone_transcoding_mix: 开启延时转码或延时混音
 
     :type resource_expired_hour: int
     :param resource_expired_hour: resource expired hour
     :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.resourceExpiredHour`
-    
+
     :type exclude_resource_ids: list
     :param exclude_resource_ids: exclude resource ids
     :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.excludeResourceIds`
-    
+
     :type region_affinity: int
     :param region_affinity: region affinity
     :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.regionAffinity`
     :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RegionAffinity`
-    
+
     :return: response object ResponseApiAcquire
     """
     request_body_obj = RequestBodyApiAcquire(

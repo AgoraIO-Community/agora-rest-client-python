@@ -31,26 +31,26 @@ def individual_recording_update(client, resource_id, sid, cname, uid, stream_sub
     """
     Individual recording update
     更新云端录制设置
-    
+
     :type client: object
     :param client: IndividualRecordingClient object
-    
+
     :type resource_id: str
     :param resource_id: resource id
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
-    
+
     :type sid: str
     :param sid: sid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
-    
+
     :type cname: str
     :param cname: cname
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
-    
+
     :type uid: str
     :param uid: uid
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
-    
+
     :type stream_subscribe: object
     :param stream_subscribe: stream subscribe
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`

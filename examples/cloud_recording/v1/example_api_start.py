@@ -42,11 +42,11 @@ if __name__ == '__main__':
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()
-    
+
     # 发送请求并获取响应
     try:
         response = cloud_recording_client.start(api_start.RequestPathParamsApiStart(mode=mode, resource_id=resource_id),
-            api_start.RequestBodyApiStart(cname=cname, uid=uid, 
+            api_start.RequestBodyApiStart(cname=cname, uid=uid,
                 clientRequest=api_start.ClientRequest(
                     storageConfig=api_start.StorageConfig(
                         region=storage_config_region,
