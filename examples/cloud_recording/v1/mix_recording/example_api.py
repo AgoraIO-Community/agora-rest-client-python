@@ -54,13 +54,15 @@ if __name__ == '__main__':
 
     # Start recording
     try:
-        response = mix_recording_client.start(resource_id, cname, uid, token, storage_config=api_start.StorageConfig(
-            region=storage_config_region,
-            vendor=storage_config_vendor,
-            bucket=storage_config_bucket,
-            accessKey=storage_config_access_key,
-            secretKey=storage_config_secret_key
-        ))
+        response = mix_recording_client.start(resource_id, cname, uid, token, 
+            storage_config=api_start.StorageConfig(
+                region=storage_config_region,
+                vendor=storage_config_vendor,
+                bucket=storage_config_bucket,
+                accessKey=storage_config_access_key,
+                secretKey=storage_config_secret_key
+            )
+        )
         mix_recording_client.logger.info('start recording, resource_id:%s, response:%s', resource_id, response)
     except exceptions.ClientRequestException as e:
         mix_recording_client.logger.error('start recording, resource_id:%s, err:%s', resource_id, e)
