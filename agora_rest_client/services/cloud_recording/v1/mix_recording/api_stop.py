@@ -10,12 +10,12 @@ class RequestBodyApiStop(api_stop.RequestBodyApiStop):
 class ResponseApiStop(api_stop.ResponseApiStop):
     pass
 
-def individual_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
+def mix_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     """
-    Individual recording stop
+    Mix recording stop
 
     :type client: object
-    :param client: IndividualRecordingClient object
+    :param client: MixRecordingClient object
     
     :type resource_id: str
     :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop.resource_id`
@@ -35,7 +35,7 @@ def individual_recording_stop(client, resource_id, sid, cname, uid, async_stop=F
     :return: response object ResponseApiStop
     """
     request_path_params_obj = RequestPathParamsApiStop(
-        mode=Mode.INDIVIDUAL.value,
+        mode=Mode.MIX.value,
         resource_id=resource_id,
         sid=sid
     )

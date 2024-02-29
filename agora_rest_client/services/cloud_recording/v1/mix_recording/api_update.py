@@ -26,12 +26,12 @@ class RequestBodyApiUpdate(api_update.RequestBodyApiUpdate):
 class ResponseApiUpdate(api_update.ResponseApiUpdate):
     pass
 
-def individual_recording_update(client, resource_id, sid, cname, uid, stream_subscribe=None):
+def mix_recording_update(client, resource_id, sid, cname, uid, stream_subscribe=None):
     """
-    Individual recording update
+    Mix recording update
 
     :type client: object
-    :param client: IndividualRecordingClient object
+    :param client: MixRecordingClient object
     
     :type resource_id: str
     :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
@@ -51,7 +51,7 @@ def individual_recording_update(client, resource_id, sid, cname, uid, stream_sub
     :return: response object ResponseApiUpdate
     """
     request_path_params_obj = RequestPathParamsApiUpdate(
-        mode=Mode.INDIVIDUAL.value,
+        mode=Mode.MIX.value,
         resource_id=resource_id,
         sid=sid
     )

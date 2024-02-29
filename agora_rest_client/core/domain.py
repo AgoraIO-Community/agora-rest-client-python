@@ -94,7 +94,9 @@ class Domain(object):
         """
         Resolve domain
 
+        :type host: str
         :param host: domain
+
         :return: ip address or None
         """
         try:
@@ -114,6 +116,7 @@ class Domain(object):
         """
         Run
         
+        :type logger: object
         :param logger: logger
         """
         # Avoid duplicate run

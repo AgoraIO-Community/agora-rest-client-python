@@ -59,10 +59,19 @@ class Client(object):
         """
         Add file logger
 
+        :type path: str
         :param path: log file path
+
+        :type log_level: int
         :param log_level: log level
+
+        :type max_bytes: int
         :param max_bytes: max bytes
+
+        :type backup_count: int
         :param backup_count: backup count
+
+        :type format_string: str
         :param format_string: format string
         """
         self._logger.setLevel(log_level)
@@ -78,8 +87,13 @@ class Client(object):
         """
         Add stream logger
 
+        :type stream: object
         :param stream: stream
+
+        :type log_level: int
         :param log_level: log level
+
+        :type format_string: str
         :param format_string: format string
         """
         self._logger.setLevel(log_level)
@@ -99,14 +113,30 @@ class Client(object):
         """
         Call api
 
+        :type method: str
         :param method: http method
+
+        :type url: str
         :param url: http url
+
+        :type params: object
         :param params: http params
+
+        :type post_data: object
         :param post_data: http post data
+
+        :type post_json: object
         :param post_json: http post json
+
+        :type headers: object
         :param headers: http headers
+
+        :type timeout_seconds: int
         :param timeout_seconds: http timeout
+
+        :type response_obj: object
         :param response_obj: response object
+
         :return: response
         """
         return self.do_http_request(method, url, params, post_data, post_json, headers, timeout_seconds, response_obj)
@@ -114,15 +144,31 @@ class Client(object):
     def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
         """
         Request http
-        
+
+        :type method: str
         :param method: http method
+
+        :type url: str
         :param url: http url
+
+        :type params: object
         :param params: http params
+
+        :type post_data: object
         :param post_data: http post data
+
+        :type post_json: object
         :param post_json: http post json
+
+        :type headers: object
         :param headers: http headers
+
+        :type timeout_seconds: int
         :param timeout_seconds: http timeout
+
+        :type response_obj: object
         :param response_obj: response object
+        
         :return: response
         """
         status_code = None

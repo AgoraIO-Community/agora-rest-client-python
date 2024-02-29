@@ -29,7 +29,7 @@ def web_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     :type uid: str
     :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop.uid`
     
-    :type async_stop: boolean
+    :type async_stop: bool
     :param async_stop: async stop, `agora_rest_client.services.cloud_recording.v1.api_stop.ClientRequest.async_stop`
     
     :return: response object ResponseApiStop
