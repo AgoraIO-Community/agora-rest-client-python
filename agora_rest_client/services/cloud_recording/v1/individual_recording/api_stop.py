@@ -13,7 +13,8 @@ class ResponseApiStop(api_stop.ResponseApiStop):
 def individual_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     """
     Individual recording stop
-
+    停止云端录制
+    
     :type client: object
     :param client: IndividualRecordingClient object
     

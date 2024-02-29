@@ -30,7 +30,8 @@ class ResponseApiUpdate(api_update.ResponseApiUpdate):
 def individual_recording_update(client, resource_id, sid, cname, uid, stream_subscribe=None):
     """
     Individual recording update
-
+    更新云端录制设置
+    
     :type client: object
     :param client: IndividualRecordingClient object
     

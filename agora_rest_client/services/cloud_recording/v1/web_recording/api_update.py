@@ -33,7 +33,8 @@ class ResponseApiUpdate(api_update.ResponseApiUpdate):
 def web_recording_update(client, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None):
     """
     Web recording update
-
+    更新云端录制设置
+    
     :type client: object
     :param client: WebRecordingClient object
     

@@ -158,10 +158,17 @@ class ResponseApiQuery(response.ResponseObject):
 def api_query(client, request_path_params_obj, response_obj=ResponseApiQuery):
     """
     Query the recording status
+    查询云端录制状态
     
+    :type client: object
     :param client: CloudRecordingClient object
+
+    :type request_path_params_obj: object
     :param request_path_params_obj: request object RequestApiQuery
+
+    :type response_obj: object
     :param response_obj: request object ResponseApiQuery
+    
     :return: response object ResponseApiQuery
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/query'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)

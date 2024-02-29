@@ -19,7 +19,8 @@ class WebRecordingClient(CloudRecordingClient):
     def acquire(self, cname, uid, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
         """
         Web recoding acquire
-
+        获取云端录制资源
+        
         :type client: object
         :param client: WebRecordingClient object
         
@@ -50,6 +51,7 @@ class WebRecordingClient(CloudRecordingClient):
     def query(self, resource_id, sid):
         """
         Web recording query
+        查询云端录制状态
 
         :type client: object
         :param client: WebRecordingClient object
@@ -69,6 +71,7 @@ class WebRecordingClient(CloudRecordingClient):
     def start(self, resource_id, cname, uid, storage_config, extension_service_config):
         """
         Web recording start
+        开始云端录制
 
         :type client: object
         :param client: WebRecordingClient object
@@ -100,6 +103,7 @@ class WebRecordingClient(CloudRecordingClient):
     def stop(self, resource_id, sid, cname, uid, async_stop=False):
         """
         Web recording stop
+        停止云端录制
 
         :type client: object
         :param client: WebRecordingClient object
@@ -131,7 +135,8 @@ class WebRecordingClient(CloudRecordingClient):
     def update(self, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None):
         """
         Web recording update
-
+        更新云端录制设置
+        
         :type client: object
         :param client: WebRecordingClient object
         

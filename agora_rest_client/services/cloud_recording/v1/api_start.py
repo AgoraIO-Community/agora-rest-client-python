@@ -898,11 +898,20 @@ class ResponseApiStart(response.RequestObject):
 def api_start(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiStart):
     """
     Start recording
-
+    开始云端录制
+    
+    :type client: object
     :param client: CloudRecordingClient object
+
+    :type request_path_params_obj: object
     :param request_path_params_obj: request object RequestPathParamsApiStart
+
+    :type request_body_obj: object
     :param request_body_obj: request object RequestBodyApiStart
+
+    :type response_obj: object
     :param response_obj: request object ResponseApiStart
+
     :return: response object ResponseApiStart
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/mode/{}/start'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.mode)

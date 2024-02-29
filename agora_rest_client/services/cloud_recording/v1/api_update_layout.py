@@ -241,11 +241,20 @@ class ResponseApiUpdateLayout(response.ResponseObject):
 def api_update_layout(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiUpdateLayout):
     """
     Update layout of the recording
-
+    更新云端录制合流布局
+    
+    :type client: object
     :param client: CloudRecordingClient object
+
+    :type request_path_params_obj: object
     :param request_path_params_obj: request object RequestPathParamsApiUpdateLayout
+
+    :type request_body_obj: object
     :param request_body_obj: request object RequestBodyApiUpdateLayout
+
+    :type response_obj: object
     :param response_obj: request object ResponseApiUpdateLayout
+
     :return: response object ResponseApiUpdateLayout
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/updateLayout'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)

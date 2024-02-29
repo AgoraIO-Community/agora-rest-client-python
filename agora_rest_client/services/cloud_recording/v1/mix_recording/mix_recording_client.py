@@ -20,7 +20,8 @@ class MixRecordingClient(CloudRecordingClient):
     def acquire(self, cname, uid, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
         """
         Mix recording acquire
-
+        获取云端录制资源
+        
         :type client: object
         :param client: MixRecordingClient object
         
@@ -51,6 +52,7 @@ class MixRecordingClient(CloudRecordingClient):
     def query(self, resource_id, sid):
         """
         Mix recording query
+        查询云端录制状态
 
         :type client: object
         :param client: MixRecordingClient object
@@ -70,6 +72,7 @@ class MixRecordingClient(CloudRecordingClient):
     def start(self, resource_id, cname, uid, token, storage_config, recording_config=None):
         """
         Mix recording start
+        开始云端录制
 
         :type client: object
         :param client: MixRecordingClient object
@@ -105,6 +108,7 @@ class MixRecordingClient(CloudRecordingClient):
     def stop(self, resource_id, sid, cname, uid, async_stop=False):
         """
         Mix recording stop
+        停止云端录制
 
         :type client: object
         :param client: MixRecordingClient object
@@ -133,11 +137,44 @@ class MixRecordingClient(CloudRecordingClient):
         """
         return mix_recording_stop(self, resource_id, sid, cname, uid, async_stop=async_stop)
 
+    def update(self, resource_id, sid, cname, uid, stream_subscribe=None):
+        """
+        Mix recording update
+        更新云端录制设置
+
+        :type client: object
+        :param client: MixRecordingClient object
+        
+        :type resource_id: str
+        :param resource_id: resource id
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
+        
+        :type sid: str
+        :param sid: sid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
+        
+        :type cname: str
+        :param cname: cname
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
+        
+        :type uid: str
+        :param uid: uid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
+        
+        :type stream_subscribe: object
+        :param stream_subscribe: stream subscribe
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
+        
+        :return: response object ResponseApiUpdate
+        """
+        return mix_recording_update(self, resource_id, sid, cname, uid, stream_subscribe=stream_subscribe)
+
     def update_layout(self, resource_id, sid, cname, uid, max_resolution_uid=None, mixed_video_layout=None, background_color=None,
         background_image=None, default_user_background_image=None, layout_config=None, background_config=None):
         """
         Mix recording update layout
-
+        更新云端录制合流布局
+        
         :type client: object
         :param client: MixRecordingClient object
         
@@ -190,34 +227,3 @@ class MixRecordingClient(CloudRecordingClient):
         return mix_recording_update_layout(self, resource_id, sid, cname, uid, max_resolution_uid=max_resolution_uid, mixed_video_layout=mixed_video_layout,
             background_color=background_color, background_image=background_image, default_user_background_image=default_user_background_image, 
             layout_config=layout_config, background_config=background_config)
-
-    def update(self, resource_id, sid, cname, uid, stream_subscribe=None):
-        """
-        Mix recording update
-
-        :type client: object
-        :param client: MixRecordingClient object
-        
-        :type resource_id: str
-        :param resource_id: resource id
-        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
-        
-        :type sid: str
-        :param sid: sid
-        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
-        
-        :type cname: str
-        :param cname: cname
-        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
-        
-        :type uid: str
-        :param uid: uid
-        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
-        
-        :type stream_subscribe: object
-        :param stream_subscribe: stream subscribe
-        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
-        
-        :return: response object ResponseApiUpdate
-        """
-        return mix_recording_update(self, resource_id, sid, cname, uid, stream_subscribe=stream_subscribe)

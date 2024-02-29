@@ -24,6 +24,8 @@ class ClientRequest(request.RequestObject):
         在延时转码和延时混音的场景中, 声网建议你不要填写 region 字段, 也不要将其留空. 否则, 由于声网边缘服务器的动态调整和延时场景下录制文件缓存带来的数据合规风险, 声网录制服务将无法正常使用. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.Scene`
     """
     scene = None
     
@@ -113,10 +115,17 @@ class ResponseApiAcquire(response.ResponseObject):
 def api_acquire(client, request_body_obj, response_obj=ResponseApiAcquire):
     """
     Acquire a resource id
+    获取云端录制资源
 
+    :type client: object
     :param client: CloudRecordingClient object
+
+    :type request_body_obj: object
     :param request_body_obj: request object RequestBodyApiAcquire
+
+    :type response_obj: object
     :param response_obj: request object ResponseApiAcquire
+    
     :return: response object ResponseApiAcquire
     """
     url = '/v1/apps/{}/cloud_recording/acquire'.format(client.app_id)

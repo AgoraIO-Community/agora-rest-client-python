@@ -16,7 +16,7 @@ class Scene(Enum):
     # 页面录制
     WEB = 1
     # 单流录制模式, 且开启延时转码或延时混音
-    INDIVIDUAL_DELAY = 2
+    INDIVIDUAL_POSTPONE = 2
 
 # 视频截图类型
 class SnapshotType(Enum):

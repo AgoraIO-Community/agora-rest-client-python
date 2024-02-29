@@ -30,7 +30,8 @@ class ResponseApiUpdate(api_update.ResponseApiUpdate):
 def mix_recording_update(client, resource_id, sid, cname, uid, stream_subscribe=None):
     """
     Mix recording update
-
+    更新云端录制设置
+    
     :type client: object
     :param client: MixRecordingClient object
     

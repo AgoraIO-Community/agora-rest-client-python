@@ -10,7 +10,8 @@ class ResponseApiQuery(api_query.ResponseApiQuery):
 def individual_recording_query(client, resource_id, sid):
     """
     Individual recording query
-
+    查询云端录制状态
+    
     :type client: object
     :param client: IndividualRecordingClient object
     

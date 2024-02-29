@@ -13,7 +13,8 @@ class ResponseApiAcquire(api_acquire.ResponseApiAcquire):
 def individual_recording_acquire(client, cname, uid, enable_postpone_transcoding_mix=False, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
     """
     Individual recording acquire
-
+    获取云端录制资源
+    
     :type client: object
     :param client: IndividualRecordingClient object
     

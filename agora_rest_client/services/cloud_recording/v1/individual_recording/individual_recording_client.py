@@ -20,7 +20,8 @@ class IndividualRecordingClient(CloudRecordingClient):
     def acquire(self, cname, uid, enable_postpone_transcoding_mix=False, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
         """
         Individual recording acquire
-
+        获取云端录制资源
+        
         :type client: object
         :param client: IndividualRecordingClient object
         
@@ -55,6 +56,7 @@ class IndividualRecordingClient(CloudRecordingClient):
     def query(self, resource_id, sid):
         """
         Individual recording query
+        查询云端录制状态
 
         :type client: object
         :param client: IndividualRecordingClient object
@@ -75,6 +77,7 @@ class IndividualRecordingClient(CloudRecordingClient):
             snapshot_config=None, apps_collection=None, transcode_options=None):
         """
         Individual recording start
+        开始云端录制
 
         :type client: object
         :param client: IndividualRecordingClientgClient object
@@ -127,6 +130,7 @@ class IndividualRecordingClient(CloudRecordingClient):
     def stop(self, resource_id, sid, cname, uid, async_stop=False):
         """
         Individual recording stop
+        停止云端录制
 
         :type client: object
         :param client: IndividualRecordingClient object
@@ -158,7 +162,8 @@ class IndividualRecordingClient(CloudRecordingClient):
     def update(self, resource_id, sid, cname, uid, stream_subscribe=None):
         """
         Individual recording update
-
+        更新云端录制设置
+        
         :type client: object
         :param client: IndividualRecordingClient object
         

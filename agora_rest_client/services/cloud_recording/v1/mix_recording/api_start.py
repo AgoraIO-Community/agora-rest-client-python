@@ -48,7 +48,8 @@ class ResponseApiStart(api_start.ResponseApiStart):
 def mix_recording_start(client, resource_id, cname, uid, token, storage_config, recording_config=None):
     """
     Mix recording start
-
+    开始云端录制
+    
     :type client: object
     :param client: MixRecordingClient object
     

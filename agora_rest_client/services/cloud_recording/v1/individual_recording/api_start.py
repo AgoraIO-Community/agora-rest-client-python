@@ -76,7 +76,8 @@ def individual_recording_start(client, resource_id, cname, uid, token, storage_c
                                snapshot_type=SnapshotType.SNAPSHOT_AND_RECORDING.value, snapshot_config=None, apps_collection=None, transcode_options=None):
     """
     Individual recording start
-
+    开始云端录制
+    
     :type client: object
     :param client: IndividualRecordingClientgClient object
     

@@ -48,6 +48,7 @@ class ResponseApiStart(api_start.ResponseApiStart):
 def web_recording_start(client, resource_id, cname, uid, storage_config, extension_service_config):
     """
     Web recording start
+    开始云端录制
 
     :type client: object
     :param client: WebRecordingClient object

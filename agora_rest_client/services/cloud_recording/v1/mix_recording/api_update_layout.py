@@ -59,7 +59,8 @@ def mix_recording_update_layout(client, resource_id, sid, cname, uid, max_resolu
         background_image=None, default_user_background_image=None, layout_config=None, background_config=None):
     """
     Mix recording update layout
-
+    更新云端录制合流布局
+    
     :type client: object
     :param client: MixRecordingClient object
     

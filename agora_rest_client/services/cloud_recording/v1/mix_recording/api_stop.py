@@ -13,7 +13,8 @@ class ResponseApiStop(api_stop.ResponseApiStop):
 def mix_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     """
     Mix recording stop
-
+    停止云端录制
+    
     :type client: object
     :param client: MixRecordingClient object
     
