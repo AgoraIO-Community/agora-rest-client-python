@@ -15,10 +15,12 @@ def mix_recording_query(client, resource_id, sid):
     :param client: MixRecordingClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.resource_id`
     
     :type sid: str
-    :param sid: sid, `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.sid`
+    :param sid: sid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.sid`
 
     :return: response object ResponseApiQuery
     """

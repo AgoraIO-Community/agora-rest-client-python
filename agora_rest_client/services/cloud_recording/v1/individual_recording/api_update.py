@@ -13,7 +13,8 @@ class StreamSubscribe(api_update.StreamSubscribe):
 
 class ClientRequest(request.RequestObject):
     """
-    instance of `StreamSubscribe`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.ClientRequest.streamSubscribe`
+    :value: instance of `StreamSubscribe`
     """
     streamSubscribe = None
 
@@ -34,19 +35,24 @@ def individual_recording_update(client, resource_id, sid, cname, uid, stream_sub
     :param client: IndividualRecordingClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
     
     :type sid: str
-    :param sid: sid, `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
+    :param sid: sid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
     
     :type cname: str
-    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
+    :param cname: cname
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
     
     :type uid: str
-    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
+    :param uid: uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
     
     :type stream_subscribe: object
-    :param stream_subscribe: stream subscribe, `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
+    :param stream_subscribe: stream subscribe
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
     
     :return: response object ResponseApiUpdate
     """

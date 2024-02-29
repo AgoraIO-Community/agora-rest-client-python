@@ -18,19 +18,24 @@ def mix_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     :param client: MixRecordingClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop.resource_id`
     
     :type sid: str
-    :param sid: sid, `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop.sid`
+    :param sid: sid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop.sid`
     
     :type cname: str
-    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop.cname`
+    :param cname: cname
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop.cname`
     
     :type uid: str
-    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop.uid`
+    :param uid: uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop.uid`
     
     :type async_stop: bool
-    :param async_stop: async stop, `agora_rest_client.services.cloud_recording.v1.api_stop.ClientRequest.async_stop`
+    :param async_stop: async stop
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.ClientRequest.async_stop`
     
     :return: response object ResponseApiStop
     """

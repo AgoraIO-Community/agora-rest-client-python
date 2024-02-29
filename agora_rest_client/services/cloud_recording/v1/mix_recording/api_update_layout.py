@@ -10,37 +10,39 @@ class BackgroundConfig(api_update_layout.BackgroundConfig):
 
 class ClientRequest(request.RequestObject):
     """
-    refer to `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.maxResolutionUid`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.maxResolutionUid`
     """
     maxResolutionUid = None
 
     """
-    refer to `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.mixedVideoLayout`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.mixedVideoLayout`
     """
     mixedVideoLayout = None
 
     """
-    refer to `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundColor`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundColor`
     """
     backgroundColor = None
 
     """
-    refer to `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundImage`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundImage`
     """
     backgroundImage = None
 
     """
-    refer to `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.defaultUserBackgroundImage`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.defaultUserBackgroundImage`
     """
     defaultUserBackgroundImage = None
 
     """
-    instance of `LayoutConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.layoutConfig`
+    :value: instance of `LayoutConfig`
     """
     layoutConfig = None
 
     """
-    instance of `BackgroundConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundConfig`
+    :value: instance of `BackgroundConfig`
     """
     backgroundConfig = None
 
@@ -62,37 +64,48 @@ def mix_recording_update_layout(client, resource_id, sid, cname, uid, max_resolu
     :param client: MixRecordingClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdate.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdate.resource_id`
     
     :type sid: str
-    :param sid: sid, `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdate.sid`
+    :param sid: sid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestPathParamsApiUpdate.sid`
     
     :type cname: str
-    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdate.cname`
+    :param cname: cname
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdate.cname`
     
     :type uid: str
-    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdate.uid`
+    :param uid: uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.RequestBodyApiUpdate.uid`
     
     :type max_resolution_uid: str
-    :param max_resolution_uid: max resolution uid, `ClientRequest.maxResolutionUid`
+    :param max_resolution_uid: max resolution uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.maxResolutionUid`
     
     :type mixed_video_layout: int
-    :param mixed_video_layout: mixed video layout, `ClientRequest.mixedVideoLayout`
+    :param mixed_video_layout: mixed video layout
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.mixedVideoLayout`
     
     :type background_color: str
-    :param background_color: background color, `ClientRequest.backgroundColor`
+    :param background_color: background color
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundColor`
     
     :type background_image: str
-    :param background_image: background image, `ClientRequest.backgroundImage`
+    :param background_image: background image
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.backgroundImage`
     
     :type default_user_background_image: str
-    :param default_user_background_image: default user background image, `ClientRequest.defaultUserBackgroundImage`
+    :param default_user_background_image: default user background image
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.ClientRequest.defaultUserBackgroundImage`
     
     :type layout_config: object
-    :param layout_config: layout config, `LayoutConfig`
+    :param layout_config: layout config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.LayoutConfig`
     
     :type background_config: object
-    :param background_config: background config, `BackgroundConfig`
+    :param background_config: background config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.BackgroundConfig`
     
     :return: response object ResponseApiUpdate
     """

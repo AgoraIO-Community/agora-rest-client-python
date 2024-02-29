@@ -17,16 +17,148 @@ class WebRecordingClient(CloudRecordingClient):
         return WebRecordingClient()
 
     def acquire(self, cname, uid, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
+        """
+        Web recoding acquire
+
+        :type client: object
+        :param client: WebRecordingClient object
+        
+        :type cname: str
+        :param cname: cname
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.RequestBodyApiAcquire.cname`
+        
+        :type uid: str
+        :param uid: uid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.RequestBodyApiAcquire.uid`
+        
+        :type resource_expired_hour: int
+        :param resource_expired_hour: resource expired hour
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.resourceExpiredHour`
+        
+        :type exclude_resource_ids: list
+        :param exclude_resource_ids: exclude resource ids
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.excludeResourceIds`
+        
+        :type region_affinity: int
+        :param region_affinity: region affinity
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.regionAffinity`
+        
+        :return: response object ResponseApiAcquire
+        """
         return web_recording_acquire(self, cname, uid, resource_expired_hour=resource_expired_hour, exclude_resource_ids=exclude_resource_ids, region_affinity=region_affinity)
 
     def query(self, resource_id, sid):
+        """
+        Web recording query
+
+        :type client: object
+        :param client: WebRecordingClient object
+        
+        :type resource_id: str
+        :param resource_id: resource id
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.resource_id`
+        
+        :type sid: str
+        :param sid: sid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.sid`
+        
+        :return: response object ResponseApiQuery
+        """
         return web_recording_query(self, resource_id, sid)
 
     def start(self, resource_id, cname, uid, storage_config, extension_service_config):
+        """
+        Web recording start
+
+        :type client: object
+        :param client: WebRecordingClient object
+        
+        :type resource_id: str
+        :param resource_id: resource id
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
+        
+        :type cname: str
+        :param cname: cname
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
+        
+        :type uid: str
+        :param uid: uid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
+        
+        :type storage_config: object
+        :param storage_config: storage config
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
+        
+        :type extension_service_config: object
+        :param extension_service_config: extension service config
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
+        
+        :return: response object ResponseApiStart
+        """
         return web_recording_start(self, resource_id, cname, uid, storage_config, extension_service_config)
 
     def stop(self, resource_id, sid, cname, uid, async_stop=False):
+        """
+        Web recording stop
+
+        :type client: object
+        :param client: WebRecordingClient object
+        
+        :type resource_id: str
+        :param resource_id: resource id
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop.resource_id`
+        
+        :type sid: str
+        :param sid: sid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestPathParamsApiStop.sid`
+        
+        :type cname: str
+        :param cname: cname
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop.cname`
+        
+        :type uid: str
+        :param uid: uid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.RequestBodyApiStop.uid`
+        
+        :type async_stop: bool
+        :param async_stop: async stop
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.ClientRequest.async_stop`
+        
+        :return: response object ResponseApiStop
+        """
         return web_recording_stop(self, resource_id, sid, cname, uid, async_stop=async_stop)
 
     def update(self, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None):
+        """
+        Web recording update
+
+        :type client: object
+        :param client: WebRecordingClient object
+        
+        :type resource_id: str
+        :param resource_id: resource id
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
+        
+        :type sid: str
+        :param sid: sid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
+        
+        :type cname: str
+        :param cname: cname
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
+        
+        :type uid: str
+        :param uid: uid
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
+        
+        :type web_recording_config: object
+        :param web_recording_config: web recording config
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`
+        
+        :type rtmp_publish_config: object
+        :param rtmp_publish_config: rtmp publish config
+        :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
+
+        :return: response object ResponseApiUpdate
+        """
         return web_recording_update(self, resource_id, sid, cname, uid, web_recording_config=web_recording_config, rtmp_publish_config=rtmp_publish_config)

@@ -23,37 +23,43 @@ class TranscodeOptions(api_start.TranscodeOptions):
 
 class ClientRequest(request.RequestObject):
     """
-    reference to `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
     """
     token = None
 
     """
-    instance of `StorageConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.storageConfig`
+    :value: instance of `StorageConfig`
     """
     storageConfig = None
 
     """
-    instance of `RecordingConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingConfig`
+    :value: instance of `RecordingConfig`
     """
     recordingConfig = None
 
     """
-    instance of `RecordingFileConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingFileConfig`
+    :value: instance of `RecordingFileConfig`
     """
     recordingFileConfig = None
 
     """
-    instance of `SnapshotConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.snapshotConfig`
+    :value: instance of `SnapshotConfig`
     """
     snapshotConfig = None
 
     """
-    instance of `AppsCollection`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.appsCollection`
+    :value: instance of `AppsCollection`
     """
     appsCollection = None
 
     """
-    instance of `TranscodeOptions`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.transcodeOptions`
+    :value: instance of `TranscodeOptions`
     """
     transcodeOptions = None
 
@@ -75,34 +81,44 @@ def individual_recording_start(client, resource_id, cname, uid, token, storage_c
     :param client: IndividualRecordingClientgClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
     
     :type cname: str
-    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
+    :param cname: cname
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
     
     :type uid: str
-    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
+    :param uid: uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
     
     :type token: str
-    :param token: token, `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
+    :param token: token
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
     
     :type storage_config: object
-    :param storage_config: storage config, `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
+    :param storage_config: storage config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
     
     :type recording_config: object
-    :param recording_config: recording config, `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
+    :param recording_config: recording config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
     
     :type snapshot_type: int
-    :param snapshot_type: 视频截图类型, `agora_rest_client.services.cloud_recording.v1.api.SnapshotType`
+    :param snapshot_type: 视频截图类型
+    :refer: `agora_rest_client.services.cloud_recording.v1.api.SnapshotType`
     
     :type snapshot_config: object
-    :param snapshot_config: snapshot config, `agora_rest_client.services.cloud_recording.v1.api_start.SnapshotConfig`
+    :param snapshot_config: snapshot config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.SnapshotConfig`
     
     :type apps_collection: object
-    :param apps_collection: apps collection, `agora_rest_client.services.cloud_recording.v1.api_start.AppsCollection`
+    :param apps_collection: apps collection
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.AppsCollection`
     
     :type transcode_options: object
-    :param transcode_options: transcode options, `agora_rest_client.services.cloud_recording.v1.api_start.TranscodeOptions`
+    :param transcode_options: transcode options
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.TranscodeOptions`
     
     :return: response object ResponseApiStart
     """

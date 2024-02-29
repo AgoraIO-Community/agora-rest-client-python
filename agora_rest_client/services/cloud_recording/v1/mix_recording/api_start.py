@@ -14,22 +14,25 @@ class RecordingFileConfig(api_start.RecordingFileConfig):
 
 class ClientRequest(request.RequestObject):
     """
-    reference to `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
     """
     token = None
 
     """
-    instance of `StorageConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.storageConfig`
+    :value: instance of `StorageConfig`
     """
     storageConfig = None
 
     """
-    instance of `RecordingConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingConfig`
+    :value: instance of `RecordingConfig`
     """
     recordingConfig = None
 
     """
-    instance of `RecordingFileConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingConfig`
+    :value: instance of `RecordingFileConfig`
     """
     recordingFileConfig = None
 
@@ -50,22 +53,28 @@ def mix_recording_start(client, resource_id, cname, uid, token, storage_config, 
     :param client: MixRecordingClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
     
     :type cname: str
-    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
+    :param cname: cname
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
     
     :type uid: str
-    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
+    :param uid: uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
     
     :type token: str
-    :param token: token, `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
+    :param token: token
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.token`
     
     :type storage_config: object
-    :param storage_config: storage config, `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
+    :param storage_config: storage config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
     
     :type recording_config: object
-    :param recording_config: recording config, `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
+    :param recording_config: recording config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
     
     :return: response object ResponseApiStart
     """

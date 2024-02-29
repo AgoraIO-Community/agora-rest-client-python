@@ -19,17 +19,20 @@ class ServiceParam(api_start.ServiceParam):
 
 class ClientRequest(request.RequestObject):
     """
-    instance of `StorageConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.storageConfig`
+    :value: instance of `StorageConfig`
     """
     storageConfig = None
 
     """
-    instance of `RecordingFileConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.recordingFileConfig`
+    :value: instance of `RecordingFileConfig`
     """
     recordingFileConfig = None
 
     """
-    instance of `ExtensionServiceConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ClientRequest.extensionServiceConfig`
+    :value: instance of `ExtensionServiceConfig`
     """
     extensionServiceConfig = None
 
@@ -50,19 +53,24 @@ def web_recording_start(client, resource_id, cname, uid, storage_config, extensi
     :param client: WebRecordingClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestPathParamsApiStart.resource_id`
     
     :type cname: str
-    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
+    :param cname: cname
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.cname`
     
     :type uid: str
-    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
+    :param uid: uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RequestBodyApiStart.uid`
     
     :type storage_config: object
-    :param storage_config: storage config, `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
+    :param storage_config: storage config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.StorageConfig`
     
     :type extension_service_config: object
-    :param extension_service_config: extension service config, `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
+    :param extension_service_config: extension service config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_start.ExtensionServiceConfig`
     
     :return: response object ResponseApiStart
     """

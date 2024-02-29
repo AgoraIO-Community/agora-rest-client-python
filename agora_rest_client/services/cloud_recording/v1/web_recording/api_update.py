@@ -10,12 +10,14 @@ class RtmpPublishConfig(api_update.RtmpPublishConfig):
 
 class ClientRequest(request.RequestObject):
     """
-    instance of `WebRecordingConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.ClientRequest.webRecordingConfig`
+    :value: instance of `WebRecordingConfig`
     """
     webRecordingConfig = None
 
     """
-    instance of `RtmpPublishConfig`
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.ClientRequest.rtmpPublishConfig`
+    :value: instance of `RtmpPublishConfig`
     """
     rtmpPublishConfig = None
 
@@ -36,22 +38,28 @@ def web_recording_update(client, resource_id, sid, cname, uid, web_recording_con
     :param client: WebRecordingClient object
     
     :type resource_id: str
-    :param resource_id: resource id, `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
+    :param resource_id: resource id
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.resource_id`
     
     :type sid: str
-    :param sid: sid, `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
+    :param sid: sid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestPathParamsApiUpdate.sid`
     
     :type cname: str
-    :param cname: cname, `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
+    :param cname: cname
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.cname`
     
     :type uid: str
-    :param uid: uid, `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
+    :param uid: uid
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RequestBodyApiUpdate.uid`
     
     :type web_recording_config: object
-    :param web_recording_config: web recording config, `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`
+    :param web_recording_config: web recording config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.WebRecordingConfig`
     
     :type rtmp_publish_config: object
-    :param rtmp_publish_config: rtmp publish config, `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
+    :param rtmp_publish_config: rtmp publish config
+    :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
 
     :return: response object ResponseApiUpdate
     """
