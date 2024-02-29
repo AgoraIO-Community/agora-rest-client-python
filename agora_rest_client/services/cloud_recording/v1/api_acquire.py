@@ -59,6 +59,8 @@ class ClientRequest(request.RequestObject):
     注意: 为加速录制文件上传, 当你使用的云存储区域和你发起请求的区域不同时, 建议你将该字段设为云存储区域. 
     
     default: 0
+
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RegionAffinity`
     """
     regionAffinity = None
 

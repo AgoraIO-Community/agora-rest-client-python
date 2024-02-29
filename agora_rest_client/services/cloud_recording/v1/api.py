@@ -14,6 +14,19 @@ class Mode(Enum):
     # 页面录制模式
     WEB = 'web'
 
+# 指定使用某个区域的资源进行录制
+class RegionAffinity(Enum):
+    # 根据发起请求的区域就近调用资源
+    NEAR = 0
+    # 中国
+    CHINA = 1
+    # 东南亚
+    SOUTHEAST_ASIA = 2
+    # 欧洲
+    EUROPE = 3
+    # 北美
+    NORTH_AMERICA = 4
+
 # 云端录制资源使用场景
 class Scene(Enum):
     # 实时音视频录制

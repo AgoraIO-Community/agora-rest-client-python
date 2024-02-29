@@ -17,7 +17,7 @@ class IndividualRecordingClient(CloudRecordingClient):
     def new_builder():
         return IndividualRecordingClient()
 
-    def acquire(self, cname, uid, enable_postpone_transcoding_mix=False, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
+    def acquire(self, cname, uid, enable_postpone_transcoding_mix=False, resource_expired_hour=None, exclude_resource_ids=None, region_affinity=None):
         """
         Individual recording acquire
         获取云端录制资源
@@ -47,7 +47,8 @@ class IndividualRecordingClient(CloudRecordingClient):
         :type region_affinity: int
         :param region_affinity: region affinity
         :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.regionAffinity`
-        
+        :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RegionAffinity`
+
         :return: response object ResponseApiAcquire
         """
         return individual_recording_acquire(self, cname, uid, enable_postpone_transcoding_mix=enable_postpone_transcoding_mix, 

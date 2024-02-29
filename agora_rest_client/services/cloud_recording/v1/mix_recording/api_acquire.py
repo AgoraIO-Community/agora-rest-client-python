@@ -10,7 +10,7 @@ class RequestBodyApiAcquire(api_acquire.RequestBodyApiAcquire):
 class ResponseApiAcquire(api_acquire.ResponseApiAcquire):
     pass
 
-def mix_recording_acquire(client, cname, uid, resource_expired_hour=72, exclude_resource_ids=[], region_affinity=0):
+def mix_recording_acquire(client, cname, uid, resource_expired_hour=None, exclude_resource_ids=None, region_affinity=None):
     """
     Mix recording acquire
     获取云端录制资源
@@ -37,6 +37,7 @@ def mix_recording_acquire(client, cname, uid, resource_expired_hour=72, exclude_
     :type region_affinity: int
     :param region_affinity: region affinity
     :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.regionAffinity`
+    :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RegionAffinity`
     
     :return: response object ResponseApiAcquire
     """
@@ -44,10 +45,16 @@ def mix_recording_acquire(client, cname, uid, resource_expired_hour=72, exclude_
         cname=cname,
         uid=uid,
         clientRequest=ClientRequest(
-            scene=Scene.RTC.value,
-            resourceExpiredHour=resource_expired_hour,
-            excludeResourceIds=exclude_resource_ids,
-            regionAffinity=region_affinity,
+            scene=Scene.RTC.value
     ))
+
+    if resource_expired_hour is not None:
+        request_body_obj.clientRequest.resourceExpiredHour = resource_expired_hour
+
+    if exclude_resource_ids is not None:
+        request_body_obj.clientRequest.excludeResourceIds = exclude_resource_ids
+
+    if region_affinity is not None:
+        request_body_obj.clientRequest.regionAffinity = region_affinity
 
     return api_acquire.api_acquire(client, request_body_obj=request_body_obj, response_obj=ResponseApiAcquire)
