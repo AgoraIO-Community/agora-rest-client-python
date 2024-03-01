@@ -44,7 +44,7 @@ individual_recording_client = individual_recording_client.IndividualRecordingCli
 try:
     response = individual_recording_client.acquire(cname, uid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -66,7 +66,7 @@ mix_recording_client = mix_recording_client.MixRecordingClient \
 try:
     response = mix_recording_client.acquire(cname, uid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -88,7 +88,7 @@ web_recording_client = WebRecordingClient \
 try:
     response = web_recording_client.acquire(cname, uid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -112,7 +112,7 @@ try:
         )
     )
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -133,7 +133,7 @@ try:
         )
     )
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -168,7 +168,7 @@ try:
         )
     )
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -184,7 +184,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = individual_recording_client.stop(resource_id, sid, cname, uid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -197,7 +197,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = mix_recording_client.stop(resource_id, sid, cname, uid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -210,7 +210,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = web_recording_client.stop(resource_id, sid, cname, uid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -226,7 +226,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = individual_recording_client.query(resource_id, sid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -239,7 +239,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = mix_recording_client.query(resource_id, sid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -252,7 +252,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = web_recording_client.query(resource_id, sid)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -276,7 +276,7 @@ try:
         )
     )
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -295,7 +295,7 @@ try:
         )
     )
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -308,7 +308,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config=api_update.WebRecordingConfig(onhold=True))
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)
@@ -325,7 +325,7 @@ except exceptions.ClientRequestException as e:
 try:
     response = mix_recording_client.update_layout(resource_id, sid, cname, uid, mixed_video_layout=1)
     print(response)
-except exceptions.ClientRequestException as e:
+except exceptions.ClientException as e:
     print(e.status_code)
     print(e.error_code)
     print(e.error_msg)

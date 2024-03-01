@@ -1,5 +1,7 @@
 import json
+import time
 import uuid
+from agora_rest_client.core import errors
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.client import Client
 from agora_rest_client.services.cloud_recording.v1.api_acquire import api_acquire
@@ -60,20 +62,47 @@ class CloudRecordingClient(Client):
         if trace_id is None:
             trace_id = uuid.uuid1()
 
-        try:
-            resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds, trace_id=trace_id)
+        status_code = None
+        error_code = None
+        error_msg = None
 
-            # Request success
-            if resp.status_code == 200 or resp.status_code == 201:
-                return response_obj(**json.loads(resp.text))
+        # Retry
+        for retry in range(self._http_retry_count):
+            retry_num = retry + 1
 
-            resp_json = resp.json()
-            error_code = resp_json.get(self._error_code_key)
-            error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
+            try:
+                resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds, trace_id=trace_id)
+                status_code = resp.status_code
 
-            raise exceptions.ClientRequestException(resp.status_code, error_code, error_msg)
-        except Exception as e:
-            raise e
+                self._logger.debug('call api, trace_id:%s, url:%s, retry_num:%d, status_code:%s', trace_id, url, retry_num, status_code)
+
+                # Request success
+                if status_code == 200 or status_code == 201:
+                    return response_obj(**json.loads(resp.text))
+
+                try:
+                    resp_json = resp.json()
+                    error_code = resp_json.get(self._error_code_key)
+                    error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
+                except Exception as e:
+                    error_msg = resp.text
+
+                # Request failed
+                # No need to retry
+                if status_code >= 400 and status_code < 410:
+                    self._logger.error('call api, no retry, trace_id:%s, url:%s, retry_num:%d, status_code:%s, error_code:%s, error_msg:%s', trace_id, url, retry_num, status_code, error_code, error_msg)
+                    raise exceptions.ServiceResponseException(status_code, error_code, error_msg)
+            except exceptions.ClientTimeoutException as e:
+                self._logger.error('call api, timeout, trace_id:%s, url:%s, retry_num:%d', trace_id, url, retry_num)
+            except exceptions.ClientRequestException as e:
+                self._logger.error('call api, http error, err:%s, trace_id:%s, url:%s, retry_num:%d', e, trace_id, url, retry_num)
+
+            # Retry, sleep
+            sleep_second = retry_num
+            time.sleep(sleep_second)
+            self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%s, error_code:%s, error_msg:%s, sleep_second:%d', url, retry_num, status_code, error_code, error_msg, sleep_second)
+
+        raise exceptions.ClientRequestException(status_code, error_code, error_msg)
 
     def acquire(self, request_body_obj, trace_id=None):
         """

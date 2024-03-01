@@ -146,40 +146,13 @@ class Client(object):
         :type: object
         :return: class:`requests.Response <Response>` object
         """
-        status_code = None
-
-        # Retry
-        for retry in range(self._http_retry_count):
-            retry_num = retry + 1
-
-            try:
-                resp = func_timeout.func_timeout(self._http_timeout_seconds, self.do_http_request, args=(method, url),
-                                                 kwargs={'params': params, 'post_data': post_data, 'post_json': post_json, 'headers': headers,
-                                                         'timeout_seconds': timeout_seconds, 'trace_id': trace_id})
-                status_code = resp.status_code
-
-                self._logger.debug('call api, trace_id:%s, url:%s, retry_num:%d, status_code:%s', trace_id, url, retry_num, status_code)
-
-                # Request success
-                if status_code == 200 or status_code == 201:
-                    return resp
-
-                # Request failed
-                # No need to retry
-                if status_code >= 400 and status_code < 410:
-                    self._logger.error('call api, status code 400~410 error, trace_id:%s, resp:%s, url:%s, retry_num:%d, status_code:%s, sleep_second:%d', trace_id, resp.text, url, retry_num, status_code, retry_num)
-                    raise exceptions.ClientNoRetryException(status_code, None, errors.HTTP_STATUS_CODE_400_410)
-            except func_timeout.FunctionTimedOut as e:
-                self._logger.error('call api, timeout, trace_id:%s, url:%s, retry_num:%d', trace_id, url, retry_num)
-            except exceptions.ClientRequestException as e:
-                self._logger.error('call api, http error, err:%s, trace_id:%s, url:%s, retry_num:%d', e, trace_id, url, retry_num)
-
-            # Retry, sleep
-            sleep_second = retry_num
-            time.sleep(sleep_second)
-            self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%s, sleep_second:%d', url, retry_num, status_code, sleep_second)
-
-        raise exceptions.ClientRequestException(status_code, None, errors.CALL_API_FAILED)
+        try:
+            resp = func_timeout.func_timeout(self._http_timeout_seconds, self.do_http_request, args=(method, url),
+                                             kwargs={'params': params, 'post_data': post_data, 'post_json': post_json, 'headers': headers,
+                                                     'timeout_seconds': timeout_seconds, 'trace_id': trace_id})
+            return resp
+        except func_timeout.FunctionTimedOut as e:
+            raise exceptions.ClientTimeoutException(None, None, e.getMsg())
 
     def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, trace_id=None):
         """

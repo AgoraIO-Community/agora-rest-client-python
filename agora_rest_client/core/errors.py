@@ -1,7 +1,5 @@
 APP_ID_REQUIRED = 'app id is required'
 BASIC_AUTH_REQUIRED = 'basic auth is required'
-CALL_API_FAILED = 'call api failed'
 HTTP_REQUEST_FAILED = 'http request failed'
-HTTP_STATUS_CODE_400_410 = 'status code 400~410 error'
 REGION_INVALID = 'region invalid'
 REGION_REQUIRED = 'region is required'

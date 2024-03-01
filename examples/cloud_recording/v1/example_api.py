@@ -19,7 +19,7 @@ def stop_recording(mode, resource_id, sid, cname, uid):
             api_stop.RequestBodyApiStop(cname=cname, uid=uid, clientRequest=api_stop.ClientRequest(async_stop=False))
         )
         cloud_recording_client.logger.info('stop recording, response:%s', response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         cloud_recording_client.logger.error('stop recording, err:%s', e)
         os._exit(1)
 
@@ -64,7 +64,7 @@ if __name__ == '__main__':
             clientRequest=api_acquire.ClientRequest(scene=Scene.WEB.value, resourceExpiredHour=1))
         )
         cloud_recording_client.logger.info('acquire resource, cname:%s, uid:%s, response:%s', cname, uid, response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         cloud_recording_client.logger.error('acquire resource, cname:%s, uid:%s, err:%s', cname, uid, e)
         os._exit(1)
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
             )
         )
         cloud_recording_client.logger.info('start recording, resource_id:%s, response:%s', resource_id, response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         cloud_recording_client.logger.error('start recording, resource_id:%s, err:%s', resource_id, e)
         os._exit(1)
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     try:
         response = cloud_recording_client.query(api_query.RequestPathParamsApiQuery(mode=mode, resource_id=resource_id, sid=sid))
         cloud_recording_client.logger.info('query recording, sid:%s, response:%s', sid, response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         cloud_recording_client.logger.error('query recording, sid:%s, err:%s', sid, e)
         stop_recording(mode, resource_id, sid, cname, uid)
         os._exit(1)
@@ -121,7 +121,7 @@ if __name__ == '__main__':
             ))
         )
         cloud_recording_client.logger.info('update recording, response:%s', response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         cloud_recording_client.logger.error('update recording, err:%s', e)
         stop_recording(mode, resource_id, sid, cname, uid)
         os._exit(1)

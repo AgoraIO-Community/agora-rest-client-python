@@ -99,7 +99,7 @@ if __name__ == '__main__':
             ]
         ))
         print(response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         print(e.status_code)
         print(e.error_code)
         print(e.error_msg)

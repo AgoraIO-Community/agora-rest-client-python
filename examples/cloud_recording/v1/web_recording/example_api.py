@@ -12,7 +12,7 @@ def stop_recording(resource_id, sid, cname, uid):
     try:
         response = web_recording_client.stop(resource_id, sid, cname, uid)
         web_recording_client.logger.info('stop recording, response:%s', response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         web_recording_client.logger.error('stop recording, err:%s', e)
         os._exit(1)
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     try:
         response = web_recording_client.acquire(cname, uid)
         web_recording_client.logger.info('acquire resource, cname:%s, uid:%s, response:%s', cname, uid, response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         web_recording_client.logger.error('acquire resource, cname:%s, uid:%s, err:%s', cname, uid, e)
         os._exit(1)
 
@@ -85,7 +85,7 @@ if __name__ == '__main__':
             )
         )
         web_recording_client.logger.info('start recording, resource_id:%s, response:%s', resource_id, response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         web_recording_client.logger.error('start recording, resource_id:%s, err:%s', resource_id, e)
         os._exit(1)
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     try:
         response = web_recording_client.query(resource_id, sid)
         web_recording_client.logger.info('query recording, sid:%s, response:%s', sid, response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         web_recording_client.logger.error('query recording, sid:%s, err:%s', sid, e)
         stop_recording(resource_id, sid, cname, uid)
         os._exit(1)
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     try:
         response = web_recording_client.update(resource_id, sid, cname, uid, web_recording_config=api_update.WebRecordingConfig(onhold=True))
         web_recording_client.logger.info('update recording, response:%s', response)
-    except exceptions.ClientRequestException as e:
+    except exceptions.ClientException as e:
         web_recording_client.logger.error('update recording, err:%s', e)
         stop_recording(resource_id, sid, cname, uid)
         os._exit(1)
