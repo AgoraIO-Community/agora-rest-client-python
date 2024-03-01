@@ -144,7 +144,7 @@ class Client(object):
         :type response_obj: object
         :param response_obj: response object
 
-        :return: response
+        :return: status_code, response text
         """
         # Retry
         for retry in range(self._http_retry_count):
@@ -159,21 +159,17 @@ class Client(object):
 
                 # Request success
                 if status_code == 200 or status_code == 201:
-                    return response_obj(**json.loads(resp.text))
-
-                resp_json = resp.json()
-                error_code = resp_json.get(self._error_code_key)
-                error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
+                    return status_code, resp.text
 
                 # Request failed
                 # No need to retry
                 if status_code >= 400 and status_code < 410:
                     self._logger.error('call api, status code 400~410 error, err:%s, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', resp.text, url, retry_num, status_code, retry_num)
-                    raise exceptions.ClientRequestException(status_code, error_code, error_msg)
+                    raise exceptions.ClientRequestException(status_code, None, 'status code 400~410 error')
 
                 # Retry
                 self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', url, retry_num, status_code, retry_num)
-            except Exception as e:
+            except exceptions.ClientRequestException as e:
                 self._logger.error('call api, http error, err:%s, url:%s, retry_num:%d', e, url, retry_num)
 
             # Sleep
@@ -206,7 +202,7 @@ class Client(object):
         :type timeout_seconds: int
         :param timeout_seconds: http timeout
 
-        :return: response
+        :return: class:`requests.Response <Response>` object
         """
         resp = None
         start_time = time.time()

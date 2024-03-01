@@ -1,4 +1,5 @@
-from agora_rest_client.core import response
+import json
+from agora_rest_client.core import exceptions
 from agora_rest_client.core.client import Client
 from agora_rest_client.services.cloud_recording.v1.api_acquire import api_acquire
 from agora_rest_client.services.cloud_recording.v1.api_query import api_query
@@ -20,6 +21,51 @@ class CloudRecordingClient(Client):
 
     def new_builder():
         return CloudRecordingClient()
+
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
+        """
+        Call api
+
+        :type method: str
+        :param method: http method
+
+        :type url: str
+        :param url: http url
+
+        :type params: object
+        :param params: http params
+
+        :type post_data: object
+        :param post_data: http post data
+
+        :type post_json: object
+        :param post_json: http post json
+
+        :type headers: object
+        :param headers: http headers
+
+        :type timeout_seconds: int
+        :param timeout_seconds: http timeout
+
+        :type response_obj: object
+        :param response_obj: response object
+
+        :return: response
+        """
+        try:
+            status_code, resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds, response_obj=response_obj)
+
+            # Request success
+            if status_code == 200 or status_code == 201:
+                return response_obj(**json.loads(resp))
+
+            resp_json = resp.json()
+            error_code = resp_json.get(self._error_code_key)
+            error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
+
+            raise exceptions.ClientRequestException(status_code, error_code, error_msg)
+        except Exception as e:
+            raise e
 
     def acquire(self, request_body_obj):
         """
