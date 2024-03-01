@@ -204,7 +204,6 @@ class Client(object):
 
         :return: class:`requests.Response <Response>` object
         """
-        resp = None
         start_time = time.time()
 
         while True:
