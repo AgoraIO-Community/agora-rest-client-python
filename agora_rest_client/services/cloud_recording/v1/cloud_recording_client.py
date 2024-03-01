@@ -50,20 +50,21 @@ class CloudRecordingClient(Client):
         :type response_obj: object
         :param response_obj: response object
 
-        :return: response
+        :type: object
+        :return: instance of `response_obj`
         """
         try:
-            status_code, resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds)
+            resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds)
 
             # Request success
-            if status_code == 200 or status_code == 201:
-                return response_obj(**json.loads(resp))
+            if resp.status_code == 200 or resp.status_code == 201:
+                return response_obj(**json.loads(resp.text))
 
             resp_json = resp.json()
             error_code = resp_json.get(self._error_code_key)
             error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
 
-            raise exceptions.ClientRequestException(status_code, error_code, error_msg)
+            raise exceptions.ClientRequestException(resp.status_code, error_code, error_msg)
         except Exception as e:
             raise e
 

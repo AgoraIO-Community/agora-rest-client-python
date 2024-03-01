@@ -140,7 +140,8 @@ class Client(object):
         :type timeout_seconds: int
         :param timeout_seconds: http timeout
 
-        :return: status_code, response text
+        :type: object
+        :return: class:`requests.Response <Response>` object
         """
         # Retry
         for retry in range(self._http_retry_count):
@@ -157,7 +158,7 @@ class Client(object):
 
                 # Request success
                 if status_code == 200 or status_code == 201:
-                    return status_code, resp.text
+                    return resp
 
                 # Request failed
                 # No need to retry
@@ -201,6 +202,7 @@ class Client(object):
         :type timeout_seconds: int
         :param timeout_seconds: http timeout
 
+        :type: object
         :return: class:`requests.Response <Response>` object
         """
         for host in self._domain.get_domain_list():
