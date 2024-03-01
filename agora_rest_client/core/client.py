@@ -146,10 +146,11 @@ class Client(object):
         :type: object
         :return: class:`requests.Response <Response>` object
         """
+        status_code = None
+
         # Retry
         for retry in range(self._http_retry_count):
             retry_num = retry + 1
-            status_code = None
 
             try:
                 resp = func_timeout.func_timeout(self._http_timeout_seconds, self.do_http_request, args=(method, url),
@@ -178,7 +179,7 @@ class Client(object):
             time.sleep(sleep_second)
             self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%s, sleep_second:%d', url, retry_num, status_code, sleep_second)
 
-        raise exceptions.ClientRequestException(None, None, errors.CALL_API_FAILED)
+        raise exceptions.ClientRequestException(status_code, None, errors.CALL_API_FAILED)
 
     def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, trace_id=None):
         """
@@ -211,6 +212,8 @@ class Client(object):
         :type: object
         :return: class:`requests.Response <Response>` object
         """
+        status_code = None
+
         for host in self._domain.get_domain_list():
             host_url = 'https://%s%s' % (host, url)
             self._logger.debug('do http request, trace_id:%s, host_url:%s', trace_id, host_url)
@@ -218,16 +221,17 @@ class Client(object):
             try:
                 resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
                                         timeout=timeout_seconds, auth=self._basic_auth)
+                status_code = resp.status_code
 
-                self._logger.debug('do http request, trace_id:%s, host_url:%s, status_code:%s', trace_id, host_url, resp.status_code)
+                self._logger.debug('do http request, trace_id:%s, host_url:%s, status_code:%s', trace_id, host_url, status_code)
                 return resp
             except requests.exceptions.RequestException as e:
-                self._logger.error('do http request, request failed, err:%s, trace_id:%s, host_url:%s', e, trace_id, host_url)
+                self._logger.error('do http request, request failed, err:%s, trace_id:%s, host_url:%s, status_code:%s', e, trace_id, host_url, status_code)
 
             # Sleep
             time.sleep(0.5)
 
-        raise exceptions.ClientRequestException(None, None, errors.HTTP_REQUEST_FAILED)
+        raise exceptions.ClientRequestException(status_code, None, errors.HTTP_REQUEST_FAILED)
 
     @property
     def logger(self):

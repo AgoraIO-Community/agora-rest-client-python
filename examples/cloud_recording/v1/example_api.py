@@ -12,6 +12,17 @@ from agora_rest_client.services.cloud_recording.v1.api import ExtensionServiceNa
 from agora_rest_client.services.cloud_recording.v1.api import Mode
 from agora_rest_client.services.cloud_recording.v1.api import Scene
 
+# Stop recording
+def stop_recording(mode, resource_id, sid, cname, uid):
+    try:
+        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid),
+            api_stop.RequestBodyApiStop(cname=cname, uid=uid, clientRequest=api_stop.ClientRequest(async_stop=False))
+        )
+        cloud_recording_client.logger.info('stop recording, response:%s', response)
+    except exceptions.ClientRequestException as e:
+        cloud_recording_client.logger.error('stop recording, err:%s', e)
+        os._exit(1)
+
 if __name__ == '__main__':
     # 配置认证信息
     # 请勿将认证信息硬编码到代码中, 有安全风险
@@ -99,6 +110,7 @@ if __name__ == '__main__':
         cloud_recording_client.logger.info('query recording, sid:%s, response:%s', sid, response)
     except exceptions.ClientRequestException as e:
         cloud_recording_client.logger.error('query recording, sid:%s, err:%s', sid, e)
+        stop_recording(mode, resource_id, sid, cname, uid)
         os._exit(1)
 
     # Update recording
@@ -111,16 +123,9 @@ if __name__ == '__main__':
         cloud_recording_client.logger.info('update recording, response:%s', response)
     except exceptions.ClientRequestException as e:
         cloud_recording_client.logger.error('update recording, err:%s', e)
+        stop_recording(mode, resource_id, sid, cname, uid)
         os._exit(1)
 
     # Stop recording
-    try:
-        response = cloud_recording_client.stop(api_stop.RequestPathParamsApiStop(mode=mode, resource_id=resource_id, sid=sid),
-            api_stop.RequestBodyApiStop(cname=cname, uid=uid, clientRequest=api_stop.ClientRequest(async_stop=False))
-        )
-        cloud_recording_client.logger.info('stop recording, response:%s', response)
-    except exceptions.ClientRequestException as e:
-        cloud_recording_client.logger.error('stop recording, err:%s', e)
-        os._exit(1)
-
+    stop_recording(mode, resource_id, sid, cname, uid)
     os._exit(0)

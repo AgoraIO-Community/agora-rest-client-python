@@ -943,6 +943,13 @@ class ResponseApiStart(response.RequestObject):
     """
     sid = None
 
+    """
+    type: number
+
+    状态码
+    """
+    code = None
+
 def api_start(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiStart, trace_id=None):
     """
     Start recording

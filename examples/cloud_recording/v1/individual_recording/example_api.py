@@ -6,6 +6,15 @@ from agora_rest_client.services.cloud_recording.v1.individual_recording import a
 from agora_rest_client.services.cloud_recording.v1.individual_recording import api_update
 from agora_rest_client.services.cloud_recording.v1.individual_recording import individual_recording_client
 
+# Stop recording
+def stop_recording(resource_id, sid, cname, uid):
+    try:
+        response = individual_recording_client.stop(resource_id, sid, cname, uid)
+        individual_recording_client.logger.info('stop recording, response:%s', response)
+    except exceptions.ClientRequestException as e:
+        individual_recording_client.logger.error('stop recording, err:%s', e)
+        os._exit(1)
+
 if __name__ == '__main__':
     # 配置认证信息
     # 请勿将认证信息硬编码到代码中, 有安全风险
@@ -75,6 +84,7 @@ if __name__ == '__main__':
         individual_recording_client.logger.info('query recording, sid:%s, response:%s', sid, response)
     except exceptions.ClientRequestException as e:
         individual_recording_client.logger.error('query recording, sid:%s, err:%s', sid, e)
+        stop_recording(resource_id, sid, cname, uid)
         os._exit(1)
 
     # Update recording
@@ -89,14 +99,9 @@ if __name__ == '__main__':
         individual_recording_client.logger.info('update recording, response:%s', response)
     except exceptions.ClientRequestException as e:
         individual_recording_client.logger.error('update recording, err:%s', e)
+        stop_recording(resource_id, sid, cname, uid)
         os._exit(1)
 
     # Stop recording
-    try:
-        response = individual_recording_client.stop(resource_id, sid, cname, uid)
-        individual_recording_client.logger.info('stop recording, response:%s', response)
-    except exceptions.ClientRequestException as e:
-        individual_recording_client.logger.error('stop recording, err:%s', e)
-        os._exit(1)
-
+    stop_recording(resource_id, sid, cname, uid)
     os._exit(0)
