@@ -39,6 +39,12 @@ class Client(object):
         """
         Build client
         """
+        if self._app_id is None:
+            raise exceptions.ClientBuildException('app id is required')
+
+        if self._basic_auth is None:
+            raise exceptions.ClientBuildException('basic auth is required')
+
         # Check region
         if self._domain.get_region() is None:
             raise exceptions.ClientBuildException('region is required')
