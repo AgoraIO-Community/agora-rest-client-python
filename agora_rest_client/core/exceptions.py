@@ -39,6 +39,13 @@ class ClientBuildException(ClientException):
     def __init__(self, error_msg):
         super(ClientBuildException, self).__init__(None, None, error_msg)
 
+class ClientNoRetryException(ClientException):
+    """
+    Client no retry Exception
+    """
+
+    pass
+
 class ClientRequestException(ServiceResponseException):
     """
     Client Request Exception

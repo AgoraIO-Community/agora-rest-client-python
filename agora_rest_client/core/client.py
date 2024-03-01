@@ -168,7 +168,7 @@ class Client(object):
                 # No need to retry
                 if status_code >= 400 and status_code < 410:
                     self._logger.error('call api, status code 400~410 error, trace_id:%s, resp:%s, url:%s, retry_num:%d, status_code:%s, sleep_second:%d', trace_id, resp.text, url, retry_num, status_code, retry_num)
-                    raise exceptions.ClientRequestException(status_code, None, errors.HTTP_STATUS_CODE_400_410)
+                    raise exceptions.ClientNoRetryException(status_code, None, errors.HTTP_STATUS_CODE_400_410)
             except func_timeout.FunctionTimedOut as e:
                 self._logger.error('call api, timeout, trace_id:%s, url:%s, retry_num:%d', trace_id, url, retry_num)
             except exceptions.ClientRequestException as e:
