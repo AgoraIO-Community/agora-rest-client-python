@@ -20,8 +20,9 @@ class Client(object):
         self._error_code_key = 'error_code'
         self._error_msg_key = 'error_msg'
         self._file_logger_handler = None
+        self._http_retry_count = 3
+        self._http_timeout_seconds = 10
         self._logger = self._init_logger()
-        self._retry_count = 3
         self._stream_logger_handler = None
 
     @classmethod
@@ -180,47 +181,53 @@ class Client(object):
         status_code = None
         error_code = None
         error_msg = None
+        start_time = time.time()
 
-        # Retry domain list
-        for item in self._domain.get_domain_list():
-            for retry in range(self._retry_count):
-                retry_num = retry + 1
-                host_url = 'https://%s%s' % (item['host'], url)
-                self._logger.debug('do http request, host_url:%s, retry:%d', host_url, retry_num)
+        while True:
+            # Retry domain list
+            for host in self._domain.get_domain_list():
+                for retry in range(self._http_retry_count):
+                    retry_num = retry + 1
+                    host_url = 'https://%s%s' % (host, url)
+                    self._logger.debug('do http request, host_url:%s, retry:%d', host_url, retry_num)
 
-                try:
-                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
+                    try:
+                        resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
                                                 timeout=timeout_seconds, auth=self._basic_auth)
-                    status_code = resp.status_code
+                        status_code = resp.status_code
 
-                    self._logger.debug('do http request, host_url:%s, retry:%d, status_code:%d', host_url, retry_num, status_code)
+                        self._logger.debug('do http request, host_url:%s, retry:%d, status_code:%d', host_url, retry_num, status_code)
 
-                    # Request success
-                    if status_code == 200:
-                        return response_obj(**json.loads(resp.text))
+                        # Request success
+                        if status_code == 200:
+                            return response_obj(**json.loads(resp.text))
 
-                    resp_json = resp.json()
-                    error_code = resp_json.get(self._error_code_key)
-                    error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
+                        resp_json = resp.json()
+                        error_code = resp_json.get(self._error_code_key)
+                        error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
 
-                    # Request failed
-                    # No need to retry
-                    if status_code > 200 and status_code <= 300:
-                        self._logger.error('do http request, status code 200~300 error, err:%s, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', resp.text, host_url, retry_num, status_code, retry_num)
-                        raise exceptions.ClientRequestException(status_code, error_code, error_msg)
-                    elif status_code >= 400 and status_code < 410:
-                        self._logger.error('do http request, status code 400~410 error, err:%s, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', resp.text, host_url, retry_num, status_code, retry_num)
-                        raise exceptions.ClientRequestException(status_code, error_code, error_msg)
-                    else:
-                        # Retry
-                        self._logger.debug('do http request, retry, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', host_url, retry_num, status_code, retry_num)
-                        time.sleep(retry_num)
-                        continue
-                except requests.exceptions.HTTPError as e:
-                    self._logger.error('do http request, http error, err:%s, host_url:%s, retry:%d', e, host_url, retry_num)
-                    break
-                except requests.exceptions.RequestException as e:
-                    self._logger.error('do http request, request failed, err:%s, host_url:%s, retry:%d', e, host_url, retry_num)
+                        # Request failed
+                        # No need to retry
+                        if status_code > 200 and status_code <= 300:
+                            self._logger.error('do http request, status code 200~300 error, err:%s, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', resp.text, host_url, retry_num, status_code, retry_num)
+                            raise exceptions.ClientRequestException(status_code, error_code, error_msg)
+                        elif status_code >= 400 and status_code < 410:
+                            self._logger.error('do http request, status code 400~410 error, err:%s, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', resp.text, host_url, retry_num, status_code, retry_num)
+                            raise exceptions.ClientRequestException(status_code, error_code, error_msg)
+                        else:
+                            # Retry
+                            self._logger.debug('do http request, retry, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', host_url, retry_num, status_code, retry_num)
+                            time.sleep(retry_num)
+                            continue
+                    except requests.exceptions.HTTPError as e:
+                        self._logger.error('do http request, http error, err:%s, host_url:%s, retry:%d', e, host_url, retry_num)
+                        break
+                    except requests.exceptions.RequestException as e:
+                        self._logger.error('do http request, request failed, err:%s, host_url:%s, retry:%d', e, host_url, retry_num)
+
+            # Request timeout
+            if time.time() - start_time > self._http_timeout_seconds:
+                break
 
         raise exceptions.ClientRequestException(status_code, error_code, error_msg)
 
@@ -235,6 +242,16 @@ class Client(object):
 
     def with_basic_auth(self, user_name, password):
         self._basic_auth = (user_name, password)
+
+        return self
+
+    def with_http_retry_count(self, _http_retry_count):
+        self._http_retry_count = _http_retry_count
+
+        return self
+
+    def with_http_timeout_seconds(self, http_timeout_seconds):
+        self._http_timeout_seconds = http_timeout_seconds
 
         return self
 
