@@ -49,4 +49,4 @@ if __name__ == '__main__':
         print(e.error_code)
         print(e.error_msg)
 
-    os._exit(1)
+    os._exit(0)

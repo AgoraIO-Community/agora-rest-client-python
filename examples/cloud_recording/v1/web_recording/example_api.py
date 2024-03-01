@@ -107,4 +107,4 @@ if __name__ == '__main__':
         web_recording_client.logger.error('stop recording, err:%s', resource_id, sid, cname, uid, e)
         os._exit(1)
 
-    os._exit(1)
+    os._exit(0)
