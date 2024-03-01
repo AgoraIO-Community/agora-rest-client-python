@@ -163,7 +163,7 @@ class ResponseApiQuery(response.ResponseObject):
     """
     uid = None
 
-def api_query(client, request_path_params_obj, response_obj=ResponseApiQuery):
+def api_query(client, request_path_params_obj, response_obj=ResponseApiQuery, trace_id=None):
     """
     Query the recording status
     查询云端录制状态
@@ -179,9 +179,12 @@ def api_query(client, request_path_params_obj, response_obj=ResponseApiQuery):
     :param response_obj: response object
     :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.ResponseApiQuery`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiQuery
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/query'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('GET', url, response_obj=response_obj)
+    return client.call_api('GET', url, response_obj=response_obj, trace_id=trace_id)

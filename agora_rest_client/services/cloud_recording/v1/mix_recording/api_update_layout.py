@@ -56,7 +56,7 @@ class ResponseApiUpdateLayout(api_update_layout.ResponseApiUpdateLayout):
     pass
 
 def mix_recording_update_layout(client, resource_id, sid, cname, uid, max_resolution_uid=None, mixed_video_layout=None, background_color=None,
-        background_image=None, default_user_background_image=None, layout_config=None, background_config=None):
+        background_image=None, default_user_background_image=None, layout_config=None, background_config=None, trace_id=None):
     """
     Mix recording update layout
     更新云端录制合流布局
@@ -110,6 +110,9 @@ def mix_recording_update_layout(client, resource_id, sid, cname, uid, max_resolu
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.BackgroundConfig`
     :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.BackgroundConfig`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiUpdate
     """
     request_path_params_obj = RequestPathParamsApiUpdateLayout(
@@ -145,4 +148,5 @@ def mix_recording_update_layout(client, resource_id, sid, cname, uid, max_resolu
     if background_config is not None:
         request_body_obj.clientRequest.backgroundConfig = background_config
 
-    return api_update_layout.api_update_layout(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj, response_obj=ResponseApiUpdateLayout)
+    return api_update_layout.api_update_layout(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj,
+                                               response_obj=ResponseApiUpdateLayout, trace_id=trace_id)

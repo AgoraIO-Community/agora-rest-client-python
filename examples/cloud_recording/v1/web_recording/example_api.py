@@ -102,7 +102,6 @@ if __name__ == '__main__':
     try:
         response = web_recording_client.stop(resource_id, sid, cname, uid)
         web_recording_client.logger.info('stop recording, response:%s', response)
-        print(response)
     except exceptions.ClientRequestException as e:
         web_recording_client.logger.error('stop recording, err:%s', resource_id, sid, cname, uid, e)
         os._exit(1)

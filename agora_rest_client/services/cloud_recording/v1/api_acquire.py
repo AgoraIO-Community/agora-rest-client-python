@@ -114,7 +114,7 @@ class ResponseApiAcquire(response.ResponseObject):
     """
     resourceId = None
 
-def api_acquire(client, request_body_obj, response_obj=ResponseApiAcquire):
+def api_acquire(client, request_body_obj, response_obj=ResponseApiAcquire, trace_id=None):
     """
     Acquire a resource id
     获取云端录制资源
@@ -130,9 +130,12 @@ def api_acquire(client, request_body_obj, response_obj=ResponseApiAcquire):
     :param response_obj: response object
     :value: instance of `agora_rest_client.services.cloud_recording.v1.api_acquire.ResponseApiAcquire`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiAcquire
     """
     url = '/v1/apps/{}/cloud_recording/acquire'.format(client.app_id)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj, trace_id=trace_id)

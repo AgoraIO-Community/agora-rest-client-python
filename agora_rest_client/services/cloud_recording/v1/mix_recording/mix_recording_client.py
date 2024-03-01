@@ -17,7 +17,7 @@ class MixRecordingClient(CloudRecordingClient):
     def new_builder():
         return MixRecordingClient()
 
-    def acquire(self, cname, uid, resource_expired_hour=None, exclude_resource_ids=None, region_affinity=None):
+    def acquire(self, cname, uid, resource_expired_hour=None, exclude_resource_ids=None, region_affinity=None, trace_id=None):
         """
         Mix recording acquire
         获取云端录制资源
@@ -46,11 +46,15 @@ class MixRecordingClient(CloudRecordingClient):
         :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.regionAffinity`
         :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RegionAffinity`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiAcquire
         """
-        return mix_recording_acquire(self, cname, uid, resource_expired_hour=resource_expired_hour, exclude_resource_ids=exclude_resource_ids, region_affinity=region_affinity)
+        return mix_recording_acquire(self, cname, uid, resource_expired_hour=resource_expired_hour, exclude_resource_ids=exclude_resource_ids,
+                                     region_affinity=region_affinity, trace_id=trace_id)
 
-    def query(self, resource_id, sid):
+    def query(self, resource_id, sid, trace_id=None):
         """
         Mix recording query
         查询云端录制状态
@@ -66,11 +70,14 @@ class MixRecordingClient(CloudRecordingClient):
         :param sid: sid
         :refer: `agora_rest_client.services.cloud_recording.v1.api_query.RequestPathParamsApiQuery.sid`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiQuery
         """
-        return mix_recording_query(self, resource_id, sid)
+        return mix_recording_query(self, resource_id, sid, trace_id=trace_id)
 
-    def start(self, resource_id, cname, uid, token, storage_config, recording_config=None):
+    def start(self, resource_id, cname, uid, token, storage_config, recording_config=None, trace_id=None):
         """
         Mix recording start
         开始云端录制
@@ -104,11 +111,14 @@ class MixRecordingClient(CloudRecordingClient):
         :refer: `agora_rest_client.services.cloud_recording.v1.api_start.RecordingConfig`
         :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_start.RecordingConfig`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiStart
         """
-        return mix_recording_start(self, resource_id, cname, uid, token, storage_config, recording_config=recording_config)
+        return mix_recording_start(self, resource_id, cname, uid, token, storage_config, recording_config=recording_config, trace_id=trace_id)
 
-    def stop(self, resource_id, sid, cname, uid, async_stop=False):
+    def stop(self, resource_id, sid, cname, uid, async_stop=False, trace_id=None):
         """
         Mix recording stop
         停止云端录制
@@ -136,11 +146,14 @@ class MixRecordingClient(CloudRecordingClient):
         :param async_stop: async stop
         :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.ClientRequest.async_stop`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiStop
         """
-        return mix_recording_stop(self, resource_id, sid, cname, uid, async_stop=async_stop)
+        return mix_recording_stop(self, resource_id, sid, cname, uid, async_stop=async_stop, trace_id=trace_id)
 
-    def update(self, resource_id, sid, cname, uid, stream_subscribe=None):
+    def update(self, resource_id, sid, cname, uid, stream_subscribe=None, trace_id=None):
         """
         Mix recording update
         更新云端录制设置
@@ -169,12 +182,15 @@ class MixRecordingClient(CloudRecordingClient):
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update.StreamSubscribe`
         :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update.StreamSubscribe`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiUpdate
         """
-        return mix_recording_update(self, resource_id, sid, cname, uid, stream_subscribe=stream_subscribe)
+        return mix_recording_update(self, resource_id, sid, cname, uid, stream_subscribe=stream_subscribe, trace_id=trace_id)
 
     def update_layout(self, resource_id, sid, cname, uid, max_resolution_uid=None, mixed_video_layout=None, background_color=None,
-                      background_image=None, default_user_background_image=None, layout_config=None, background_config=None):
+                      background_image=None, default_user_background_image=None, layout_config=None, background_config=None, trace_id=None):
         """
         Mix recording update layout
         更新云端录制合流布局
@@ -228,8 +244,11 @@ class MixRecordingClient(CloudRecordingClient):
         :refer: `agora_rest_client.services.cloud_recording.v1.api_update_layout.BackgroundConfig`
         :value: instance of `agora_rest_client.services.cloud_recording.v1.mix_recording.api_update_layout.BackgroundConfig`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiUpdate
         """
         return mix_recording_update_layout(self, resource_id, sid, cname, uid, max_resolution_uid=max_resolution_uid, mixed_video_layout=mixed_video_layout,
-            background_color=background_color, background_image=background_image, default_user_background_image=default_user_background_image,
-            layout_config=layout_config, background_config=background_config)
+                                           background_color=background_color, background_image=background_image, default_user_background_image=default_user_background_image,
+                                           layout_config=layout_config, background_config=background_config, trace_id=trace_id)

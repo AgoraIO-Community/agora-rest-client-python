@@ -10,7 +10,7 @@ class RequestBodyApiAcquire(api_acquire.RequestBodyApiAcquire):
 class ResponseApiAcquire(api_acquire.ResponseApiAcquire):
     pass
 
-def web_recording_acquire(client, cname, uid, resource_expired_hour=None, exclude_resource_ids=None, region_affinity=None):
+def web_recording_acquire(client, cname, uid, resource_expired_hour=None, exclude_resource_ids=None, region_affinity=None, trace_id=None):
     """
     Web recoding acquire
     获取云端录制资源
@@ -39,6 +39,9 @@ def web_recording_acquire(client, cname, uid, resource_expired_hour=None, exclud
     :refer: `agora_rest_client.services.cloud_recording.v1.api_acquire.ClientRequest.regionAffinity`
     :value: enum of `agora_rest_client.services.cloud_recording.v1.api.RegionAffinity`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiAcquire
     """
     request_body_obj = RequestBodyApiAcquire(
@@ -57,4 +60,4 @@ def web_recording_acquire(client, cname, uid, resource_expired_hour=None, exclud
     if region_affinity is not None:
         request_body_obj.clientRequest.regionAffinity = region_affinity
 
-    return api_acquire.api_acquire(client, request_body_obj=request_body_obj, response_obj=ResponseApiAcquire)
+    return api_acquire.api_acquire(client, request_body_obj=request_body_obj, response_obj=ResponseApiAcquire, trace_id=trace_id)

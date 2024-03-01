@@ -218,7 +218,7 @@ class ResponseApiUpdate(response.ResponseObject):
     """
     sid = None
 
-def api_update(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiUpdate):
+def api_update(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiUpdate, trace_id=None):
     """
     Update recording
     更新云端录制设置
@@ -238,9 +238,12 @@ def api_update(client, request_path_params_obj, request_body_obj, response_obj=R
     :param response_obj: response object
     :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.ResponseApiUpdate`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiUpdate
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/update'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj, trace_id=trace_id)

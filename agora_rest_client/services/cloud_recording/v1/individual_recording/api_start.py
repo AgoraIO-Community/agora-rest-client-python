@@ -74,7 +74,7 @@ class ResponseApiStart(api_start.ResponseApiStart):
     pass
 
 def individual_recording_start(client, resource_id, cname, uid, token, storage_config, recording_config=None,
-                               snapshot_type=SnapshotType.SNAPSHOT_AND_RECORDING.value, snapshot_config=None, apps_collection=None, transcode_options=None):
+                               snapshot_type=SnapshotType.SNAPSHOT_AND_RECORDING.value, snapshot_config=None, apps_collection=None, transcode_options=None, trace_id=None):
     """
     Individual recording start
     开始云端录制
@@ -126,6 +126,9 @@ def individual_recording_start(client, resource_id, cname, uid, token, storage_c
     :refer: `agora_rest_client.services.cloud_recording.v1.api_start.TranscodeOptions`
     :value: instance of `agora_rest_client.services.cloud_recording.v1.individual_recording.api_start.TranscodeOptions`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiStart
     """
     request_path_params_obj = RequestPathParamsApiStart(
@@ -159,4 +162,5 @@ def individual_recording_start(client, resource_id, cname, uid, token, storage_c
     if transcode_options is not None:
         request_body_obj.clientRequest.transcodeOptions = transcode_options
 
-    return api_start.api_start(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj, response_obj=ResponseApiStart)
+    return api_start.api_start(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj,
+                               response_obj=ResponseApiStart, trace_id=trace_id)

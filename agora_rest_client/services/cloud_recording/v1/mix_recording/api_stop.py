@@ -10,7 +10,7 @@ class RequestBodyApiStop(api_stop.RequestBodyApiStop):
 class ResponseApiStop(api_stop.ResponseApiStop):
     pass
 
-def mix_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
+def mix_recording_stop(client, resource_id, sid, cname, uid, async_stop=False, trace_id=None):
     """
     Mix recording stop
     停止云端录制
@@ -38,6 +38,9 @@ def mix_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
     :param async_stop: async stop
     :refer: `agora_rest_client.services.cloud_recording.v1.api_stop.ClientRequest.async_stop`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiStop
     """
     request_path_params_obj = RequestPathParamsApiStop(
@@ -54,4 +57,5 @@ def mix_recording_stop(client, resource_id, sid, cname, uid, async_stop=False):
         )
     )
 
-    return api_stop.api_stop(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj, response_obj=ResponseApiStop)
+    return api_stop.api_stop(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj,
+                             response_obj=ResponseApiStop, trace_id=trace_id)

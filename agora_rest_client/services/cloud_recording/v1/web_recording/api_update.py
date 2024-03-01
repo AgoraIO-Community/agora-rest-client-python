@@ -30,7 +30,7 @@ class RequestBodyApiUpdate(api_update.RequestBodyApiUpdate):
 class ResponseApiUpdate(api_update.ResponseApiUpdate):
     pass
 
-def web_recording_update(client, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None):
+def web_recording_update(client, resource_id, sid, cname, uid, web_recording_config=None, rtmp_publish_config=None, trace_id=None):
     """
     Web recording update
     更新云端录制设置
@@ -64,6 +64,9 @@ def web_recording_update(client, resource_id, sid, cname, uid, web_recording_con
     :refer: `agora_rest_client.services.cloud_recording.v1.api_update.RtmpPublishConfig`
     :value: instance of `agora_rest_client.services.cloud_recording.v1.web_recording.api_update.RtmpPublishConfig`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiUpdate
     """
     request_path_params_obj = RequestPathParamsApiUpdate(
@@ -84,4 +87,5 @@ def web_recording_update(client, resource_id, sid, cname, uid, web_recording_con
     if rtmp_publish_config is not None:
         request_body_obj.clientRequest.rtmpPublishConfig = rtmp_publish_config
 
-    return api_update.api_update(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj, response_obj=ResponseApiUpdate)
+    return api_update.api_update(client, request_path_params_obj=request_path_params_obj, request_body_obj=request_body_obj,
+                                 response_obj=ResponseApiUpdate, trace_id=trace_id)

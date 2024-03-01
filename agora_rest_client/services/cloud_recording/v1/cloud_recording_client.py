@@ -1,4 +1,5 @@
 import json
+import uuid
 from agora_rest_client.core import exceptions
 from agora_rest_client.core.client import Client
 from agora_rest_client.services.cloud_recording.v1.api_acquire import api_acquire
@@ -22,7 +23,7 @@ class CloudRecordingClient(Client):
     def new_builder():
         return CloudRecordingClient()
 
-    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None, trace_id=None):
         """
         Call api
 
@@ -50,11 +51,17 @@ class CloudRecordingClient(Client):
         :type response_obj: object
         :param response_obj: response object
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :type: object
         :return: instance of `response_obj`
         """
+        if trace_id is None:
+            trace_id = uuid.uuid1()
+
         try:
-            resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds)
+            resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds, trace_id=trace_id)
 
             # Request success
             if resp.status_code == 200 or resp.status_code == 201:
@@ -68,7 +75,7 @@ class CloudRecordingClient(Client):
         except Exception as e:
             raise e
 
-    def acquire(self, request_body_obj):
+    def acquire(self, request_body_obj, trace_id=None):
         """
         Acquire a resource id
         获取云端录制资源
@@ -84,11 +91,14 @@ class CloudRecordingClient(Client):
         :param response_obj: response object
         :value: instance of `agora_rest_client.services.cloud_recording.v1.api_acquire.ResponseApiAcquire`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiAcquire
         """
-        return api_acquire(self, request_body_obj)
+        return api_acquire(self, request_body_obj, trace_id=trace_id)
 
-    def query(self, request_path_params_obj):
+    def query(self, request_path_params_obj, trace_id=None):
         """
         Query the recording status
         查询云端录制状态
@@ -104,11 +114,14 @@ class CloudRecordingClient(Client):
         :param response_obj: response object
         :value: instance of `agora_rest_client.services.cloud_recording.v1.api_query.ResponseApiQuery`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiQuery
         """
-        return api_query(self, request_path_params_obj)
+        return api_query(self, request_path_params_obj, trace_id=trace_id)
 
-    def start(self, request_path_params_obj, request_body_obj):
+    def start(self, request_path_params_obj, request_body_obj, trace_id=None):
         """
         Start recording
         开始云端录制
@@ -128,11 +141,14 @@ class CloudRecordingClient(Client):
         :param response_obj: response object
         :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ResponseApiStart`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiStart
         """
-        return api_start(self, request_path_params_obj, request_body_obj)
+        return api_start(self, request_path_params_obj, request_body_obj, trace_id=trace_id)
 
-    def stop(self, request_path_params_obj, request_body_obj):
+    def stop(self, request_path_params_obj, request_body_obj, trace_id=None):
         """
         Stop recording
         停止云端录制
@@ -152,11 +168,14 @@ class CloudRecordingClient(Client):
         :param response_obj: response object
         :value: instance of `agora_rest_client.services.cloud_recording.v1.api_stop.ResponseApiStop`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiStop
         """
-        return api_stop(self, request_path_params_obj, request_body_obj)
+        return api_stop(self, request_path_params_obj, request_body_obj, trace_id=trace_id)
 
-    def update(self, request_path_params_obj, request_body_obj):
+    def update(self, request_path_params_obj, request_body_obj, trace_id=None):
         """
         Update recording
         更新云端录制设置
@@ -176,11 +195,14 @@ class CloudRecordingClient(Client):
         :param response_obj: response object
         :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update.ResponseApiUpdate`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiUpdate
         """
-        return api_update(self, request_path_params_obj, request_body_obj)
+        return api_update(self, request_path_params_obj, request_body_obj, trace_id=trace_id)
 
-    def update_layout(self, request_path_params_obj, request_body_obj):
+    def update_layout(self, request_path_params_obj, request_body_obj, trace_id=None):
         """
         Update layout of the recording
         更新云端录制合流布局
@@ -200,6 +222,9 @@ class CloudRecordingClient(Client):
         :param response_obj: response object
         :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.ResponseApiUpdateLayout`
 
+        :type trace_id: string
+        :param trace_id: trace id
+
         :return: response object ResponseApiUpdateLayout
         """
-        return api_update_layout(self, request_path_params_obj, request_body_obj)
+        return api_update_layout(self, request_path_params_obj, request_body_obj, trace_id=trace_id)

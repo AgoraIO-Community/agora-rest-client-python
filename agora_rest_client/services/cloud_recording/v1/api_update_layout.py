@@ -246,7 +246,7 @@ class ResponseApiUpdateLayout(response.ResponseObject):
     """
     sid = None
 
-def api_update_layout(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiUpdateLayout):
+def api_update_layout(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiUpdateLayout, trace_id=None):
     """
     Update layout of the recording
     更新云端录制合流布局
@@ -266,9 +266,12 @@ def api_update_layout(client, request_path_params_obj, request_body_obj, respons
     :param response_obj: response object
     :value: instance of `agora_rest_client.services.cloud_recording.v1.api_update_layout.ResponseApiUpdateLayout`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiUpdateLayout
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/sid/{}/mode/{}/updateLayout'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.sid, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj, trace_id=trace_id)

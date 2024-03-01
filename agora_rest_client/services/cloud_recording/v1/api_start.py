@@ -943,7 +943,7 @@ class ResponseApiStart(response.RequestObject):
     """
     sid = None
 
-def api_start(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiStart):
+def api_start(client, request_path_params_obj, request_body_obj, response_obj=ResponseApiStart, trace_id=None):
     """
     Start recording
     开始云端录制
@@ -963,9 +963,12 @@ def api_start(client, request_path_params_obj, request_body_obj, response_obj=Re
     :param response_obj: response object
     :value: instance of `agora_rest_client.services.cloud_recording.v1.api_start.ResponseApiStart`
 
+    :type trace_id: string
+    :param trace_id: trace id
+
     :return: response object ResponseApiStart
     """
     url = '/v1/apps/{}/cloud_recording/resourceid/{}/mode/{}/start'.format(client.app_id, request_path_params_obj.resource_id, request_path_params_obj.mode)
     client.logger.debug("url:%s", url)
 
-    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj)
+    return client.call_api('POST', url, post_json=request_body_obj.to_dict(), response_obj=response_obj, trace_id=trace_id)

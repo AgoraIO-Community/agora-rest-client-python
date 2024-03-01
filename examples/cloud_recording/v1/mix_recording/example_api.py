@@ -104,7 +104,6 @@ if __name__ == '__main__':
     try:
         response = mix_recording_client.stop(resource_id, sid, cname, uid)
         mix_recording_client.logger.info('stop recording, response:%s', response)
-        print(response)
     except exceptions.ClientRequestException as e:
         mix_recording_client.logger.error('stop recording, err:%s', e)
         os._exit(1)
