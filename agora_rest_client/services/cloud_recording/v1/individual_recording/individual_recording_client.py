@@ -75,7 +75,7 @@ class IndividualRecordingClient(CloudRecordingClient):
         return individual_recording_query(self, resource_id, sid)
 
     def start(self, resource_id, cname, uid, token, storage_config, recording_config=None, snapshot_type=SnapshotType.SNAPSHOT_AND_RECORDING.value,
-            snapshot_config=None, apps_collection=None, transcode_options=None):
+              snapshot_config=None, apps_collection=None, transcode_options=None):
         """
         Individual recording start
         开始云端录制

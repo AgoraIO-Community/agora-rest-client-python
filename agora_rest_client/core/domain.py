@@ -146,7 +146,7 @@ class Domain(object):
         # Check domain
         if len(self._domain_list_running) == 0:
             self._logger.error('select best domain failed, no available domain, region:%s, domain_list:%s, domain_list_running:%s', self._region, self._domain_list, self._domain_list_running)
-            raise exceptions.ClientRequestException('no available domain')
+            return
 
         # Sort by duration_ms
         domain_list_running = sorted(self._domain_list_running, key=operator.itemgetter('duration_ms'))

@@ -1,10 +1,10 @@
-import json
 import logging
 import requests
 import sys
 import time
 from logging.handlers import RotatingFileHandler
 from agora_rest_client.core import domain
+from agora_rest_client.core import errors
 from agora_rest_client.core import exceptions
 from agora_rest_client.core import log
 
@@ -17,8 +17,6 @@ class Client(object):
         self._app_id = None
         self._basic_auth = None
         self._domain = domain.default_domain
-        self._error_code_key = 'error_code'
-        self._error_msg_key = 'error_msg'
         self._file_logger_handler = None
         self._http_retry_count = 3
         self._http_timeout_seconds = 10
@@ -41,17 +39,17 @@ class Client(object):
         Build client
         """
         if self._app_id is None:
-            raise exceptions.ClientBuildException('app id is required')
+            raise exceptions.ClientBuildException(errors.APP_ID_REQUIRED)
 
         if self._basic_auth is None:
-            raise exceptions.ClientBuildException('basic auth is required')
+            raise exceptions.ClientBuildException(errors.BASIC_AUTH_REQUIRED)
 
         # Check region
         if self._domain.get_region() is None:
-            raise exceptions.ClientBuildException('region is required')
+            raise exceptions.ClientBuildException(errors.REGION_REQUIRED)
 
         if self._domain.get_region() not in domain.RegionArea._value2member_map_:
-            raise exceptions.ClientBuildException('region invalid, region:%s' % self._domain.get_region())
+            raise exceptions.ClientBuildException(errors.REGION_INVALID)
 
         if self._file_logger_handler is not None:
             self.add_file_logger(**self._file_logger_handler)
@@ -151,8 +149,7 @@ class Client(object):
             retry_num = retry + 1
 
             try:
-                resp = self.do_http_request(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers,
-                                                timeout_seconds=timeout_seconds)
+                resp = self.do_http_request(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds)
                 status_code = resp.status_code
 
                 self._logger.debug('call api, url:%s, retry_num:%d, status_code:%d', url, retry_num, status_code)
@@ -165,17 +162,15 @@ class Client(object):
                 # No need to retry
                 if status_code >= 400 and status_code < 410:
                     self._logger.error('call api, status code 400~410 error, err:%s, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', resp.text, url, retry_num, status_code, retry_num)
-                    raise exceptions.ClientRequestException(status_code, None, 'status code 400~410 error')
-
-                # Retry
-                self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', url, retry_num, status_code, retry_num)
+                    raise exceptions.ClientRequestException(status_code, None, errors.HTTP_STATUS_CODE_400_410)
             except exceptions.ClientRequestException as e:
                 self._logger.error('call api, http error, err:%s, url:%s, retry_num:%d', e, url, retry_num)
 
-            # Sleep
+            # Retry, sleep
             time.sleep(retry_num)
+            self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', url, retry_num, status_code, retry_num)
 
-        raise exceptions.ClientRequestException(None, None, 'call api failed')
+        raise exceptions.ClientRequestException(None, None, errors.CALL_API_FAILED)
 
     def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5):
         """
@@ -228,7 +223,7 @@ class Client(object):
             # Sleep
             time.sleep(0.5)
 
-        raise exceptions.ClientRequestException(None, None, 'do http request failed')
+        raise exceptions.ClientRequestException(None, None, errors.HTTP_REQUEST_FAILED)
 
     @property
     def logger(self):

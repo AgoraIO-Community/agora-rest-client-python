@@ -174,7 +174,7 @@ class MixRecordingClient(CloudRecordingClient):
         return mix_recording_update(self, resource_id, sid, cname, uid, stream_subscribe=stream_subscribe)
 
     def update_layout(self, resource_id, sid, cname, uid, max_resolution_uid=None, mixed_video_layout=None, background_color=None,
-        background_image=None, default_user_background_image=None, layout_config=None, background_config=None):
+                      background_image=None, default_user_background_image=None, layout_config=None, background_config=None):
         """
         Mix recording update layout
         更新云端录制合流布局
