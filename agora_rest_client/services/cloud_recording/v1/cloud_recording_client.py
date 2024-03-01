@@ -53,7 +53,7 @@ class CloudRecordingClient(Client):
         :return: response
         """
         try:
-            status_code, resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds, response_obj=response_obj)
+            status_code, resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds)
 
             # Request success
             if status_code == 200 or status_code == 201:

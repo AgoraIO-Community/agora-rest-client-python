@@ -1,3 +1,4 @@
+import func_timeout
 import logging
 import requests
 import sys
@@ -114,7 +115,7 @@ class Client(object):
     def app_id(self):
         return self._app_id
 
-    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5):
         """
         Call api
 
@@ -139,20 +140,20 @@ class Client(object):
         :type timeout_seconds: int
         :param timeout_seconds: http timeout
 
-        :type response_obj: object
-        :param response_obj: response object
-
         :return: status_code, response text
         """
         # Retry
         for retry in range(self._http_retry_count):
             retry_num = retry + 1
+            status_code = None
 
             try:
-                resp = self.do_http_request(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds)
+                resp = func_timeout.func_timeout(self._http_timeout_seconds, self.do_http_request, args=(method, url),
+                                                 kwargs={'params': params, 'post_data': post_data, 'post_json': post_json, 'headers': headers,
+                                                         'timeout_seconds': timeout_seconds})
                 status_code = resp.status_code
 
-                self._logger.debug('call api, url:%s, retry_num:%d, status_code:%d', url, retry_num, status_code)
+                self._logger.debug('call api, url:%s, retry_num:%d, status_code:%s', url, retry_num, status_code)
 
                 # Request success
                 if status_code == 200 or status_code == 201:
@@ -161,14 +162,17 @@ class Client(object):
                 # Request failed
                 # No need to retry
                 if status_code >= 400 and status_code < 410:
-                    self._logger.error('call api, status code 400~410 error, err:%s, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', resp.text, url, retry_num, status_code, retry_num)
+                    self._logger.error('call api, status code 400~410 error, err:%s, url:%s, retry_num:%d, status_code:%s, sleep_second:%d', resp.text, url, retry_num, status_code, retry_num)
                     raise exceptions.ClientRequestException(status_code, None, errors.HTTP_STATUS_CODE_400_410)
+            except func_timeout.FunctionTimedOut as e:
+                self._logger.error('call api, timeout, url:%s, retry_num:%d', url, retry_num)
             except exceptions.ClientRequestException as e:
                 self._logger.error('call api, http error, err:%s, url:%s, retry_num:%d', e, url, retry_num)
 
             # Retry, sleep
-            time.sleep(retry_num)
-            self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', url, retry_num, status_code, retry_num)
+            sleep_second = retry_num
+            time.sleep(sleep_second)
+            self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%s, sleep_second:%d', url, retry_num, status_code, sleep_second)
 
         raise exceptions.ClientRequestException(None, None, errors.CALL_API_FAILED)
 
@@ -199,26 +203,18 @@ class Client(object):
 
         :return: class:`requests.Response <Response>` object
         """
-        start_time = time.time()
+        for host in self._domain.get_domain_list():
+            host_url = 'https://%s%s' % (host, url)
+            self._logger.debug('do http request, host:%s, url:%s', host, url)
 
-        while True:
-            # Retry domain list
-            for host in self._domain.get_domain_list():
-                host_url = 'https://%s%s' % (host, url)
-                self._logger.debug('do http request, host_url:%s', host_url)
+            try:
+                resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
+                                        timeout=timeout_seconds, auth=self._basic_auth)
 
-                try:
-                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
-                                            timeout=timeout_seconds, auth=self._basic_auth)
-
-                    self._logger.debug('do http request, host_url:%s, status_code:%d', host_url, resp.status_code)
-                    return resp
-                except requests.exceptions.RequestException as e:
-                    self._logger.error('do http request, request failed, err:%s, host_url:%s, retry:%d', e, host_url)
-
-            # Request timeout
-            if time.time() - start_time > self._http_timeout_seconds:
-                break
+                self._logger.debug('do http request, host_url:%s, status_code:%s', host_url, resp.status_code)
+                return resp
+            except requests.exceptions.RequestException as e:
+                self._logger.error('do http request, request failed, err:%s, host_url:%s', e, host_url)
 
             # Sleep
             time.sleep(0.5)
