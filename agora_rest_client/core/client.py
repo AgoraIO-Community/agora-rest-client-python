@@ -146,9 +146,42 @@ class Client(object):
 
         :return: response
         """
-        return self.do_http_request(method, url, params, post_data, post_json, headers, timeout_seconds, response_obj)
+        # Retry
+        for retry in range(self._http_retry_count):
+            retry_num = retry + 1
 
-    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None):
+            try:
+                resp = self.do_http_request(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers,
+                                                timeout_seconds=timeout_seconds)
+                status_code = resp.status_code
+
+                self._logger.debug('call api, url:%s, retry_num:%d, status_code:%d', url, retry_num, status_code)
+
+                # Request success
+                if status_code == 200 or status_code == 201:
+                    return response_obj(**json.loads(resp.text))
+
+                resp_json = resp.json()
+                error_code = resp_json.get(self._error_code_key)
+                error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
+
+                # Request failed
+                # No need to retry
+                if status_code >= 400 and status_code < 410:
+                    self._logger.error('call api, status code 400~410 error, err:%s, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', resp.text, url, retry_num, status_code, retry_num)
+                    raise exceptions.ClientRequestException(status_code, error_code, error_msg)
+
+                # Retry
+                self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%d, sleep_second:%d', url, retry_num, status_code, retry_num)
+            except Exception as e:
+                self._logger.error('call api, http error, err:%s, url:%s, retry_num:%d', e, url, retry_num)
+
+            # Sleep
+            time.sleep(retry_num)
+
+        raise exceptions.ClientRequestException(None, None, 'call api failed')
+
+    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5):
         """
         Request http
 
@@ -173,63 +206,34 @@ class Client(object):
         :type timeout_seconds: int
         :param timeout_seconds: http timeout
 
-        :type response_obj: object
-        :param response_obj: response object
-
         :return: response
         """
-        status_code = None
-        error_code = None
-        error_msg = None
+        resp = None
         start_time = time.time()
 
         while True:
             # Retry domain list
             for host in self._domain.get_domain_list():
-                for retry in range(self._http_retry_count):
-                    retry_num = retry + 1
-                    host_url = 'https://%s%s' % (host, url)
-                    self._logger.debug('do http request, host_url:%s, retry:%d', host_url, retry_num)
+                host_url = 'https://%s%s' % (host, url)
+                self._logger.debug('do http request, host_url:%s', host_url)
 
-                    try:
-                        resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
-                                                timeout=timeout_seconds, auth=self._basic_auth)
-                        status_code = resp.status_code
+                try:
+                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
+                                            timeout=timeout_seconds, auth=self._basic_auth)
 
-                        self._logger.debug('do http request, host_url:%s, retry:%d, status_code:%d', host_url, retry_num, status_code)
-
-                        # Request success
-                        if status_code == 200:
-                            return response_obj(**json.loads(resp.text))
-
-                        resp_json = resp.json()
-                        error_code = resp_json.get(self._error_code_key)
-                        error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
-
-                        # Request failed
-                        # No need to retry
-                        if status_code > 200 and status_code <= 300:
-                            self._logger.error('do http request, status code 200~300 error, err:%s, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', resp.text, host_url, retry_num, status_code, retry_num)
-                            raise exceptions.ClientRequestException(status_code, error_code, error_msg)
-                        elif status_code >= 400 and status_code < 410:
-                            self._logger.error('do http request, status code 400~410 error, err:%s, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', resp.text, host_url, retry_num, status_code, retry_num)
-                            raise exceptions.ClientRequestException(status_code, error_code, error_msg)
-                        else:
-                            # Retry
-                            self._logger.debug('do http request, retry, host_url:%s, retry:%d, status_code:%d, sleep_second:%d', host_url, retry_num, status_code, retry_num)
-                            time.sleep(retry_num)
-                            continue
-                    except requests.exceptions.HTTPError as e:
-                        self._logger.error('do http request, http error, err:%s, host_url:%s, retry:%d', e, host_url, retry_num)
-                        break
-                    except requests.exceptions.RequestException as e:
-                        self._logger.error('do http request, request failed, err:%s, host_url:%s, retry:%d', e, host_url, retry_num)
+                    self._logger.debug('do http request, host_url:%s, status_code:%d', host_url, resp.status_code)
+                    return resp
+                except requests.exceptions.RequestException as e:
+                    self._logger.error('do http request, request failed, err:%s, host_url:%s, retry:%d', e, host_url)
 
             # Request timeout
             if time.time() - start_time > self._http_timeout_seconds:
                 break
 
-        raise exceptions.ClientRequestException(status_code, error_code, error_msg)
+            # Sleep
+            time.sleep(0.5)
+
+        raise exceptions.ClientRequestException(None, None, 'do http request failed')
 
     @property
     def logger(self):
