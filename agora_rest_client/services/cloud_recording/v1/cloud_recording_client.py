@@ -25,7 +25,7 @@ class CloudRecordingClient(Client):
     def new_builder():
         return CloudRecordingClient()
 
-    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None, trace_id=None):
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None, trace_id=None, is_retry=False):
         """
         Call api
 
@@ -56,6 +56,9 @@ class CloudRecordingClient(Client):
         :type trace_id: string
         :param trace_id: trace id
 
+        :type is_retry: boolean
+        :param is_retry: is retry
+
         :type: object
         :return: instance of `response_obj`
         """
@@ -65,16 +68,17 @@ class CloudRecordingClient(Client):
         status_code = None
         error_code = None
         error_msg = None
+        http_retry_count = self._http_retry_count if is_retry else 1
 
         # Retry
-        for retry in range(self._http_retry_count):
+        for retry in range(http_retry_count):
             retry_num = retry + 1
 
             try:
                 resp = super().call_api(method, url, params=params, post_data=post_data, post_json=post_json, headers=headers, timeout_seconds=timeout_seconds, trace_id=trace_id)
                 status_code = resp.status_code
 
-                self._logger.debug('call api, trace_id:%s, url:%s, retry_num:%d, status_code:%s', trace_id, url, retry_num, status_code)
+                self._logger.debug('call api, trace_id:%s, url:%s, is_retry:%s, http_retry_count:%d, retry_num:%d, status_code:%s', trace_id, url, is_retry, http_retry_count, retry_num, status_code)
 
                 # Request success
                 if status_code == 200 or status_code == 201:
@@ -97,12 +101,13 @@ class CloudRecordingClient(Client):
                 self._logger.error('call api, timeout, trace_id:%s, url:%s, retry_num:%d', trace_id, url, retry_num)
             except exceptions.ClientRequestException as e:
                 error_msg = '%s' % e
-                self._logger.error('call api, http error, err:%s, trace_id:%s, url:%s, retry_num:%d', e, trace_id, url, retry_num)
+                self._logger.error('call api, request failed, err:%s, trace_id:%s, url:%s, retry_num:%d', e, trace_id, url, retry_num)
 
-            # Retry, sleep
-            sleep_second = retry_num
-            time.sleep(sleep_second)
-            self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%s, error_code:%s, error_msg:%s, sleep_second:%d', url, retry_num, status_code, error_code, error_msg, sleep_second)
+            if is_retry:
+                # Retry, sleep
+                sleep_second = retry_num
+                time.sleep(sleep_second)
+                self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%s, error_code:%s, error_msg:%s, sleep_second:%d', url, retry_num, status_code, error_code, error_msg, sleep_second)
 
         raise exceptions.ClientRequestException(status_code, error_code, error_msg)
 

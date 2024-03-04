@@ -153,6 +153,8 @@ class Client(object):
             return resp
         except func_timeout.FunctionTimedOut as e:
             raise exceptions.ClientTimeoutException(None, None, e.getMsg())
+        except Exception as e:
+            raise exceptions.ClientRequestException(None, None, str(e))
 
     def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, trace_id=None):
         """
@@ -186,27 +188,24 @@ class Client(object):
         :return: class:`requests.Response <Response>` object
         """
         status_code = None
-        error_msg = None
 
-        for host in self._domain.get_domain_list():
-            host_url = 'https://%s%s' % (host, url)
-            self._logger.debug('do http request, trace_id:%s, host_url:%s', trace_id, host_url)
+        while True:
+            for host in self._domain.get_domain_list():
+                host_url = 'https://%s%s' % (host, url)
+                self._logger.debug('do http request, trace_id:%s, host_url:%s', trace_id, host_url)
 
-            try:
-                resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
-                                        timeout=timeout_seconds, auth=self._basic_auth)
-                status_code = resp.status_code
+                try:
+                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
+                                            timeout=timeout_seconds, auth=self._basic_auth)
+                    status_code = resp.status_code
 
-                self._logger.debug('do http request, trace_id:%s, host_url:%s, status_code:%s', trace_id, host_url, status_code)
-                return resp
-            except requests.exceptions.RequestException as e:
-                error_msg = '%s' % e
-                self._logger.error('do http request, request failed, err:%s, trace_id:%s, host_url:%s, status_code:%s', e, trace_id, host_url, status_code)
+                    self._logger.debug('do http request, trace_id:%s, host_url:%s, status_code:%s', trace_id, host_url, status_code)
+                    return resp
+                except requests.exceptions.RequestException as e:
+                    self._logger.error('do http request, request failed, err:%s, trace_id:%s, host_url:%s, status_code:%s', e, trace_id, host_url, status_code)
 
-            # Sleep
-            time.sleep(0.5)
-
-        raise exceptions.ClientRequestException(status_code, None, error_msg)
+                # Sleep
+                time.sleep(0.5)
 
     @property
     def logger(self):
