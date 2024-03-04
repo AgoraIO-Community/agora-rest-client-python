@@ -24,7 +24,7 @@ class CloudRecordingClient(Client):
     def new_builder():
         return CloudRecordingClient()
 
-    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, response_obj=None, trace_id=None, is_retry=False):
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=10, response_obj=None, trace_id=None, is_retry=False):
         """
         Call api
 

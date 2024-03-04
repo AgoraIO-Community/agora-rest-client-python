@@ -35,7 +35,7 @@ python setup.py install
 import logging
 import os
 from agora_rest_client.core import exceptions
-from agora_rest_client.core.domain import RegionArea
+from agora_rest_client.core.domain import EndpointRegion
 from agora_rest_client.services.cloud_recording.v1.api import ExtensionServiceName
 from agora_rest_client.services.cloud_recording.v1.web_recording import api_start
 from agora_rest_client.services.cloud_recording.v1.web_recording.web_recording_client import WebRecordingClient
@@ -69,7 +69,7 @@ if __name__ == '__main__':
         .new_builder() \
         .with_app_id(app_id) \
         .with_basic_auth(basic_auth_user_name, basic_auth_password) \
-        .with_region(RegionArea.CN.value) \
+        .with_endpoint_region(EndpointRegion.CN.value) \
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()

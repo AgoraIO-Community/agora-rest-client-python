@@ -5,7 +5,7 @@ import requests
 from agora_rest_client.core import exceptions
 from agora_rest_client.core import errors
 from agora_rest_client.core.client import Client
-from agora_rest_client.core.domain import RegionArea
+from agora_rest_client.core.domain import EndpointRegion
 
 class TestClient:
     def setup_class(self):
@@ -18,7 +18,7 @@ class TestClient:
             .new_builder() \
             .with_app_id(self._app_id) \
             .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-            .with_region(RegionArea.CN.value) \
+            .with_endpoint_region(EndpointRegion.CN.value) \
             .build()
 
         assert client.app_id == self._app_id
@@ -28,7 +28,7 @@ class TestClient:
             client = Client \
                 .new_builder() \
                 .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-                .with_region(RegionArea.CN.value) \
+                .with_endpoint_region(EndpointRegion.CN.value) \
                 .build()
 
         assert e.value.__str__() == 'ClientBuildException - {status_code:[None],error_code:[None],error_msg:[app id is required]}'
@@ -39,7 +39,7 @@ class TestClient:
             client = Client \
                 .new_builder() \
                 .with_app_id(self._app_id) \
-                .with_region(RegionArea.CN.value) \
+                .with_endpoint_region(EndpointRegion.CN.value) \
                 .build()
 
         assert e.value.__str__() == 'ClientBuildException - {status_code:[None],error_code:[None],error_msg:[basic auth is required]}'
@@ -55,18 +55,18 @@ class TestClient:
                 .build()
 
         assert e.value.__str__() == 'ClientBuildException - {status_code:[None],error_code:[None],error_msg:[region is required]}'
-        assert e.value.error_msg == errors.REGION_REQUIRED
+        assert e.value.error_msg == errors.ENDPOINT_REGION_REQUIRED
 
         with pytest.raises(exceptions.ClientBuildException) as e:
             client = Client \
                 .new_builder() \
                 .with_app_id(self._app_id) \
                 .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-                .with_region(-1) \
+                .with_endpoint_region(-1) \
                 .build()
 
         assert e.value.__str__() == 'ClientBuildException - {status_code:[None],error_code:[None],error_msg:[region invalid]}'
-        assert e.value.error_msg == errors.REGION_INVALID
+        assert e.value.error_msg == errors.ENDPOINT_REGION_INVALID
 
     def test_call_api_error_404(self, mocker):
         fake_resp = mocker.Mock()
@@ -76,7 +76,7 @@ class TestClient:
             .new_builder() \
             .with_app_id(self._app_id) \
             .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-            .with_region(RegionArea.CN.value) \
+            .with_endpoint_region(EndpointRegion.CN.value) \
             .with_stream_log(log_level=logging.DEBUG) \
             .build()
 
@@ -94,7 +94,7 @@ class TestClient:
                 .new_builder() \
                 .with_app_id(self._app_id) \
                 .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-                .with_region(RegionArea.CN.value) \
+                .with_endpoint_region(EndpointRegion.CN.value) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .with_http_timeout_seconds(2) \
                 .build()
@@ -112,7 +112,7 @@ class TestClient:
             .new_builder() \
             .with_app_id(self._app_id) \
             .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-            .with_region(RegionArea.CN.value) \
+            .with_endpoint_region(EndpointRegion.CN.value) \
             .with_stream_log(log_level=logging.DEBUG) \
             .build()
 

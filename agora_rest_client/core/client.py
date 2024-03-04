@@ -48,12 +48,12 @@ class Client(object):
         if self._basic_auth is None:
             raise exceptions.ClientBuildException(errors.BASIC_AUTH_REQUIRED)
 
-        # Check region
-        if self._domain.get_region() is None:
-            raise exceptions.ClientBuildException(errors.REGION_REQUIRED)
+        # Check endpoint region
+        if self._domain.get_endpoint_region() is None:
+            raise exceptions.ClientBuildException(errors.ENDPOINT_REGION_REQUIRED)
 
-        if self._domain.get_region() not in domain.RegionArea._value2member_map_:
-            raise exceptions.ClientBuildException(errors.REGION_INVALID)
+        if self._domain.get_endpoint_region() not in domain.EndpointRegion._value2member_map_:
+            raise exceptions.ClientBuildException(errors.ENDPOINT_REGION_INVALID)
 
         if self._file_logger_handler is not None:
             self.add_file_logger(**self._file_logger_handler)
@@ -118,7 +118,7 @@ class Client(object):
     def app_id(self):
         return self._app_id
 
-    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, trace_id=None):
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=10, trace_id=None):
         """
         Call api
 
@@ -159,7 +159,7 @@ class Client(object):
         except Exception as e:
             raise exceptions.ClientRequestException(None, None, str(e))
 
-    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, trace_id=None):
+    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=10, trace_id=None):
         """
         Request http
 
@@ -191,11 +191,12 @@ class Client(object):
         :return: class:`requests.Response <Response>` object
         """
         status_code = None
+        service_region = self._domain.get_service_region()
 
         while True:
             for host in self._domain.get_domain_list():
-                host_url = 'https://%s%s' % (host, url)
-                self._logger.debug('do http request, trace_id:%s, host_url:%s', trace_id, host_url)
+                host_url = 'https://%s%s' % (host, url) if service_region is None else 'https://%s/%s%s' % (host, service_region, url)
+                self._logger.debug('do http request, trace_id:%s, service_region:%s, host_url:%s', trace_id, service_region, host_url)
 
                 try:
                     resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
@@ -224,13 +225,8 @@ class Client(object):
 
         return self
 
-    def with_http_retry_count(self, _http_retry_count):
-        self._http_retry_count = _http_retry_count
-
-        return self
-
-    def with_http_timeout_seconds(self, http_timeout_seconds):
-        self._http_timeout_seconds = http_timeout_seconds
+    def with_endpoint_region(self, endpoint_region):
+        self._domain.set_endpoint_region(endpoint_region)
 
         return self
 
@@ -245,8 +241,18 @@ class Client(object):
 
         return self
 
-    def with_region(self, region):
-        self._domain.set_region(region)
+    def with_http_retry_count(self, _http_retry_count):
+        self._http_retry_count = _http_retry_count
+
+        return self
+
+    def with_http_timeout_seconds(self, http_timeout_seconds):
+        self._http_timeout_seconds = http_timeout_seconds
+
+        return self
+
+    def with_service_region(self, service_region):
+        self._domain.set_service_region(service_region)
 
         return self
 

@@ -2,7 +2,7 @@ import logging
 import os
 import pytest
 from agora_rest_client.core import exceptions
-from agora_rest_client.core.domain import RegionArea
+from agora_rest_client.core.domain import EndpointRegion
 from agora_rest_client.services.cloud_recording.v1.cloud_recording_client import CloudRecordingClient
 
 class TestCloudRecordingClient:
@@ -16,7 +16,7 @@ class TestCloudRecordingClient:
             .new_builder() \
             .with_app_id(self._app_id) \
             .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-            .with_region(RegionArea.CN.value) \
+            .with_endpoint_region(EndpointRegion.CN.value) \
             .build()
 
         assert cloud_recording_client.app_id == self._app_id
@@ -31,7 +31,7 @@ class TestCloudRecordingClient:
                 .new_builder() \
                 .with_app_id(self._app_id) \
                 .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-                .with_region(RegionArea.CN.value) \
+                .with_endpoint_region(EndpointRegion.CN.value) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()
 
@@ -51,7 +51,7 @@ class TestCloudRecordingClient:
                 .new_builder() \
                 .with_app_id(self._app_id) \
                 .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-                .with_region(RegionArea.CN.value) \
+                .with_endpoint_region(EndpointRegion.CN.value) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()
 
@@ -73,7 +73,7 @@ class TestCloudRecordingClient:
                 .new_builder() \
                 .with_app_id(self._app_id) \
                 .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-                .with_region(RegionArea.CN.value) \
+                .with_endpoint_region(EndpointRegion.CN.value) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()
 
@@ -94,7 +94,7 @@ class TestCloudRecordingClient:
                 .new_builder() \
                 .with_app_id(self._app_id) \
                 .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
-                .with_region(RegionArea.CN.value) \
+                .with_endpoint_region(EndpointRegion.CN.value) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()
 

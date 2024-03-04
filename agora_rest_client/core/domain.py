@@ -12,44 +12,59 @@ CHINA_MAINLAND_MAJOR_DOMAIN = 'sd-rtn.com'
 OVERSEA_MAJOR_DOMAIN = 'agora.io'
 
 # Asia & Pacific
-AP_NORTHEAST_REGION_DOMAIN_PREFIX = 'api-ap-northeast-1'
-AP_SOUTHEAST_REGION_DOMAIN_PREFIX = 'api-ap-southeast-1'
+AP_NORTHEAST_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-ap-northeast-1'
+AP_SOUTHEAST_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-ap-southeast-1'
 
 # China
-CN_EAST_REGION_DOMAIN_PREFIX = 'api-cn-east-1'
-CN_NORTH_REGION_DOMAIN_PREFIX = 'api-cn-north-1'
+CN_EAST_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-cn-east-1'
+CN_NORTH_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-cn-north-1'
 
 # European Union
-EU_CENTRAL_REGION_DOMAIN_PREFIX = 'api-eu-central-1'
-EU_WEST_REGION_DOMAIN_PREFIX = 'api-eu-west-1'
+EU_CENTRAL_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-eu-central-1'
+EU_WEST_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-eu-west-1'
 
 # United States
-US_EAST_REGION_DOMAIN_PREFIX = 'api-us-east-1'
-US_WEST_REGION_DOMAIN_PREFIX = 'api-us-west-1'
+US_EAST_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-us-east-1'
+US_WEST_ENDPOINT_REGION_DOMAIN_PREFIX = 'api-us-west-1'
 
-# Region area
-class RegionArea(Enum):
+# Endpoint region
+class EndpointRegion(Enum):
+    # United States
     US = 0
+    # European Union
     EU = 1
+    # Asia & Pacific
     AP = 2
+    # China
     CN = 3
 
+# Service region
+class ServiceRegion(Enum):
+    # North America
+    NA = 'na'
+    # European Union
+    EU = 'eu'
+    # Asia & Pacific
+    AP = 'ap'
+    # China
+    CN = 'cn'
+
 # Region domain
-REGION_DOMAIN = {
-    RegionArea.US.value: {
-        'prefixes': [US_WEST_REGION_DOMAIN_PREFIX, US_EAST_REGION_DOMAIN_PREFIX],
+ENDPOINT_REGION_DOMAIN = {
+    EndpointRegion.US.value: {
+        'prefixes': [US_WEST_ENDPOINT_REGION_DOMAIN_PREFIX, US_EAST_ENDPOINT_REGION_DOMAIN_PREFIX],
         'suffixes': [OVERSEA_MAJOR_DOMAIN, CHINA_MAINLAND_MAJOR_DOMAIN],
     },
-    RegionArea.EU.value: {
-        'prefixes': [EU_WEST_REGION_DOMAIN_PREFIX, EU_CENTRAL_REGION_DOMAIN_PREFIX],
+    EndpointRegion.EU.value: {
+        'prefixes': [EU_WEST_ENDPOINT_REGION_DOMAIN_PREFIX, EU_CENTRAL_ENDPOINT_REGION_DOMAIN_PREFIX],
         'suffixes': [OVERSEA_MAJOR_DOMAIN, CHINA_MAINLAND_MAJOR_DOMAIN],
     },
-    RegionArea.AP.value: {
-        'prefixes': [AP_SOUTHEAST_REGION_DOMAIN_PREFIX, AP_NORTHEAST_REGION_DOMAIN_PREFIX],
+    EndpointRegion.AP.value: {
+        'prefixes': [AP_SOUTHEAST_ENDPOINT_REGION_DOMAIN_PREFIX, AP_NORTHEAST_ENDPOINT_REGION_DOMAIN_PREFIX],
         'suffixes': [OVERSEA_MAJOR_DOMAIN, CHINA_MAINLAND_MAJOR_DOMAIN],
     },
-    RegionArea.CN.value: {
-        'prefixes': [CN_EAST_REGION_DOMAIN_PREFIX, CN_NORTH_REGION_DOMAIN_PREFIX],
+    EndpointRegion.CN.value: {
+        'prefixes': [CN_EAST_ENDPOINT_REGION_DOMAIN_PREFIX, CN_NORTH_ENDPOINT_REGION_DOMAIN_PREFIX],
         'suffixes': [CHINA_MAINLAND_MAJOR_DOMAIN, OVERSEA_MAJOR_DOMAIN],
     },
 }
@@ -65,14 +80,18 @@ class Domain(object):
     def __init__(self):
         self._domain_list = []
         self._domain_list_running = []
+        self._endpoint_region = None
         self._logger = None
-        self._region = None
+        self._service_region = None
 
     def get_domain_list(self):
         return self._domain_list
 
-    def get_region(self):
-        return self._region
+    def get_endpoint_region(self):
+        return self._endpoint_region
+
+    def get_service_region(self):
+        return self._service_region
 
     def job_select_best_domain(self):
         """
@@ -132,10 +151,10 @@ class Domain(object):
         """
         threads = []
         self._domain_list_running = []
-        self._logger.debug('select best domain start, region:%s, domain_list:%s, domain_list_running:%s', self._region, self._domain_list, self._domain_list_running)
+        self._logger.debug('select best domain start, endpoint_region:%s, domain_list:%s, domain_list_running:%s', self._endpoint_region, self._domain_list, self._domain_list_running)
 
-        for suffix in REGION_DOMAIN[self._region]['suffixes']:
-            host = '%s.%s' % (REGION_DOMAIN[self._region]['prefixes'][0], suffix)
+        for suffix in ENDPOINT_REGION_DOMAIN[self._endpoint_region]['suffixes']:
+            host = '%s.%s' % (ENDPOINT_REGION_DOMAIN[self._endpoint_region]['prefixes'][0], suffix)
             t = threading.Thread(target=self.resolve_domain, args=(host, suffix))
             threads.append(t)
             t.start()
@@ -145,24 +164,27 @@ class Domain(object):
 
         # Check domain
         if len(self._domain_list_running) == 0:
-            self._logger.error('select best domain failed, no available domain, region:%s, domain_list:%s, domain_list_running:%s', self._region, self._domain_list, self._domain_list_running)
+            self._logger.error('select best domain failed, no available domain, endpoint_region:%s, domain_list:%s, domain_list_running:%s', self._endpoint_region, self._domain_list, self._domain_list_running)
             return
 
         # Sort by duration_ms
         domain_list_running = sorted(self._domain_list_running, key=operator.itemgetter('duration_ms'))
         domain_list = []
 
-        for prefix in REGION_DOMAIN[self._region]['prefixes']:
+        for prefix in ENDPOINT_REGION_DOMAIN[self._endpoint_region]['prefixes']:
             domain_list.append('%s.%s' % (prefix, domain_list_running[0]['host_suffix']))
 
         self._domain_list = domain_list
-        self._logger.debug('select best domain end, region:%s, domain_list:%s, domain_list_running:%s', self._region, self._domain_list, self._domain_list_running)
+        self._logger.debug('select best domain end, region:%s, domain_list:%s, domain_list_running:%s', self._endpoint_region, self._domain_list, self._domain_list_running)
+
+    def set_endpoint_region(self, endpoint_region):
+        self._endpoint_region = endpoint_region
 
     def set_logger(self, logger):
         self._logger = logger
 
-    def set_region(self, region):
-        self._region = region
+    def set_service_region(self, service_region):
+        self._service_region = service_region
 
 # Default domain
 default_domain = Domain()
