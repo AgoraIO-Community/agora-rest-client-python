@@ -107,7 +107,7 @@ class CloudRecordingClient(Client):
                 # Retry, sleep
                 sleep_second = retry_num
                 time.sleep(sleep_second)
-                self._logger.debug('call api, retry, url:%s, retry_num:%d, status_code:%s, error_code:%s, error_msg:%s, sleep_second:%d', url, retry_num, status_code, error_code, error_msg, sleep_second)
+                self._logger.debug('call api, retry, trace_id:%s, url:%s, retry_num:%d, status_code:%s, error_code:%s, error_msg:%s, sleep_second:%d', trace_id, url, retry_num, status_code, error_code, error_msg, sleep_second)
 
         raise exceptions.ClientRequestException(status_code, error_code, error_msg)
 
