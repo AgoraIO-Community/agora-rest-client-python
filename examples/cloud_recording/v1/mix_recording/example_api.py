@@ -4,8 +4,7 @@ from agora_rest_client.core import exceptions
 from agora_rest_client.core.domain import RegionArea
 from agora_rest_client.services.cloud_recording.v1.mix_recording import api_start
 from agora_rest_client.services.cloud_recording.v1.mix_recording import api_update
-from agora_rest_client.services.cloud_recording.v1.mix_recording import api_update_layout
-from agora_rest_client.services.cloud_recording.v1.mix_recording import mix_recording_client
+from agora_rest_client.services.cloud_recording.v1.mix_recording.mix_recording_client import MixRecordingClient
 
 # Stop recording
 def stop_recording(resource_id, sid, cname, uid):
@@ -41,7 +40,7 @@ if __name__ == '__main__':
     uid = '123456'
 
     # 创建服务客户端
-    mix_recording_client = mix_recording_client.MixRecordingClient \
+    mix_recording_client = MixRecordingClient \
         .new_builder() \
         .with_app_id(app_id) \
         .with_basic_auth(basic_auth_user_name, basic_auth_password) \

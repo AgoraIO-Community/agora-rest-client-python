@@ -32,7 +32,7 @@
 #### 单流录制
 通过调用`individual_recording_client.acquire`方法来实现获取录制资源
 ```python
-individual_recording_client = individual_recording_client.IndividualRecordingClient \
+individual_recording_client = IndividualRecordingClient \
     .new_builder() \
     .with_app_id(app_id) \
     .with_basic_auth(basic_auth_user_name, basic_auth_password) \
@@ -54,7 +54,7 @@ except exceptions.ClientException as e:
 #### 合流录制
 通过调用`mix_recording_client.acquire`方法来实现获取录制资源
 ```python
-mix_recording_client = mix_recording_client.MixRecordingClient \
+mix_recording_client = MixRecordingClient \
     .new_builder() \
     .with_app_id(app_id) \
     .with_basic_auth(basic_auth_user_name, basic_auth_password) \

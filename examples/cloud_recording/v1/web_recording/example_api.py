@@ -5,7 +5,7 @@ from agora_rest_client.core.domain import RegionArea
 from agora_rest_client.services.cloud_recording.v1.api import ExtensionServiceName
 from agora_rest_client.services.cloud_recording.v1.web_recording import api_start
 from agora_rest_client.services.cloud_recording.v1.web_recording import api_update
-from agora_rest_client.services.cloud_recording.v1.web_recording import web_recording_client
+from agora_rest_client.services.cloud_recording.v1.web_recording.web_recording_client import WebRecordingClient
 
 # Stop recording
 def stop_recording(resource_id, sid, cname, uid):
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     uid = '123456'
 
     # 创建服务客户端
-    web_recording_client = web_recording_client.WebRecordingClient \
+    web_recording_client = WebRecordingClient \
         .new_builder() \
         .with_app_id(app_id) \
         .with_basic_auth(basic_auth_user_name, basic_auth_password) \

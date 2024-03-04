@@ -43,7 +43,7 @@ class TestCloudRecordingClient:
         assert e.value.error_msg == 'mock reason'
 
         fake_resp.json = mocker.Mock(return_value={'code': 'mock code', 'msg': 'mock reason'})
-        fake_resp.text = mocker.Mock(return_value="{'code': 'mock code', 'msg': 'mock reason'}")
+        fake_resp.text = "{'code': 'mock code', 'msg': 'mock reason'}"
         fake_resp.status_code = 404
 
         with pytest.raises(exceptions.ServiceResponseException) as e:
@@ -65,7 +65,7 @@ class TestCloudRecordingClient:
     def test_call_api_error_404_text(self, mocker):
         fake_resp = mocker.Mock()
         fake_resp.json = mocker.Mock(return_value=None)
-        fake_resp.text = mocker.Mock(return_value='code: mock code, reason: mock reason')
+        fake_resp.text = 'code: mock code, reason: mock reason'
         fake_resp.status_code = 404
 
         with pytest.raises(exceptions.ServiceResponseException) as e:

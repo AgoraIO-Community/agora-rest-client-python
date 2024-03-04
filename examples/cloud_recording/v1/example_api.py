@@ -7,10 +7,10 @@ from agora_rest_client.services.cloud_recording.v1 import api_query
 from agora_rest_client.services.cloud_recording.v1 import api_start
 from agora_rest_client.services.cloud_recording.v1 import api_stop
 from agora_rest_client.services.cloud_recording.v1 import api_update
-from agora_rest_client.services.cloud_recording.v1 import cloud_recording_client
 from agora_rest_client.services.cloud_recording.v1.api import ExtensionServiceName
 from agora_rest_client.services.cloud_recording.v1.api import Mode
 from agora_rest_client.services.cloud_recording.v1.api import Scene
+from agora_rest_client.services.cloud_recording.v1.cloud_recording_client import CloudRecordingClient
 
 # Stop recording
 def stop_recording(mode, resource_id, sid, cname, uid):
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     uid = '123456'
 
     # 创建服务客户端
-    cloud_recording_client = cloud_recording_client.CloudRecordingClient \
+    cloud_recording_client = CloudRecordingClient \
         .new_builder() \
         .with_app_id(app_id) \
         .with_basic_auth(basic_auth_user_name, basic_auth_password) \

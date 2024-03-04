@@ -81,14 +81,14 @@ class CloudRecordingClient(Client):
 
                 # Request success
                 if status_code == 200 or status_code == 201:
-                    return response_obj(**json.loads(resp.text()))
+                    return response_obj(**json.loads(resp.text))
 
                 try:
                     resp_json = resp.json()
                     error_code = resp_json.get(self._error_code_key)
-                    error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text()
+                    error_msg = resp_json.get(self._error_msg_key) if resp_json.get(self._error_msg_key) is not None else resp.text
                 except Exception as e:
-                    error_msg = resp.text()
+                    error_msg = resp.text
 
                 # Request failed
                 # No need to retry
