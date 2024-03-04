@@ -216,6 +216,10 @@ class Client(object):
                 time.sleep(0.5)
 
     @property
+    def domain(self):
+        return self._domain
+
+    @property
     def logger(self):
         return self._logger
 
