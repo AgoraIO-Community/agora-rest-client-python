@@ -1,6 +1,7 @@
 import logging
 import os
 from agora_rest_client.core import exceptions
+from agora_rest_client.core.domain import Domain
 from agora_rest_client.core.domain import EndpointRegion
 from agora_rest_client.services.cloud_recording.v1 import api_acquire
 from agora_rest_client.services.cloud_recording.v1 import api_query
@@ -52,7 +53,7 @@ if __name__ == '__main__':
         .new_builder() \
         .with_app_id(app_id) \
         .with_basic_auth(basic_auth_user_name, basic_auth_password) \
-        .with_endpoint_region(EndpointRegion.CN.value) \
+        .with_domain(Domain(EndpointRegion.CN.value)) \
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()

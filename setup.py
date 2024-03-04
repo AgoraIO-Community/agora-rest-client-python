@@ -3,7 +3,7 @@ from os import path
 from setuptools import setup, find_packages
 
 NAME = "agora_rest_client"
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 AUTHOR = "Agora REST Client"
 URL = "https://github.com/AgoraIO-Community/agora-rest-client-python"
 

@@ -17,7 +17,7 @@ class Client(object):
     def __init__(self):
         self._app_id = None
         self._basic_auth = None
-        self._domain = domain.default_domain
+        self._domain = None
         self._file_logger_handler = None
         self._http_retry_count = 3
         self._http_timeout_seconds = 10
@@ -47,6 +47,10 @@ class Client(object):
 
         if self._basic_auth is None:
             raise exceptions.ClientBuildException(errors.BASIC_AUTH_REQUIRED)
+
+        # Check domain
+        if self._domain is None:
+            raise exceptions.ClientBuildException(errors.DOMAIN_REQUIRED)
 
         # Check endpoint region
         if self._domain.get_endpoint_region() is None:
@@ -216,21 +220,48 @@ class Client(object):
         return self._logger
 
     def with_app_id(self, app_id):
+        """
+        :type app_id: str
+        """
         self._app_id = app_id
 
         return self
 
     def with_basic_auth(self, user_name, password):
+        """
+        :type user_name: str
+        :type password: str
+        """
         self._basic_auth = (user_name, password)
 
         return self
 
-    def with_endpoint_region(self, endpoint_region):
-        self._domain.set_endpoint_region(endpoint_region)
+    def with_domain(self, domain):
+        """
+        :type domain: object
+        :value domain: instance of `agora_rest_client.core.domain.Domain`
+        """
+        self._domain = domain
 
         return self
 
     def with_file_log(self, path, log_level=logging.INFO, max_bytes=10 * 1024 * 1024, backup_count=2, format_string=None):
+        """
+        :type path: str
+        :param path: log file path
+
+        :type log_level: int
+        :param log_level: log level
+
+        :type max_bytes: int
+        :param max_bytes: max bytes
+
+        :type backup_count: int
+        :param backup_count: backup count
+
+        :type format_string: str
+        :param format_string: format string
+        """
         self._file_logger_handler = {
             "backup_count": backup_count,
             "format_string": format_string,
@@ -241,22 +272,33 @@ class Client(object):
 
         return self
 
-    def with_http_retry_count(self, _http_retry_count):
-        self._http_retry_count = _http_retry_count
+    def with_http_retry_count(self, http_retry_count):
+        """
+        :type http_retry_count: int
+        """
+        self._http_retry_count = http_retry_count
 
         return self
 
     def with_http_timeout_seconds(self, http_timeout_seconds):
+        """
+        :type http_timeout_seconds: int
+        """
         self._http_timeout_seconds = http_timeout_seconds
 
         return self
 
-    def with_service_region(self, service_region):
-        self._domain.set_service_region(service_region)
-
-        return self
-
     def with_stream_log(self, stream=sys.stdout, log_level=logging.INFO, format_string=None):
+        """
+        :type stream: object
+        :param stream: stream
+
+        :type log_level: int
+        :param log_level: log level
+
+        :type format_string: str
+        :param format_string: format string
+        """
         self._stream_logger_handler = {
             "format_string": format_string,
             "log_level": log_level,

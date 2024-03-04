@@ -4,7 +4,6 @@ import socket
 import threading
 import time
 from enum import Enum
-from agora_rest_client.core import exceptions
 
 # China domain
 CHINA_MAINLAND_MAJOR_DOMAIN = 'sd-rtn.com'
@@ -77,12 +76,21 @@ class Domain(object):
     Domain class
     """
 
-    def __init__(self):
+    def __init__(self, endpoint_region, service_region=None):
+        """
+        :type endpoint_region: int
+        :param endpoint_region: endpoint region
+        :value endpoint_region: enum of `agora_rest_client.core.domain.EndpointRegion`
+
+        :type service_region: str
+        :param service_region: service region
+        :value service_region: enum of `agora_rest_client.core.domain.ServiceRegion`
+        """
         self._domain_list = []
         self._domain_list_running = []
-        self._endpoint_region = None
+        self._endpoint_region = endpoint_region
         self._logger = None
-        self._service_region = None
+        self._service_region = service_region
 
     def get_domain_list(self):
         return self._domain_list
@@ -138,7 +146,7 @@ class Domain(object):
         if self._logger is not None:
             return
 
-        self._logger = logger
+        self.set_logger(logger)
         self.select_best_domain()
 
         # Start scheduled job
@@ -177,14 +185,5 @@ class Domain(object):
         self._domain_list = domain_list
         self._logger.debug('select best domain end, region:%s, domain_list:%s, domain_list_running:%s', self._endpoint_region, self._domain_list, self._domain_list_running)
 
-    def set_endpoint_region(self, endpoint_region):
-        self._endpoint_region = endpoint_region
-
     def set_logger(self, logger):
         self._logger = logger
-
-    def set_service_region(self, service_region):
-        self._service_region = service_region
-
-# Default domain
-default_domain = Domain()
