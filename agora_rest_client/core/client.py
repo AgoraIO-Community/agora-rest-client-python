@@ -186,6 +186,7 @@ class Client(object):
         :return: class:`requests.Response <Response>` object
         """
         status_code = None
+        error_msg = None
 
         for host in self._domain.get_domain_list():
             host_url = 'https://%s%s' % (host, url)
@@ -199,12 +200,13 @@ class Client(object):
                 self._logger.debug('do http request, trace_id:%s, host_url:%s, status_code:%s', trace_id, host_url, status_code)
                 return resp
             except requests.exceptions.RequestException as e:
+                error_msg = '%s' % e
                 self._logger.error('do http request, request failed, err:%s, trace_id:%s, host_url:%s, status_code:%s', e, trace_id, host_url, status_code)
 
             # Sleep
             time.sleep(0.5)
 
-        raise exceptions.ClientRequestException(status_code, None, errors.HTTP_REQUEST_FAILED)
+        raise exceptions.ClientRequestException(status_code, None, error_msg)
 
     @property
     def logger(self):

@@ -1,5 +1,4 @@
 APP_ID_REQUIRED = 'app id is required'
 BASIC_AUTH_REQUIRED = 'basic auth is required'
-HTTP_REQUEST_FAILED = 'http request failed'
 REGION_INVALID = 'region invalid'
 REGION_REQUIRED = 'region is required'

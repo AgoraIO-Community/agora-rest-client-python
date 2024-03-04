@@ -93,8 +93,10 @@ class CloudRecordingClient(Client):
                     self._logger.error('call api, no retry, trace_id:%s, url:%s, retry_num:%d, status_code:%s, error_code:%s, error_msg:%s', trace_id, url, retry_num, status_code, error_code, error_msg)
                     raise exceptions.ServiceResponseException(status_code, error_code, error_msg)
             except exceptions.ClientTimeoutException as e:
+                error_msg = '%s' % e
                 self._logger.error('call api, timeout, trace_id:%s, url:%s, retry_num:%d', trace_id, url, retry_num)
             except exceptions.ClientRequestException as e:
+                error_msg = '%s' % e
                 self._logger.error('call api, http error, err:%s, trace_id:%s, url:%s, retry_num:%d', e, trace_id, url, retry_num)
 
             # Retry, sleep
