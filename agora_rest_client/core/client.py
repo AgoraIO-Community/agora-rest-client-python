@@ -35,6 +35,9 @@ class Client(object):
 
         return logger
 
+    def new_builder():
+        return Client()
+
     def build(self):
         """
         Build client

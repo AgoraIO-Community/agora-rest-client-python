@@ -14,7 +14,7 @@ class ClientException(Exception):
         self.error_msg = error_msg
 
     def __str__(self):
-        return "%s - {status_code:[%s],error_code:[%s],error_msg:[%s] }" % (self.__class__.__name__, self.status_code, self.error_code, self.error_msg)
+        return "%s - {status_code:[%s],error_code:[%s],error_msg:[%s]}" % (self.__class__.__name__, self.status_code, self.error_code, self.error_msg)
 
 class AttributeException(ClientException):
     """
