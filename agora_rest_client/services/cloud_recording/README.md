@@ -35,8 +35,8 @@
 individual_recording_client = IndividualRecordingClient \
     .new_builder() \
     .with_app_id(app_id) \
-    .with_basic_auth(basic_auth_user_name, basic_auth_password) \
-    .with_region(RegionArea.CN.value) \
+    .with_credential_basic_auth(credential_basic_auth_user_name, credential_basic_auth_password) \
+    .with_domain(Domain(EndpointRegion.CN.value)) \
     .with_stream_log(log_level=logging.DEBUG) \
     .with_file_log(path='test.log') \
     .build()
@@ -57,8 +57,8 @@ except exceptions.ClientException as e:
 mix_recording_client = MixRecordingClient \
     .new_builder() \
     .with_app_id(app_id) \
-    .with_basic_auth(basic_auth_user_name, basic_auth_password) \
-    .with_region(RegionArea.CN.value) \
+    .with_credential_basic_auth(credential_basic_auth_user_name, credential_basic_auth_password) \
+    .with_domain(Domain(EndpointRegion.CN.value)) \
     .with_stream_log(log_level=logging.DEBUG) \
     .with_file_log(path='test.log') \
     .build()
@@ -79,8 +79,8 @@ except exceptions.ClientException as e:
 web_recording_client = WebRecordingClient \
     .new_builder() \
     .with_app_id(app_id) \
-    .with_basic_auth(basic_auth_user_name, basic_auth_password) \
-    .with_region(RegionArea.CN.value) \
+    .with_credential_basic_auth(credential_basic_auth_user_name, credential_basic_auth_password) \
+    .with_domain(Domain(EndpointRegion.CN.value)) \
     .with_stream_log(log_level=logging.DEBUG) \
     .with_file_log(path='test.log') \
     .build()

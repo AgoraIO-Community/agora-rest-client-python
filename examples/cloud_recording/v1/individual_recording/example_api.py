@@ -1,7 +1,8 @@
 import logging
 import os
 from agora_rest_client.core import exceptions
-from agora_rest_client.core.domain import RegionArea
+from agora_rest_client.core.domain import Domain
+from agora_rest_client.core.domain import EndpointRegion
 from agora_rest_client.services.cloud_recording.v1.individual_recording import api_start
 from agora_rest_client.services.cloud_recording.v1.individual_recording import api_update
 from agora_rest_client.services.cloud_recording.v1.individual_recording.individual_recording_client import IndividualRecordingClient
@@ -21,10 +22,10 @@ if __name__ == '__main__':
     # 可通过环境变量等方式配置认证信息
     # Need to set environment variable AGORA_APP_ID
     app_id = os.environ.get('AGORA_APP_ID')
-    # Need to set environment variable AGORA_BASIC_AUTH_USER_NAME
-    basic_auth_user_name = os.environ.get('AGORA_BASIC_AUTH_USER_NAME')
-    # Need to set environment variable AGORA_BASIC_AUTH_PASSWORD
-    basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
+    # Need to set environment variable AGORA_CREDENTIAL_BASIC_AUTH_USER_NAME
+    credential_basic_auth_user_name = os.environ.get('AGORA_CREDENTIAL_BASIC_AUTH_USER_NAME')
+    # Need to set environment variable AGORA_CREDENTIAL_BASIC_AUTH_PASSWORD
+    credential_basic_auth_password = os.environ.get('AGORA_CREDENTIAL_BASIC_AUTH_PASSWORD')
     # 第三方云存储配置
     storage_config_region = int(os.environ.get('AGORA_STORAGE_CONFIG_REGION'))
     storage_config_vendor = int(os.environ.get('AGORA_STORAGE_CONFIG_VENDOR'))
@@ -43,8 +44,8 @@ if __name__ == '__main__':
     individual_recording_client = IndividualRecordingClient \
         .new_builder() \
         .with_app_id(app_id) \
-        .with_basic_auth(basic_auth_user_name, basic_auth_password) \
-        .with_region(RegionArea.CN.value) \
+        .with_credential_basic_auth(credential_basic_auth_user_name, credential_basic_auth_password) \
+        .with_domain(Domain(EndpointRegion.CN.value)) \
         .with_stream_log(log_level=logging.DEBUG) \
         .with_file_log(path='test.log') \
         .build()

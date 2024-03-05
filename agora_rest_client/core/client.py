@@ -16,8 +16,8 @@ class Client(object):
 
     def __init__(self):
         self._app_id = None
-        self._basic_auth = None
-        self._domain = domain.default_domain
+        self._credential_basic_auth = None
+        self._domain = None
         self._file_logger_handler = None
         self._http_retry_count = 3
         self._http_timeout_seconds = 10
@@ -45,15 +45,19 @@ class Client(object):
         if self._app_id is None:
             raise exceptions.ClientBuildException(errors.APP_ID_REQUIRED)
 
-        if self._basic_auth is None:
-            raise exceptions.ClientBuildException(errors.BASIC_AUTH_REQUIRED)
+        if self._credential_basic_auth is None:
+            raise exceptions.ClientBuildException(errors.CREDENTIAL_BASIC_AUTH_REQUIRED)
 
-        # Check region
-        if self._domain.get_region() is None:
-            raise exceptions.ClientBuildException(errors.REGION_REQUIRED)
+        # Check domain
+        if self._domain is None:
+            raise exceptions.ClientBuildException(errors.DOMAIN_REQUIRED)
 
-        if self._domain.get_region() not in domain.RegionArea._value2member_map_:
-            raise exceptions.ClientBuildException(errors.REGION_INVALID)
+        # Check endpoint region
+        if self._domain.get_endpoint_region() is None:
+            raise exceptions.ClientBuildException(errors.ENDPOINT_REGION_REQUIRED)
+
+        if self._domain.get_endpoint_region() not in domain.EndpointRegion._value2member_map_:
+            raise exceptions.ClientBuildException(errors.ENDPOINT_REGION_INVALID)
 
         if self._file_logger_handler is not None:
             self.add_file_logger(**self._file_logger_handler)
@@ -118,7 +122,7 @@ class Client(object):
     def app_id(self):
         return self._app_id
 
-    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, trace_id=None):
+    def call_api(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=10, trace_id=None):
         """
         Call api
 
@@ -159,7 +163,11 @@ class Client(object):
         except Exception as e:
             raise exceptions.ClientRequestException(None, None, str(e))
 
-    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=5, trace_id=None):
+    @property
+    def credential_basic_auth(self):
+        return self._credential_basic_auth
+
+    def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=10, trace_id=None):
         """
         Request http
 
@@ -191,50 +199,98 @@ class Client(object):
         :return: class:`requests.Response <Response>` object
         """
         status_code = None
+        service_region = self._domain.get_service_region()
 
         while True:
             for host in self._domain.get_domain_list():
-                host_url = 'https://%s%s' % (host, url)
-                self._logger.debug('do http request, trace_id:%s, host_url:%s', trace_id, host_url)
+                api_url = self.get_api_url(host, url, service_region)
+                self._logger.debug('do http request, trace_id:%s, service_region:%s, api_url:%s', trace_id, service_region, api_url)
 
                 try:
-                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
-                                            timeout=timeout_seconds, auth=self._basic_auth)
+                    resp = requests.request(method, api_url, params=params, data=post_data, json=post_json, headers=headers,
+                                            timeout=timeout_seconds, auth=self._credential_basic_auth)
                     status_code = resp.status_code
 
-                    self._logger.debug('do http request, trace_id:%s, host_url:%s, status_code:%s', trace_id, host_url, status_code)
+                    self._logger.debug('do http request, trace_id:%s, api_url:%s, status_code:%s', trace_id, api_url, status_code)
                     return resp
                 except requests.exceptions.RequestException as e:
-                    self._logger.error('do http request, request failed, err:%s, trace_id:%s, host_url:%s, status_code:%s', e, trace_id, host_url, status_code)
+                    self._logger.error('do http request, request failed, err:%s, trace_id:%s, api_url:%s, status_code:%s', e, trace_id, api_url, status_code)
 
                 # Sleep
                 time.sleep(0.5)
+
+    @property
+    def domain(self):
+        return self._domain
+
+    def get_api_url(self, host, url, service_region=None):
+        """
+        :type host: str
+        :param host: host
+
+        :type url: str
+        :param url: url
+
+        :type service_region: str
+        :param service_region: service region
+        """
+        return 'https://%s%s' % (host, url) if service_region is None else 'https://%s/%s%s' % (host, service_region, url)
+
+    @property
+    def http_retry_count(self):
+        return self._http_retry_count
+
+    @property
+    def http_timeout_seconds(self):
+        return self._http_timeout_seconds
 
     @property
     def logger(self):
         return self._logger
 
     def with_app_id(self, app_id):
+        """
+        :type app_id: str
+        """
         self._app_id = app_id
 
         return self
 
-    def with_basic_auth(self, user_name, password):
-        self._basic_auth = (user_name, password)
+    def with_credential_basic_auth(self, user_name, password):
+        """
+        :type user_name: str
+        :type password: str
+        """
+        self._credential_basic_auth = (user_name, password)
 
         return self
 
-    def with_http_retry_count(self, _http_retry_count):
-        self._http_retry_count = _http_retry_count
-
-        return self
-
-    def with_http_timeout_seconds(self, http_timeout_seconds):
-        self._http_timeout_seconds = http_timeout_seconds
+    def with_domain(self, domain):
+        """
+        :type domain: object
+        :value domain: instance of `agora_rest_client.core.domain.Domain`
+        """
+        self._domain = domain
 
         return self
 
     def with_file_log(self, path, log_level=logging.INFO, max_bytes=10 * 1024 * 1024, backup_count=2, format_string=None):
+        """
+        :type path: str
+        :param path: log file path
+
+        :type log_level: int
+        :param log_level: log level
+
+        :type max_bytes: int
+        :param max_bytes: max bytes
+
+        :type backup_count: int
+        :param backup_count: backup count
+
+        :type format_string: str
+        :param format_string: format string
+        """
         self._file_logger_handler = {
             "backup_count": backup_count,
             "format_string": format_string,
@@ -245,12 +301,33 @@ class Client(object):
 
         return self
 
-    def with_region(self, region):
-        self._domain.set_region(region)
+    def with_http_retry_count(self, http_retry_count):
+        """
+        :type http_retry_count: int
+        """
+        self._http_retry_count = http_retry_count
+
+        return self
+
+    def with_http_timeout_seconds(self, http_timeout_seconds):
+        """
+        :type http_timeout_seconds: int
+        """
+        self._http_timeout_seconds = http_timeout_seconds
 
         return self
 
     def with_stream_log(self, stream=sys.stdout, log_level=logging.INFO, format_string=None):
+        """
+        :type stream: object
+        :param stream: stream
+
+        :type log_level: int
+        :param log_level: log level
+
+        :type format_string: str
+        :param format_string: format string
+        """
         self._stream_logger_handler = {
             "format_string": format_string,
             "log_level": log_level,
