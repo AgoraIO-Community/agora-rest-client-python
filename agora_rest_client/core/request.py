@@ -1,5 +1,3 @@
-from agora_rest_client.core import exceptions
-
 class RequestObject(object):
     """
     Request object
