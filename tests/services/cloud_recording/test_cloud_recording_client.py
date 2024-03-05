@@ -9,14 +9,14 @@ from agora_rest_client.services.cloud_recording.v1.cloud_recording_client import
 class TestCloudRecordingClient:
     def setup_class(self):
         self._app_id = os.environ.get('AGORA_APP_ID')
-        self._basic_auth_user_name = os.environ.get('AGORA_BASIC_AUTH_USER_NAME')
-        self._basic_auth_password = os.environ.get('AGORA_BASIC_AUTH_PASSWORD')
+        self._credential_basic_auth_user_name = os.environ.get('AGORA_CREDENTIAL_BASIC_AUTH_USER_NAME')
+        self._credential_basic_auth_password = os.environ.get('AGORA_CREDENTIAL_BASIC_AUTH_PASSWORD')
 
     def test_init(self):
         cloud_recording_client = CloudRecordingClient \
             .new_builder() \
             .with_app_id(self._app_id) \
-            .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
+            .with_credential_basic_auth(self._credential_basic_auth_user_name, self._credential_basic_auth_password) \
             .with_domain(Domain(EndpointRegion.CN.value)) \
             .build()
 
@@ -31,7 +31,7 @@ class TestCloudRecordingClient:
             cloud_recording_client = CloudRecordingClient \
                 .new_builder() \
                 .with_app_id(self._app_id) \
-                .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
+                .with_credential_basic_auth(self._credential_basic_auth_user_name, self._credential_basic_auth_password) \
                 .with_domain(Domain(EndpointRegion.CN.value)) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()
@@ -51,7 +51,7 @@ class TestCloudRecordingClient:
             cloud_recording_client = CloudRecordingClient \
                 .new_builder() \
                 .with_app_id(self._app_id) \
-                .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
+                .with_credential_basic_auth(self._credential_basic_auth_user_name, self._credential_basic_auth_password) \
                 .with_domain(Domain(EndpointRegion.CN.value)) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()
@@ -73,7 +73,7 @@ class TestCloudRecordingClient:
             cloud_recording_client = CloudRecordingClient \
                 .new_builder() \
                 .with_app_id(self._app_id) \
-                .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
+                .with_credential_basic_auth(self._credential_basic_auth_user_name, self._credential_basic_auth_password) \
                 .with_domain(Domain(EndpointRegion.CN.value)) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()
@@ -94,7 +94,7 @@ class TestCloudRecordingClient:
             cloud_recording_client = CloudRecordingClient \
                 .new_builder() \
                 .with_app_id(self._app_id) \
-                .with_basic_auth(self._basic_auth_user_name, self._basic_auth_password) \
+                .with_credential_basic_auth(self._credential_basic_auth_user_name, self._credential_basic_auth_password) \
                 .with_domain(Domain(EndpointRegion.CN.value)) \
                 .with_stream_log(log_level=logging.DEBUG) \
                 .build()

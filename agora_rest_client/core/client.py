@@ -16,7 +16,7 @@ class Client(object):
 
     def __init__(self):
         self._app_id = None
-        self._basic_auth = None
+        self._credential_basic_auth = None
         self._domain = None
         self._file_logger_handler = None
         self._http_retry_count = 3
@@ -45,8 +45,8 @@ class Client(object):
         if self._app_id is None:
             raise exceptions.ClientBuildException(errors.APP_ID_REQUIRED)
 
-        if self._basic_auth is None:
-            raise exceptions.ClientBuildException(errors.BASIC_AUTH_REQUIRED)
+        if self._credential_basic_auth is None:
+            raise exceptions.ClientBuildException(errors.CREDENTIAL_BASIC_AUTH_REQUIRED)
 
         # Check domain
         if self._domain is None:
@@ -163,6 +163,10 @@ class Client(object):
         except Exception as e:
             raise exceptions.ClientRequestException(None, None, str(e))
 
+    @property
+    def credential_basic_auth(self):
+        return self._credential_basic_auth
+
     def do_http_request(self, method, url, params=None, post_data=None, post_json=None, headers=None, timeout_seconds=10, trace_id=None):
         """
         Request http
@@ -199,18 +203,18 @@ class Client(object):
 
         while True:
             for host in self._domain.get_domain_list():
-                host_url = 'https://%s%s' % (host, url) if service_region is None else 'https://%s/%s%s' % (host, service_region, url)
-                self._logger.debug('do http request, trace_id:%s, service_region:%s, host_url:%s', trace_id, service_region, host_url)
+                api_url = self.get_api_url(host, url, service_region)
+                self._logger.debug('do http request, trace_id:%s, service_region:%s, api_url:%s', trace_id, service_region, api_url)
 
                 try:
-                    resp = requests.request(method, host_url, params=params, data=post_data, json=post_json, headers=headers,
-                                            timeout=timeout_seconds, auth=self._basic_auth)
+                    resp = requests.request(method, api_url, params=params, data=post_data, json=post_json, headers=headers,
+                                            timeout=timeout_seconds, auth=self._credential_basic_auth)
                     status_code = resp.status_code
 
-                    self._logger.debug('do http request, trace_id:%s, host_url:%s, status_code:%s', trace_id, host_url, status_code)
+                    self._logger.debug('do http request, trace_id:%s, api_url:%s, status_code:%s', trace_id, api_url, status_code)
                     return resp
                 except requests.exceptions.RequestException as e:
-                    self._logger.error('do http request, request failed, err:%s, trace_id:%s, host_url:%s, status_code:%s', e, trace_id, host_url, status_code)
+                    self._logger.error('do http request, request failed, err:%s, trace_id:%s, api_url:%s, status_code:%s', e, trace_id, api_url, status_code)
 
                 # Sleep
                 time.sleep(0.5)
@@ -218,6 +222,27 @@ class Client(object):
     @property
     def domain(self):
         return self._domain
+
+    def get_api_url(self, host, url, service_region=None):
+        """
+        :type host: str
+        :param host: host
+
+        :type url: str
+        :param url: url
+
+        :type service_region: str
+        :param service_region: service region
+        """
+        return 'https://%s%s' % (host, url) if service_region is None else 'https://%s/%s%s' % (host, service_region, url)
+
+    @property
+    def http_retry_count(self):
+        return self._http_retry_count
+
+    @property
+    def http_timeout_seconds(self):
+        return self._http_timeout_seconds
 
     @property
     def logger(self):
@@ -231,12 +256,12 @@ class Client(object):
 
         return self
 
-    def with_basic_auth(self, user_name, password):
+    def with_credential_basic_auth(self, user_name, password):
         """
         :type user_name: str
         :type password: str
         """
-        self._basic_auth = (user_name, password)
+        self._credential_basic_auth = (user_name, password)
 
         return self
 
