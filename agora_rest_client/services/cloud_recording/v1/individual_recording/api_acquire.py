@@ -51,7 +51,7 @@ def individual_recording_acquire(client, cname, uid, enable_postpone_transcoding
         cname=cname,
         uid=uid,
         clientRequest=ClientRequest(
-            scene=Scene.INDIVIDUAL_RECORDING_POSTPONE_TRANSCODING_MIX.value if enable_postpone_transcoding_mix else Scene.RTC.value
+            scene=Scene.INDIVIDUAL_POSTPONE.value if enable_postpone_transcoding_mix else Scene.RTC.value
     ))
 
     if resource_expired_hour is not None:
